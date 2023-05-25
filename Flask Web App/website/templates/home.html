@@ -1,0 +1,34 @@
+<!-- extend base template 
+    this template will be exactly like base.html
+-->
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+<h1 align="center">Notes</h1>
+<ul class="list-group list-group-flush" id="notes">
+  {%for note in user.notes%}
+  <li class="list-group-item">
+    {{note.data}}
+    <button type="button" class="close" onClick="deleteNote({{ note.id }})"> <!-- javascript that sends a request to backend-->
+        <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+  {%endfor%}
+</ul>
+<form method="POST">
+  <textarea name="note" id="note" class="form-control"></textarea>
+  <br /> <!-- adds whitespace for better visual -->
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Add note</button>
+  </div>
+</form>
+{%endblock%}
+
+<!--
+    http requests: get request, post request, put request, delete, update, etc
+    the point of these requests/methods is to distinguish what type of 
+        requests are being sent to your website
+    get request: loading a website/retrieving information
+    post request: make some kind of change to the datebase or to the state of the website/system
+        - send all of the information in the form (like the signup form)
+        - send a post request that has all that info to your server
+        - server needs to look at this and then do smth accordingly
+-->

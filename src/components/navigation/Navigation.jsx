@@ -21,7 +21,7 @@ const Navigation = () => {
             <p><Link to="/settings">Settings</Link> </p>
             <p><Link to="/login">Login</Link> </p>
             <Button variant="link" onClick={toProfile} className="rounded-circle">
-              <img src="test.webp"></img>
+              <img src="default.png"></img>
             </Button>
         </div>
       </div>

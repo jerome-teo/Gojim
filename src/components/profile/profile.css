@@ -1,0 +1,43 @@
+.profile img{
+    border-radius: 50%;
+    margin: 50px;
+    width: 250px;
+    height: 250px;
+}
+
+.profileText{
+    margin-left: 380px;
+    margin-top: 40px;
+    font-size: xx-large;
+}
+
+.profileText p{
+    font-size:200%;
+    line-height: 60px;
+}
+
+.lesserText p{
+    margin-top: 50px;
+    margin-left: 20px;
+    font-size: x-large;
+    line-height: 0px;
+}
+
+.bio{
+    font-size: 160%;
+    margin-left: 380px;
+    margin-top: 75px;
+    width: 800px;
+}
+
+.buttons a{
+    text-decoration: none;
+    color:brown;
+    font-size: x-large;
+}
+
+.buttons{
+    position: absolute;
+    left:100px;
+    top:410px;
+}

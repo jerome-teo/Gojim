@@ -1,0 +1,34 @@
+
+.title{
+    font-size: 200%;
+    margin-top: 75px;
+    margin-left: 100px;
+}
+
+.options p{
+    font-size: 150%;
+    margin-top: 30px;
+    margin-left: 125px;
+    color:brown;
+}
+
+.toggle{
+    position: absolute;
+    top: 6px;
+    left: 25px;
+    background-color: black;
+}
+
+.button{
+    color:brown;
+    font-size: 100%;
+    text-decoration: none;
+}
+
+.input{
+    width:188px;
+}
+
+.popupTitle{
+    margin:0px;
+}

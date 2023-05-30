@@ -1,0 +1,12 @@
+.title {
+    position: absolute;
+    font-size: 200%;
+    top: 100px;
+    left: 635px;
+}
+
+.signInCreds {
+    font-size: 100%;
+    margin-top: 200px;
+    margin-left: 650px;
+}

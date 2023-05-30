@@ -13,7 +13,7 @@ const Settings = () => {
 
   return (
     <div>
-      <div className="title">
+      <div className="settingTitle">
         Settings
       </div>
 

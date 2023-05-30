@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 const Login = () => {
   return (
     <div>
-      <div className = "title">
+      <div className = "loginTitle">
         Sign In
       </div>
 

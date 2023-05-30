@@ -2,6 +2,7 @@ import Navigation from "./components/navigation/Navigation"
 import Login from "./components/login/Login";
 import Workouts from "./components/workouts/Workouts"
 import Settings from "./components/settings/Settings"
+import SignUp from "./components/signup/SignUp"
 import Home from "./components/home/Home";
 import "./App.css"
 
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/workouts" element={<Workouts />}/>
                     <Route path="/settings" element={<Settings />}/>
                     <Route path="/login" element={<Login />}/>
+                    <Route path="/signup" element={<SignUp />}/>
                 </Route>
             </Routes>
         </div>

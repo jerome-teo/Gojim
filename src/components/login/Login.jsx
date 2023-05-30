@@ -8,8 +8,8 @@ const Login = () => {
         Sign In
       </div>
 
+      {/*Sign-in Credentials*/}
       <form action="/profile">
-        {/*Sign-in Credentials*/}
         <div className = "signInCreds">
           <p>
           {/* <form action = "/action_page.php"> */}
@@ -33,6 +33,13 @@ const Login = () => {
         {/*Submit Button*/}
         <div className = "submitButton">
           <input type="submit" value="Submit" />
+        </div>
+      </form>
+
+      {/*Signup button*/}
+      <form action = "/signup">
+        <div className = "signupButton">
+          <input type="submit" value="No Account? Sign up Here!" />
         </div>
       </form>
     </div>

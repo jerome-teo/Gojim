@@ -51,6 +51,10 @@ const Home = () => {
     //Depending on back-end implementation of search, can add tags.name to a data structure here
   }
 
+  const clearTags = () => {
+    setTagString("");
+  }
+
   const [tagString, setTagString] = useState("");
 
   return (
@@ -71,7 +75,7 @@ const Home = () => {
         />
       </div>
       <div className="searchButton">
-        <Button variant="secondary">
+        <Button variant="secondary" onClick={clearTags}>
           {/*Should update results section*/}
           Search!
         </Button>

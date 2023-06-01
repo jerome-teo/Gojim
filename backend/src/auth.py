@@ -35,6 +35,8 @@ def login():
             flash('Incorrect password, try again.', category='error')
     else:
         flash('Email does not exist.', category='error')
+    return jsonify({}) 
+
     '''
     if username=="shivani" and password=="hello1234":
         response = {"status": "success"}
@@ -42,7 +44,6 @@ def login():
     else:
         return 'error', 401
     '''
-    return jsonify({}) 
 
 @auth.route('/logout', methods=['GET'])
 @login_required # don't want user to access this page unless they've logged out
@@ -53,14 +54,52 @@ def logout():
 
 @auth.route('/sign-up', methods=['POST'])
 def sign_up():
-    #try:
-        #create_user(request.form.get('username'),
-                    #request.form.get('password'),
-                    #request.form.get('name'),
-                    #request.form.get('email'))
-    #except:
-        #return "Signup unsuccessful", 500 # VERY broad catch statement
-    return "<p>Sign Up</p>"
+    email = request.form.get('email')
+    username = request.form.get('username')
+    name = request.form.get('name')
+    password1 = request.form.get('password1')
+    password2 = request.form.get('password2')
+
+    #### Validating Infomation
+    # check to make sure that user doesn't already exist
+    user = session.query(models.User).filter_by(username=username).first()
+    print(user)
+    if user:
+        flash('Email already exists.', category='error')
+        return "Signup unsuccessful", 500
+
+    # message flashing: flash a msg on screen using flask, import flash
+    if len(email) < 4:
+        # tell user there's an issue
+        flash('Email must be greater than 3 characters', category='error')
+    elif len(username) < 4:
+        flash('Username must be greater than 3 characters', category='error')
+    elif len(name) < 2:
+        flash('Name must be greater than 1 character', category='error')
+    elif password1 != password2:
+        flash('Passwords don\'t match.', category='error')
+    elif len(password1) < 7:
+        flash('Password must be at least 7 characters', category='error')
+    else:
+        # add user to database
+        newUser = models.User(email=email, username=username, name=name, password=generate_password_hash(password1, method='scrypt'))
+        # sha256, scrypt are hashing algorithms, there's others as well
+        session.add(newUser) # add user to database
+        # commit to the database
+        session.commit()
+        login_user(newUser, remember=True)
+        flash('Account created!', category='success')
+
+        # redirect user to home page
+        return jsonify({}) 
+
+    # try:
+    #     create_user(request.form.get('username'),
+    #                 request.form.get('password'),
+    #                 request.form.get('name'),
+    #                 request.form.get('email'))
+    # except:
+    #     return "Signup unsuccessful", 500 # VERY broad catch statement
 
 
 #### Backend Authentication Logic

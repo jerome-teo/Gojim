@@ -10,7 +10,12 @@ def test_login():
 
 
 def test_logout():
-    pass
+    response = requests.post('http://127.0.0.1:5000/sign-up', data={'email':'tims@gmail.com', 'username':'timsmith', 'name':'Tim Smith', 'password1':'hello12345', 'password2':'hello12345'})
+    if response.status_code == 201:
+        print('successful account created')
+    elif response.status_code == 401:
+        print('account not created')
 
 if __name__=='__main__':
     test_login()
+    test_logout()

@@ -18,17 +18,17 @@ class User(base):
     # unique=True makes it so that it's impossible for two users to have the same email
     email = Column("email", String, unique=True)
     username = Column("username", String(50), unique=True)
-    password = Column("password", String(100))
     name = Column("name", String(150))
+    password = Column("password", String(100))
 
     # create a list of workout_lists
     #my_workout_lists = Co
 
-    def __init__(self, email, username, password, name):
+    def __init__(self, email, username, name, password):
         self.email = email
         self.username = username
-        self.password = password
         self.name = name
+        self.password = password
 
     # tim smith (timsmith) tim@gmail.com
     def __repr__(self):

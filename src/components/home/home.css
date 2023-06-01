@@ -1,0 +1,55 @@
+.homeTitle{
+    font-size: 200%;
+    position:absolute;
+    left:37%;
+    top:13%;
+}
+
+.search{
+    width:62%;
+    position: absolute;
+    left:20%;
+    top:23%
+}
+
+.tagBox{
+    position: absolute;
+    top: 24%;
+    margin-left: 4%;
+}
+
+.tagBox p{
+    margin-left: 31%;
+    font-size: 150%;
+}
+
+.tagBox textarea{
+    width:150px;
+    height:330px;
+    resize:none;
+    text-align: center;
+    border-color:brown;
+    border-radius: 10px;
+}
+
+.searchButton Button{
+    position: absolute;
+    top:87%;
+    left:6.3%;
+}
+
+.results{
+    position: absolute;
+    left:22%;
+    top:35%;
+}
+
+.results p{
+    font-size: 150%;
+}
+
+.list Button{
+    text-decoration: none;
+    color: brown;
+    font-size: 125%;
+}

@@ -41,7 +41,7 @@ const Home = () => {
   ]
 
   const workoutResults = workouts.map(workoutName =>
-    <li key={workoutName.name} className="list">
+    <li key={workoutName.name} className="searchList">
       <Button variant="link">{workoutName.name}</Button>
     </li>
   );

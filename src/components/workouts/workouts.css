@@ -1,0 +1,18 @@
+.ownWorkoutTitle{
+    font-size: 200%;
+    position: absolute;
+    top:18%;
+    left:39%;
+}
+
+.ownWorkouts Button{
+    text-decoration: none;
+    color: brown;
+    font-size: 125%;
+}
+
+.ownWorkouts{
+    position: absolute;
+    top:30%;
+    left:15%;
+}

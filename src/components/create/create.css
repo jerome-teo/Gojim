@@ -56,5 +56,30 @@
 .exerciseButton{
     position: absolute;
     bottom:13%;
-    left:36.6%;
+    left:37.65%;
+}
+
+.workoutPreview textarea{
+    width:350px;
+    height:275px;
+    resize:none;
+    text-align: center;
+    border-color:brown;
+    border-radius: 10px;
+}
+
+.workoutPreview{
+    position: absolute;
+    right:10%;
+    top:27.1%;
+}
+
+.workoutPreview p{
+    font-size: 150%;
+}
+
+.workoutButton{
+    position: absolute;
+    bottom:13%;
+    right:17.4%;
 }

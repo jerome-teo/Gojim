@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import "./create.css"
 
@@ -35,8 +35,45 @@ const Create = () => {
       const clearTags = () => {
         setTagString("");
       }
-    
       const [tagString, setTagString] = useState("");
+    
+      const [exerciseName, setExerciseName] = useState("");
+      const handleExerciseName = box => {
+        setExerciseName(box.target.value);
+      }
+      const [exerciseReps, setExerciseReps] = useState("");
+      const handleExerciseReps = box => {
+        setExerciseReps(box.target.value);
+      }
+      const [exerciseSets, setExerciseSets] = useState("");
+      const handleExerciseSets = box => {
+        setExerciseSets(box.target.value);
+      }
+
+      const [exerciseString, setExercise] = useState("");
+
+      const [workoutString, setWorkout] = useState("");
+      useEffect(() => {
+        setWorkout(workoutString + exerciseString + "\n");
+      }, [exerciseString]);
+
+      const handleExerciseButton = () => {
+        if(exerciseName === "" || exerciseReps === "" || exerciseSets === ""){
+          return;
+        } else {
+          //Opportunity to store strings in a temporary database (or main string) here
+          setExercise(exerciseName + " Reps: " + exerciseReps + " Sets: " + exerciseSets);
+        }
+        setExerciseName("");
+        setExerciseReps("");
+        setExerciseSets("");
+      }
+
+      const finalize = () => {
+        //Should send the strings in the temporary database to a main database
+        //Should do the same for the tags in tagString
+        setWorkout("");
+      }
 
   return (
     <div>
@@ -63,15 +100,24 @@ const Create = () => {
 
       <div className="exercise">
         <p>Exercise:</p>
-        <textarea className="exerciseName"/>
+        <textarea className="exerciseName" value={exerciseName} onChange={handleExerciseName}/>
         <p>Reps:</p>
-        <textarea className="exerciseReps"/>
+        <textarea className="exerciseReps" value={exerciseReps} onChange={handleExerciseReps}/>
         <p>Sets:</p>
-        <textarea className="exerciseSets"/>
+        <textarea className="exerciseSets" value={exerciseSets} onChange={handleExerciseSets}/>
       </div>
-      <Button className="exerciseButton" variant="secondary" onClick={clearTags}>
-        Submit Exercise
+      <Button className="exerciseButton" variant="secondary" onClick={handleExerciseButton}>
+        Add Exercise
       </Button>
+
+      <div className="workoutPreview">
+        <p>Current Workout</p>
+        <textarea readOnly={true} value={workoutString}/>
+      </div>
+      <Button className="workoutButton" variant="secondary" onClick={finalize}>
+        Submit Workout
+      </Button>
+
     </div>
   )
 }

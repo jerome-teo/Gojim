@@ -1,0 +1,18 @@
+.signUpTitle {
+    position: absolute;
+    font-size: 250%;
+    top: 150px;
+    left: 100px;
+}
+
+.signUpCreds {
+    font-size: 100%;
+    margin-top: 175px;
+    margin-left: 100px;
+}
+
+.submitSignUp {
+    font-size: 100%;
+    margin-top: 50px;
+    margin-left: 100px;
+}

@@ -1,0 +1,8 @@
+* {
+    scroll-behavior: smooth;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: medium;
+    /*background-color:antiquewhite;*/
+    padding: 0;
+    margin: 0;
+}

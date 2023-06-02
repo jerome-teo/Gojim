@@ -1,0 +1,24 @@
+.loginTitle {
+    position: absolute;
+    font-size: 250%;
+    top: 150px;
+    left: 100px;
+}
+
+.signInCreds {
+    font-size: 100%;
+    margin-top: 175px;
+    margin-left: 100px;
+}
+
+.submitButton {
+    font-size: 100%;
+    margin-top: 25px;
+    margin-left: 100px;
+}
+
+.signupButton {
+    font-size: 100%;
+    margin-top: 50px;
+    margin-left: 100px;
+}

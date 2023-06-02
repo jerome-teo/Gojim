@@ -1,0 +1,46 @@
+.navbar{
+    display:flex;
+    background-color: beige;
+    justify-content: flex-end;
+
+}
+
+.navtabs{
+    background-color: beige;
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 30px;
+}
+
+.navtabs a{
+    color:black;
+    text-decoration: none;
+    background-color: beige;
+    font-size: larger;
+}
+
+.navtabs p{
+    background-color: beige;
+    margin: 10px; 
+}
+
+.rounded-circle{
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    position: relative;
+}
+
+
+.navtabs img{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    right:0;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}

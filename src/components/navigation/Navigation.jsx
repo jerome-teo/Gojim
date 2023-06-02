@@ -17,6 +17,7 @@ const Navigation = () => {
       <div className="navbar">
         <div className="navtabs">
             <p><Link to="/">Home</Link> </p>
+            <p><Link to="/create">Create Workout</Link> </p>
             <p><Link to="/workouts">My Workouts</Link> </p>
             <p><Link to="/settings">Settings</Link> </p>
             <p><Link to="/login">Login</Link> </p>

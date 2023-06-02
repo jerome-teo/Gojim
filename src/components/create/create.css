@@ -1,0 +1,60 @@
+.createTitle{
+    font-size: 200%;
+    position:absolute;
+    left:37%;
+    top:13%;
+}
+
+.createSearch{
+    margin-bottom: 13%;
+}
+
+.createTagBox{
+    position: absolute;
+    top: 24%;
+    margin-left: 7%;
+}
+
+.createTagBox p{
+    margin-left: 24%;
+    font-size: 150%;
+}
+
+.createTagBox textarea{
+    width:200px;
+    height:275px;
+    resize:none;
+    text-align: center;
+    border-color:brown;
+    border-radius: 10px;
+}
+
+.clearButton{
+    position: absolute;
+    bottom:13%;
+    left:10%;
+}
+
+.exercise{
+    position: absolute;
+    top:27.5%;
+    left:35%;
+}
+
+.exercise p{
+    font-size: 150%;
+    margin-top: 10%;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.exercise textarea{
+    resize: none;
+    text-align: center;
+    height: 27px;
+}
+
+.exerciseButton{
+    position: absolute;
+    bottom:13%;
+    left:36.6%;
+}

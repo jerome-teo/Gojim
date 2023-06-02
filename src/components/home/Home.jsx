@@ -66,6 +66,14 @@ const Home = () => {
         <p>Tags</p>
         <textarea readOnly={true} value={tagString}/>
       </div>
+
+      {/*results class must be before class search so that search results appear above the below text*/}
+      <div className="results">
+        <p>Search Results</p>
+        <ul>
+          {workoutResults}
+        </ul>
+      </div>
       <div className='search'>
         <ReactSearchAutocomplete 
           styling={{border: "1px solid #000000" }}
@@ -80,12 +88,7 @@ const Home = () => {
           Search!
         </Button>
       </div>
-      <div className="results">
-        <p>Search Results</p>
-        <ul>
-          {workoutResults}
-        </ul>
-      </div>
+      
     </div>
   );
 }

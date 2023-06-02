@@ -1,6 +1,7 @@
 import Navigation from "./components/navigation/Navigation"
 import Login from "./components/login/Login";
 import Workouts from "./components/workouts/Workouts"
+import Create from "./components/create/Create";
 import Settings from "./components/settings/Settings"
 import SignUp from "./components/signup/SignUp"
 import Home from "./components/home/Home";
@@ -17,6 +18,7 @@ function App() {
                 <Route path="/" element={<Navigation />}>
                     <Route path="/" element={<Home />}/>
                     <Route path="/profile" element={<Profile />}/>
+                    <Route path="/create" element={<Create />}/>
                     <Route path="/workouts" element={<Workouts />}/>
                     <Route path="/settings" element={<Settings />}/>
                     <Route path="/login" element={<Login />}/>

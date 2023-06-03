@@ -14,11 +14,18 @@ const workouts = [
   }
 ];
 
+const handleDelete = () => {
+  //handle deleting workout here
+}
+
 const Workouts = () => {
 
   const workoutResults = workouts.map(workoutName =>
     <li key={workoutName.name} className="list">
-      <Button variant="link">{workoutName.name}</Button>
+      <Button className = "ownWorkout" variant="link">{workoutName.name}</Button>
+      <Button className="deleteButton" variant="danger" onClick={handleDelete}>
+        Delete
+      </Button>
     </li>
   );
 

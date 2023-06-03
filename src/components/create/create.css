@@ -56,7 +56,7 @@
 .exerciseButton{
     position: absolute;
     bottom:13%;
-    left:37.65%;
+    left:35%;
 }
 
 .workoutPreview textarea{
@@ -82,4 +82,10 @@
     position: absolute;
     bottom:13%;
     right:17.4%;
+}
+
+.undoButton{
+    position: absolute;
+    bottom:13%;
+    left:46.5%;
 }

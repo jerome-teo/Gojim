@@ -5,7 +5,7 @@
     left:39%;
 }
 
-.ownWorkouts Button{
+.ownWorkout{
     text-decoration: none;
     color: brown;
     font-size: 125%;
@@ -15,4 +15,8 @@
     position: absolute;
     top:30%;
     left:15%;
+}
+
+.deleteButton{
+    margin-left: 50px;
 }

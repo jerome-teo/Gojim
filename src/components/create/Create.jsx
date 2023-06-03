@@ -52,8 +52,10 @@ const Create = () => {
 
       const [exerciseString, setExercise] = useState("");
 
+      const [savedWorkoutString, setPrevWorkout] = useState("");
       const [workoutString, setWorkout] = useState("");
       useEffect(() => {
+        setPrevWorkout(workoutString);
         setWorkout(workoutString + exerciseString + "\n");
       }, [exerciseString]);
 
@@ -73,6 +75,10 @@ const Create = () => {
         //Should send the strings in the temporary database to a main database
         //Should do the same for the tags in tagString
         setWorkout("");
+      }
+
+      const handleUndo = () => {
+        setWorkout(savedWorkoutString);
       }
 
   return (
@@ -108,6 +114,9 @@ const Create = () => {
       </div>
       <Button className="exerciseButton" variant="secondary" onClick={handleExerciseButton}>
         Add Exercise
+      </Button>
+      <Button className="undoButton" variant="danger" onClick={handleUndo}>
+        Undo
       </Button>
 
       <div className="workoutPreview">

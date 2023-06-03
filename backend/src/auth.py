@@ -56,6 +56,7 @@ def logout():
     return redirect(url_for('auth.login'))
 
 @auth.route('/sign-up', methods=['POST'])
+@cross_origin()
 def sign_up():
     data = request.json
     email = data.get('email')
@@ -63,6 +64,8 @@ def sign_up():
     #name = request.form.get('name')
     password1 = data.get('password1')
     password2 = data.get('password2')
+    #check
+    #return jsonify({"message": "DONE"}), 200
     # email = request.form.get('email')
     # username = request.form.get('username')
     # #name = request.form.get('name')
@@ -81,14 +84,18 @@ def sign_up():
     if len(email) < 4:
         # tell user there's an issue
         flash('Email must be greater than 3 characters', category='error')
+        return jsonify({"error": "Signup unsuccessful"}), 500
     elif len(username) < 4:
         flash('Username must be greater than 3 characters', category='error')
+        return jsonify({"error": "Signup unsuccessful"}), 500
     # elif len(name) < 2:
     #     flash('Name must be greater than 1 character', category='error')
     elif password1 != password2:
         flash('Passwords don\'t match.', category='error')
+        return jsonify({"error": "Signup unsuccessful"}), 500
     elif len(password1) < 7:
         flash('Password must be at least 7 characters', category='error')
+        return jsonify({"error": "Signup unsuccessful"}), 500
     else:
         # add user to database
         #I removed name=name
@@ -104,8 +111,9 @@ def sign_up():
         return jsonify({
             "email": newUser.email,
             "username": newUser.username,
+            "password": newUser.password
             # "name": newUser.name,
-        }) 
+        }), 200
 
     # try:
     #     create_user(request.form.get('username'),

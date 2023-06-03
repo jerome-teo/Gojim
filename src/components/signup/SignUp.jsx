@@ -20,27 +20,43 @@ const SignUp = () => {
     
         try {
           // Send a POST request to the backend endpoint '/sign-up'
-          const response = await fetch('/sign-up', {
+          const response = await fetch('http://localhost:5000/sign-up', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-          });
-          console.log("HERE")
+          })
+          // .then(response => {
+          //   console.log(response);
+          // // then(res => res.json())
+
+          // //AXIOS instead
+          // })
+          
+          //console.log("HERE")
           if (response.ok) {
             // Success response from the backend
             const jsonData = await response.json();
-            console.log("Sucess!!!!!")
+            console.log(jsonData)
             // Do something with the response data if needed
+            setEmail("RIGHT");
           } else {
             // Error response from the backend
+            setEmail("WRONG");
+            console.error('Error:');
             // Handle the error case accordingly
           }
+        
+          //setEmail("");
+          setUsername("");
+          setPassword1("");
+          setPassword2("");
         } catch (error) {
           console.error('Error:', error);
           // Handle any network or other errors
         }
+          
       };
 
     // useEffect(() => {
@@ -96,7 +112,7 @@ const SignUp = () => {
                         Choose a Password (8-16 characters long):
                     </label>
                     <input 
-                    type = "text" 
+                    type = "password" 
                     id = "signUpPassword" 
                     name = "signUpPassword" 
                     value = {password1}
@@ -109,7 +125,7 @@ const SignUp = () => {
                         Confirm Password:
                     </label>
                     <input 
-                    type = "text" 
+                    type = "password" 
                     id = "signUpPassword2" 
                     name = "signUpPassword2" 
                     value = {password2}

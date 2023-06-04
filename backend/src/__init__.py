@@ -1,12 +1,19 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, flash
 from auth import auth
 from listslogic import listlogic
 from users import users
+from flask_cors import CORS, cross_origin
+import models
+from sqlalchemy.orm import sessionmaker
 
 app = Flask(__name__)
+# CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3000"}})
 app.register_blueprint(auth)
 app.register_blueprint(listlogic)
 app.register_blueprint(users)
+
+Session = sessionmaker(bind=models.engine)
+session = Session()
 
 @app.route("/")
 def hello():

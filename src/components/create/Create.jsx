@@ -64,7 +64,7 @@ const Create = () => {
           return;
         } else {
           //Opportunity to store strings in a temporary database (or main string) here
-          setExercise(exerciseName + " Reps: " + exerciseReps + " Sets: " + exerciseSets);
+          setExercise(exerciseName + ":  Reps: " + exerciseReps + " Sets: " + exerciseSets);
         }
         setExerciseName("");
         setExerciseReps("");

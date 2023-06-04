@@ -86,7 +86,7 @@ const SignUp = () => {
                     <label for = "signUpPassword">
                         Choose a Password (8-16 characters long):
                     </label>
-                    <input className="signUpPsswdField" type = "text" id = "signUpPassword" name = "signUpPassword" 
+                    <input className="signUpPsswdField" type = "password" id = "signUpPassword" name = "signUpPassword" 
                     value = {password1}
                     onChange={(e) => setPassword1(e.target.value)}
                     />

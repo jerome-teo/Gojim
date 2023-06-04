@@ -5,8 +5,10 @@ from users import users
 from flask_cors import CORS, cross_origin
 import models
 from sqlalchemy.orm import sessionmaker
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 
 app = Flask(__name__)
+jwt = JWTManager(app)
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3000"}})
 app.register_blueprint(auth)
 app.register_blueprint(listlogic)
@@ -21,4 +23,6 @@ def hello():
 
 if __name__ == '__main__':
     app.config['SECRET_KEY'] = 'hello world this is the secret key'
+    app.config["JWT_SECRET_KEY"] = "please-remember-to-change-me"
+    
     app.run(debug=True)

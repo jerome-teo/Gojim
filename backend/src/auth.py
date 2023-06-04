@@ -6,6 +6,8 @@ from sqlalchemy.orm import sessionmaker
 from flask_login import login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS, cross_origin
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
+                               unset_jwt_cookies, jwt_required, JWTManager
 
 # create Session
 Session = sessionmaker(bind=models.engine)
@@ -39,7 +41,14 @@ def login():
             # SUS
             # login_user(user, remember=True) # remembers that user is logged
             # redirect user to home page
-            return jsonify({"message" : "Successfully logged in!"}), 200 # turn this into a json object that we can return, but we're returning nothing here
+            
+            access_token = create_access_token(identity=username)
+            #return jsonify({"message":"Success"}),200
+            response = {"access_token":access_token}
+            #return redirect("http://localhost:3000/")
+
+            return jsonify(response), 200
+            #return jsonify({"message" : "Successfully logged in!"}), 200 # turn this into a json object that we can return, but we're returning nothing here
         else:
             return jsonify({"error":"Incorrect password, try again."}),500
     else:
@@ -53,12 +62,16 @@ def login():
     '''
 
 @auth.route('/logout', methods=['GET'])
-@login_required # don't want user to access this page unless they've logged in
+@jwt_required
+#@login_required # don't want user to access this page unless they've logged in
 def logout():
-    session.pop("username")
-    logout_user() # logs-out current user
-    # redirects to the page that is rendered in login function
-    return redirect(url_for('auth.login'))
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
+    # session.pop("username")
+    # logout_user() # logs-out current user
+    # # redirects to the page that is rendered in login function
+    # return redirect(url_for('auth.login'))
 
 @auth.route('/sign-up', methods=['POST'])
 @cross_origin()

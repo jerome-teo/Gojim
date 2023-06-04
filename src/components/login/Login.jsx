@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import "./login.css"
 
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -32,6 +33,7 @@ const Login = () => {
         console.log(jsonData)
         // Do something with the response data if needed
         setUsername("RIGHT");
+
       } else {
         // Error response from the backend
         setUsername("WRONG");
@@ -44,7 +46,7 @@ const Login = () => {
       console.error('Error:', error);
       // Handle any network or other errors
     }
-      
+    window.location.href = '/';  
   };
 
   return (
@@ -73,7 +75,7 @@ const Login = () => {
           <label for = "password">
             Password:
             </label>
-          <input className="psswdField" type = "text" id = "password" name = "password" 
+          <input className="psswdField" type = "password" id = "password" name = "password" 
           value = {password}
           onChange={(e) => setPassword(e.target.value)}
           />

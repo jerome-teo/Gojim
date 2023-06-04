@@ -63,7 +63,9 @@ const Create = () => {
       const [workoutString, setWorkout] = useState("");
       useEffect(() => {
         setPrevWorkout(workoutString);
-        setWorkout(workoutString + exerciseString + "\n");
+        if(exerciseString !== ""){
+          setWorkout(workoutString + exerciseString + "\n");
+        }
       }, [exerciseString]);
 
       const handleExerciseButton = () => {
@@ -80,12 +82,14 @@ const Create = () => {
 
       const navigate = useNavigate();
       const finalize = () => {
-        //Should send the workout string to the database
-        //Should do the same for the tags in tagString
-        //Should do the same for the workout name
-        setWorkout("");
-        setWorkoutName("");
-        navigate("/workouts");
+        if(workoutString !== "" && workoutName !== ""){
+          //Should send the workout string to the database
+          //Should do the same for the tags in tagString
+          //Should do the same for the workout name
+          setWorkout("");
+          setWorkoutName("");
+          navigate("/workouts");
+        }
       }
 
       const handleUndo = () => {

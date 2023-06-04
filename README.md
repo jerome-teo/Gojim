@@ -29,13 +29,13 @@ To ensure that the necessary libraries can be accessed, you would need to instal
 
 **Run the frontend application:**
 
-  Open another terminal
+Open another terminal
   
-  cd src
+    cd src
   
-  npm install
+    npm install
   
-  npm start
+    npm start
  
 
 The React app will be accessible at http://localhost:3000 so you can view it in the browser.

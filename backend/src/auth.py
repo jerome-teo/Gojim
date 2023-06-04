@@ -15,9 +15,12 @@ auth = Blueprint('auth', __name__)
 # CORS(app, supports_credentials=True)
 
 @auth.route('/login', methods=['POST'])
+@cross_origin()
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
+    #json or form???
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
 
     # newUser = models.User("tim@gmail.com", "shivani", "hello1234",)
     # session.add(newUser)
@@ -31,18 +34,16 @@ def login():
     if user:
         # HEREE: i try to store the username of the curr session's user, but for some reason it's failing here
         # which means that it's failing to create a new workout list in listlogic
-        session["username"] = request.form['username'] # create a session for them
+        #session["username"] = request.form['username'] # create a session for them
         if check_password_hash(user.password, password): # if passwords are the same
-            flash('Logged in successfully!', category='success')
-            login_user(user, remember=True) # remembers that user is logged
+            # SUS
+            # login_user(user, remember=True) # remembers that user is logged
             # redirect user to home page
-            return jsonify({}) # turn this into a json object that we can return, but we're returning nothing here
+            return jsonify({"message" : "Successfully logged in!"}), 200 # turn this into a json object that we can return, but we're returning nothing here
         else:
-            flash('Incorrect password, try again.', category='error')
+            return jsonify({"error":"Incorrect password, try again."}),500
     else:
-        flash('Email does not exist.', category='error')
-    return jsonify({}) 
-
+        return jsonify({"error":"Incorrect password, try again."}),500
     '''
     if username=="shivani" and password=="hello1234":
         response = {"status": "success"}

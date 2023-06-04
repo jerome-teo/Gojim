@@ -7,7 +7,7 @@ import models
 from sqlalchemy.orm import sessionmaker
 
 app = Flask(__name__)
-# CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3000"}})
 app.register_blueprint(auth)
 app.register_blueprint(listlogic)
 app.register_blueprint(users)

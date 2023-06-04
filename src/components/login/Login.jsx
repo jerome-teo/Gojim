@@ -1,7 +1,52 @@
-import React from 'react'
+import React, {useState} from 'react'
 import "./login.css"
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the form from submitting normally
+
+    // Create a data object with the user's input
+    const data = {
+      username,
+      password,
+    };
+
+    try {
+      // Send a POST request to the backend endpoint '/sign-up'
+      
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      
+      //console.log("HERE")
+      if (response.ok) {
+        // Success response from the backend
+        const jsonData = await response.json();
+        console.log(jsonData)
+        // Do something with the response data if needed
+        setUsername("RIGHT");
+      } else {
+        // Error response from the backend
+        setUsername("WRONG");
+        console.error('Error:');
+        // Handle the error case accordingly
+      }
+      //setUsername("");
+      setPassword("");
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle any network or other errors
+    }
+      
+  };
+
   return (
     <div>
       <div className = "loginTitle">
@@ -16,7 +61,10 @@ const Login = () => {
           <label for = "username">
             Username:
             </label>
-          <input className="usernameField" type = "text" id = "username" name = "username" />
+          <input className="usernameField" type = "text" id = "username" name = "username" 
+          value = {username}
+          onChange={(e) => setUsername(e.target.value)}
+          />
           {/* </form> */}
           </p>
           
@@ -25,13 +73,16 @@ const Login = () => {
           <label for = "password">
             Password:
             </label>
-          <input className="psswdField" type = "text" id = "password" name = "password" />
+          <input className="psswdField" type = "text" id = "password" name = "password" 
+          value = {password}
+          onChange={(e) => setPassword(e.target.value)}
+          />
           {/* </form> */}
           </p>
         </div>
 
         {/*Submit Button*/}
-        <div className = "submitButton">
+        <div className = "submitButton" onClick={handleSubmit}>
           <input type="submit" value="Submit" />
         </div>
       </form>

@@ -17,13 +17,24 @@ def test_logout():
         print('account not created')
 
 def test_new_workout():
-    response = requests.post('http://127.0.0.1:5000/new-workout', data={'name':'train upper', 'info':'train upper', 'tags':'upper,chest'})
+    response = requests.post('http://127.0.0.1:5000/create-new-workout', data={'name':'train upper', 'info':'lats, reps: 8, sets: 10', 'tags':'upper,chest'})
+    print(response.json())
     if response.status_code == 200:
         print('workout list created')
     elif response.status_code == 500:
         print('workout list not created')
 
+def test_get_my_workouts():
+    response = requests.get('http://127.0.0.1:5000/get-my-workouts')
+    # print(response.json())
+    if response.status_code == 200:
+        print('workout retrieved')
+    elif response.status_code == 500:
+        print('workout not retrieved')
+
 if __name__=='__main__':
-    test_login()
-    test_logout()
-    test_new_workout()
+    # test_login()
+    # test_logout()
+    # test_new_workout()
+    test_get_my_workouts()
+    pass

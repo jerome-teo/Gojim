@@ -6,8 +6,8 @@ from sqlalchemy.orm import sessionmaker
 from flask_login import login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS, cross_origin
-from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
-                               unset_jwt_cookies, jwt_required, JWTManager
+from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, \
+                                unset_jwt_cookies, jwt_required, JWTManager
 
 # create Session
 Session = sessionmaker(bind=models.engine)
@@ -38,17 +38,12 @@ def login():
         # which means that it's failing to create a new workout list in listlogic
         #session["username"] = request.form['username'] # create a session for them
         if check_password_hash(user.password, password): # if passwords are the same
+            access_token = create_access_token(identity=username)
             # SUS
             # login_user(user, remember=True) # remembers that user is logged
             # redirect user to home page
-            
-            access_token = create_access_token(identity=username)
-            #return jsonify({"message":"Success"}),200
-            response = {"access_token":access_token}
-            #return redirect("http://localhost:3000/")
-
-            return jsonify(response), 200
-            #return jsonify({"message" : "Successfully logged in!"}), 200 # turn this into a json object that we can return, but we're returning nothing here
+            response = {"acess_token": access_token}
+            return jsonify(response), 200 # turn this into a json object that we can return, but we're returning nothing here
         else:
             return jsonify({"error":"Incorrect password, try again."}),500
     else:
@@ -62,15 +57,16 @@ def login():
     '''
 
 @auth.route('/logout', methods=['GET'])
-@jwt_required
-#@login_required # don't want user to access this page unless they've logged in
+# @login_required # don't want user to access this page unless they've logged in
+@jwt_required # that' you've been loggin in to be able to logout
 def logout():
-    response = jsonify({"msg": "logout successful"})
-    unset_jwt_cookies(response)
-    return response
     # session.pop("username")
     # logout_user() # logs-out current user
-    # # redirects to the page that is rendered in login function
+    # redirects to the page that is rendered in login function
+
+    response = jsonify({"msg":"logout successful"})
+    unset_jwt_cookies(response)
+    return response
     # return redirect(url_for('auth.login'))
 
 @auth.route('/sign-up', methods=['POST'])
@@ -110,12 +106,12 @@ def sign_up():
     else:
         # add user to database
         #I removed name=name
-        newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='scrypt'))
+        newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='scrypt'), privacy=False)
         # sha256, scrypt are hashing algorithms, there's others as well
         session.add(newUser) # add user to database
         # commit to the database
         session.commit()
-        # login_user(newUser, remember=True)
+        login_user(newUser, remember=True)
 
         # redirect user to home page
         return jsonify({
@@ -133,13 +129,8 @@ def sign_up():
     # except:
     #     return "Signup unsuccessful", 500 # VERY broad catch statement
 
-
-#### Backend Authentication Logic
-
-#users = {} # Make into DB table
-
-#def create_user(username, password, name, email, publicly_visible=True):
-#   pass
-
+@auth.route('/delete-account', methods=['DELETE'])
+def delete_acc():
+    return "<p>Delete Account</p>"
 
 # tags:hiit,upperbody,lowerbody,fullbody

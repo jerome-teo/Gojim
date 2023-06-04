@@ -1,5 +1,5 @@
 #### Flask Routing Logic
-from flask import Blueprint, request, redirect, flash, jsonify, url_for
+from flask import Blueprint, request, redirect, flash, jsonify, url_for, session
 import models
 #from __init__ import app
 from sqlalchemy.orm import sessionmaker
@@ -12,14 +12,14 @@ Session = sessionmaker(bind=models.engine)
 session = Session()
 
 auth = Blueprint('auth', __name__)
-#CORS(app, supports_credentials=True)
+# CORS(app, supports_credentials=True)
 
 @auth.route('/login', methods=['POST'])
 def login():
     username = request.form.get('username')
     password = request.form.get('password')
 
-    # newUser = models.User("tim@gmail.com", "shivani", "hello1234", "tim")
+    # newUser = models.User("tim@gmail.com", "shivani", "hello1234",)
     # session.add(newUser)
     # session.commit()
 
@@ -29,6 +29,9 @@ def login():
 
     # should only get one user because users much have usernames
     if user:
+        # HEREE: i try to store the username of the curr session's user, but for some reason it's failing here
+        # which means that it's failing to create a new workout list in listlogic
+        session["username"] = request.form['username'] # create a session for them
         if check_password_hash(user.password, password): # if passwords are the same
             flash('Logged in successfully!', category='success')
             login_user(user, remember=True) # remembers that user is logged
@@ -51,6 +54,7 @@ def login():
 @auth.route('/logout', methods=['GET'])
 @login_required # don't want user to access this page unless they've logged in
 def logout():
+    session.pop("username")
     logout_user() # logs-out current user
     # redirects to the page that is rendered in login function
     return redirect(url_for('auth.login'))
@@ -61,7 +65,6 @@ def sign_up():
     data = request.json
     email = data.get('email')
     username = data.get('username')
-    #name = request.form.get('name')
     password1 = data.get('password1')
     password2 = data.get('password2')
     #check
@@ -83,18 +86,12 @@ def sign_up():
     # message flashing: flash a msg on screen using flask, import flash
     if len(email) < 4:
         # tell user there's an issue
-        flash('Email must be greater than 3 characters', category='error')
         return jsonify({"error": "Signup unsuccessful"}), 500
     elif len(username) < 4:
-        flash('Username must be greater than 3 characters', category='error')
         return jsonify({"error": "Signup unsuccessful"}), 500
-    # elif len(name) < 2:
-    #     flash('Name must be greater than 1 character', category='error')
     elif password1 != password2:
-        flash('Passwords don\'t match.', category='error')
         return jsonify({"error": "Signup unsuccessful"}), 500
     elif len(password1) < 7:
-        flash('Password must be at least 7 characters', category='error')
         return jsonify({"error": "Signup unsuccessful"}), 500
     else:
         # add user to database
@@ -104,8 +101,7 @@ def sign_up():
         session.add(newUser) # add user to database
         # commit to the database
         session.commit()
-        login_user(newUser, remember=True)
-        flash('Account created!', category='success')
+        # login_user(newUser, remember=True)
 
         # redirect user to home page
         return jsonify({

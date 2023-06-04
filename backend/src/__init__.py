@@ -6,11 +6,8 @@ from flask_cors import CORS, cross_origin
 import models
 from sqlalchemy.orm import sessionmaker
 
-from flask_login import login_user, login_required, logout_user
-from werkzeug.security import generate_password_hash, check_password_hash
-
 app = Flask(__name__)
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3000"}})
+# CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3000"}})
 app.register_blueprint(auth)
 app.register_blueprint(listlogic)
 app.register_blueprint(users)
@@ -21,65 +18,6 @@ session = Session()
 @app.route("/")
 def hello():
     return "Hello World!"
-
-# @app.route('/sign-up', methods=['POST'])
-# def sign_up():
-    
-#     data = request.json
-#     email = data.get_json('email')
-#     username = data.get_json('username')
-#     #name = request.form.get('name')
-#     password1 = data.get_json('password1')
-#     password2 = data.get_json('password2')
-#     #check
-#     return jsonify({"message": "DONE"}), 200
-#     # email = request.form.get('email')
-#     # username = request.form.get('username')
-#     # #name = request.form.get('name')
-#     # password1 = request.form.get('password1')
-#     # password2 = request.form.get('password2')
-
-#     #### Validating Infomation
-#     # check to make sure that user doesn't already exist
-#     user = session.query(models.User).filter_by(username=username).first()
-#     print(user)
-#     if user:
-#         flash('Email already exists.', category='error')
-#         return jsonify({"error": "Signup unsuccessful"}), 500
-
-#     # message flashing: flash a msg on screen using flask, import flash
-#     if len(email) < 4:
-#         # tell user there's an issue
-#         flash('Email must be greater than 3 characters', category='error')
-#         return jsonify({"error": "Signup unsuccessful"}), 500
-#     elif len(username) < 4:
-#         flash('Username must be greater than 3 characters', category='error')
-#         return jsonify({"error": "Signup unsuccessful"}), 500
-#     # elif len(name) < 2:
-#     #     flash('Name must be greater than 1 character', category='error')
-#     elif password1 != password2:
-#         flash('Passwords don\'t match.', category='error')
-#         return jsonify({"error": "Signup unsuccessful"}), 500
-#     elif len(password1) < 7:
-#         flash('Password must be at least 7 characters', category='error')
-#         return jsonify({"error": "Signup unsuccessful"}), 500
-#     else:
-#         # add user to database
-#         #I removed name=name
-#         newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='scrypt'))
-#         # sha256, scrypt are hashing algorithms, there's others as well
-#         session.add(newUser) # add user to database
-#         # commit to the database
-#         session.commit()
-#         login_user(newUser, remember=True)
-#         flash('Account created!', category='success')
-
-#         # redirect user to home page
-#         return jsonify({
-#             "email": newUser.email,
-#             "username": newUser.username,
-#             # "name": newUser.name,
-#         }), 200
 
 if __name__ == '__main__':
     app.config['SECRET_KEY'] = 'hello world this is the secret key'

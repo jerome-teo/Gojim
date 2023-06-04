@@ -34,7 +34,25 @@ class User(base):
     def __repr__(self):
         return f"({self.username}) {self.email}"
 
-#class WorkoutLists():
+class WorkoutLists(base):
+    __tablename__ = "workout_lists"
 
+    id = Column("workout_list_id", Integer, primary_key=True)
+    name = Column("name", String)
+    info = Column("info", String)
+    tags = Column("tags", String)
+    likes = Column("ikes", Integer)
+    owner = Column(Integer, ForeignKey("users.username"))
+
+    def __init__(self, name, info, tags, likes, owner):
+        self.name = name
+        self.info = info
+        self.tags = tags
+        self.likes = likes
+        self.owner = owner
+    
+    # train upper: lats reps: 8 sets: 3 (upperbody) (10 likes) by timsmith 
+    def __repr__(self):
+        return f"{self.name}: ({self.info}) ({self.tags}) ({self.likes} likes) by {self.owner}"
 
 base.metadata.create_all(bind=engine)

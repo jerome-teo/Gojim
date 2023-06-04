@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import "./create.css"
+import { useNavigate } from "react-router-dom";
 
 import Button from 'react-bootstrap/Button';
 
@@ -77,12 +78,14 @@ const Create = () => {
         setExerciseSets("");
       }
 
+      const navigate = useNavigate();
       const finalize = () => {
         //Should send the workout string to the database
         //Should do the same for the tags in tagString
         //Should do the same for the workout name
         setWorkout("");
         setWorkoutName("");
+        navigate("/workouts");
       }
 
       const handleUndo = () => {

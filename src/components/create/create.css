@@ -3,6 +3,7 @@
     position:absolute;
     left:37%;
     top:13%;
+    font-weight: bolder;
 }
 
 .createSearch{
@@ -59,7 +60,7 @@
     left:35%;
 }
 
-.workoutPreview textarea{
+.workoutPreviewBox{
     width:350px;
     height:275px;
     resize:none;
@@ -75,7 +76,7 @@
 }
 
 .workoutPreview p{
-    font-size: 150%;
+    font-size: 125%;
 }
 
 .workoutButton{
@@ -88,4 +89,13 @@
     position: absolute;
     bottom:13%;
     left:46.5%;
+}
+
+.nameInput{
+    width:277px;
+    height:31px;
+    resize: none;
+    position: absolute;
+    top:0%;
+    left:20.5%;
 }

@@ -3,6 +3,7 @@
     position:absolute;
     left:37%;
     top:13%;
+    font-weight: bolder;
 }
 
 .search{
@@ -28,8 +29,9 @@
     height:330px;
     resize:none;
     text-align: center;
-    border-color:brown;
+    border-color:gray;
     border-radius: 10px;
+    background-color: lightcyan;
 }
 
 .searchButton Button{

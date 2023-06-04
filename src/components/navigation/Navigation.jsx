@@ -16,11 +16,13 @@ const Navigation = () => {
     <div>
       <div className="navbar">
         <div className="navtabs">
+            <p className="logo">GoJim!</p>
             <p><Link to="/">Home</Link> </p>
             <p><Link to="/create">Create Workout</Link> </p>
             <p><Link to="/workouts">My Workouts</Link> </p>
             <p><Link to="/settings">Settings</Link> </p>
             <p><Link to="/login">Login</Link> </p>
+            <p><Link to="/signup">Sign Up</Link> </p>
             <Button variant="link" onClick={toProfile} className="rounded-circle">
               <img src="default.png"></img>
             </Button>

@@ -41,15 +41,21 @@ const Create = () => {
       const handleExerciseName = box => {
         setExerciseName(box.target.value);
       }
+
       const [exerciseReps, setExerciseReps] = useState("");
       const handleExerciseReps = box => {
         setExerciseReps(box.target.value);
       }
+
       const [exerciseSets, setExerciseSets] = useState("");
       const handleExerciseSets = box => {
         setExerciseSets(box.target.value);
       }
 
+      const [workoutName, setWorkoutName] = useState("");
+      const handleNameChange = box => {
+        setWorkoutName(box.target.value);
+      }
       const [exerciseString, setExercise] = useState("");
 
       const [savedWorkoutString, setPrevWorkout] = useState("");
@@ -72,9 +78,11 @@ const Create = () => {
       }
 
       const finalize = () => {
-        //Should send the strings in the temporary database to a main database
+        //Should send the workout string to the database
         //Should do the same for the tags in tagString
+        //Should do the same for the workout name
         setWorkout("");
+        setWorkoutName("");
       }
 
       const handleUndo = () => {
@@ -120,8 +128,8 @@ const Create = () => {
       </Button>
 
       <div className="workoutPreview">
-        <p>Current Workout</p>
-        <textarea readOnly={true} value={workoutString}/>
+        <p>Name: <textarea onChange={handleNameChange} value={workoutName} className="nameInput"></textarea></p>
+        <textarea className="workoutPreviewBox" readOnly={true} value={workoutString}/>
       </div>
       <Button className="workoutButton" variant="secondary" onClick={finalize}>
         Submit Workout

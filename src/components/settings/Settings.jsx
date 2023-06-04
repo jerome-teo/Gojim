@@ -26,10 +26,10 @@ const Settings = () => {
 
         {/*Change Name*/}
         <p>
-          <Popup position="right center" trigger={<Button variant="link" className="button">Change Name</Button>}>
+          <Popup position="right center" trigger={<Button variant="link" className="button">Change Username</Button>}>
             {close =>(
               <div>
-                <p className="popupTitle">New Name</p>
+                <p className="popupTitle">New Username</p>
                 <p><input type="text" className="input"/></p>
                 <p>
                   <Button variant="link" onClick = {close} className="button">Confirm</Button>

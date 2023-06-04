@@ -1,12 +1,11 @@
 .navbar{
     display:flex;
-    background-color: beige;
+    background-color: #F3EDEC;
     justify-content: flex-end;
 
 }
 
 .navtabs{
-    background-color: beige;
     width: 100%;
     display:flex;
     flex-direction: row;
@@ -17,12 +16,10 @@
 .navtabs a{
     color:black;
     text-decoration: none;
-    background-color: beige;
     font-size: larger;
 }
 
 .navtabs p{
-    background-color: beige;
     margin: 13px; 
 }
 
@@ -43,4 +40,12 @@
     border-radius: 50%;
     width: 50px;
     height: 50px;
+}
+
+.logo{
+    position: absolute;
+    font-size: larger;
+    left:6.5%;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-weight: bolder;
 }

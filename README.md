@@ -10,17 +10,27 @@ GoJim is an interactive webapp that allows users to share their preferred workou
 -Users can view a home page where relevant articles shared by others are visible on a feed.
 
 **Running the Web App**
-git clone https://github.com/Jeromeoui/gojim
-cd gojim
+  git clone https://github.com/Jeromeoui/gojim
+  cd gojim
 
 **Set up the backend server:**
-python __init__.py
+  python __init__.py
 The flask app will be accessible at http://localhost:5000 so you can view it in the browser.
 
+To ensure that the necessary libraries can be accessed, you would need to install:
+- flask
+- flask_login
+- sqlalchemy
+- sqlalchemy.orm
+- flask_cors
+- flask_jwt_extended
+
+  pip install {library}
+
 **Run the frontend application:**
-Open another terminal
-cd src
-npm install
-npm start
+  Open another terminal
+  cd src
+  npm install
+  npm start
 
 The React app will be accessible at http://localhost:3000 so you can view it in the browser.

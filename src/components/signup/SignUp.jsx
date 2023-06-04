@@ -15,14 +15,14 @@ const SignUp = () => {
                     <label for = "signUpUsername">
                         Choose a Username (8-16 characters long):
                     </label>
-                    <input type = "text" id = "signUpUsername" name = "signUpUsername" />
+                    <input className="signUpUsernameField" type = "text" id = "signUpUsername" name = "signUpUsername" />
                     </p>
                 
                     <p>
                     <label for = "signUpPassword">
                         Choose a Password (8-16 characters long):
                     </label>
-                    <input type = "text" id = "signUpPassword" name = "signUpPassword" />
+                    <input className="signUpPsswdField" type = "text" id = "signUpPassword" name = "signUpPassword" />
                     </p>
                 </div>
 

@@ -16,7 +16,7 @@ const Login = () => {
           <label for = "username">
             Username:
             </label>
-          <input type = "text" id = "username" name = "username" />
+          <input className="usernameField" type = "text" id = "username" name = "username" />
           {/* </form> */}
           </p>
           
@@ -25,7 +25,7 @@ const Login = () => {
           <label for = "password">
             Password:
             </label>
-          <input type = "text" id = "password" name = "password" />
+          <input className="psswdField" type = "text" id = "password" name = "password" />
           {/* </form> */}
           </p>
         </div>

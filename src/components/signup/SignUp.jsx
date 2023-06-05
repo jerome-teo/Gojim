@@ -77,6 +77,7 @@ const SignUp = () => {
                       type = "text" 
                       id = "signUpEmail" 
                       name = "signUpEmail" 
+                      className="signUpUsernameField"
                       value = {email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -100,6 +101,7 @@ const SignUp = () => {
                     type = "password" 
                     id = "signUpPassword2" 
                     name = "signUpPassword2" 
+                    className="signUpPsswdField"
                     value = {password2}
                     onChange={(e) => setPassword2(e.target.value)}
                     />

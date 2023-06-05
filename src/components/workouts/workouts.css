@@ -2,7 +2,7 @@
     font-size: 200%;
     position: absolute;
     top:18%;
-    left:39%;
+    left:44%;
     font-weight: bolder;
 }
 
@@ -12,12 +12,26 @@
     font-size: 125%;
 }
 
-.ownWorkouts{
+.shownWorkouts{
     position: absolute;
-    top:30%;
+    top:40%;
     left:15%;
 }
 
 .deleteButton{
     margin-left: 50px;
+}
+
+.mineButton{
+    position: absolute;
+    left:38.5%;
+    top:27.5%;
+    width:10%;
+}
+
+.savedButton{
+    position: absolute;
+    right:38.5%;
+    top:27.5%;
+    width:10%;
 }

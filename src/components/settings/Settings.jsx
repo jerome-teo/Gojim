@@ -22,7 +22,6 @@ const Settings = () => {
 
   //Handles changing username
   const handleUsername = () => {
-    ref.current.close();
     //handle backend logic here
   }
 
@@ -87,7 +86,7 @@ const Settings = () => {
                 <p className="settingsPopupTitle">New Username</p>
                 <p><input type="text" className="input" onChange={handleNameChange}/></p>
                 <p>
-                  <Button variant="link" onClick = {handleUsername} className="button">Confirm</Button>
+                  <Button variant="link" onClick = {() => {close(); handleUsername()}} className="button">Confirm</Button>
                   <Button variant="link" onClick = {close} className="button">Cancel</Button>
                 </p>
               </div>
@@ -103,7 +102,7 @@ const Settings = () => {
                 <p className="settingsPopupTitle">New Email</p>
                 <p><input type="text" className="input" onChange={handleEmailChange}/></p>
                 <p>
-                  <Button variant="link" onClick = {handleEmail} className="button">Confirm</Button>
+                  <Button variant="link" onClick = {() => {close(); handleEmail()}} className="button">Confirm</Button>
                   <Button variant="link" onClick = {close} className="button">Cancel</Button>
                 </p>
               </div>
@@ -121,7 +120,7 @@ const Settings = () => {
                 <p className="settingsPopupTitle">New Password</p>
                 <p><input type="text" className="input" onChange={handlePasswordChange}/></p>
                 <p>
-                  <Button variant="link" onClick = {handlePassword} className="button">Confirm</Button>
+                  <Button variant="link" onClick = {() => {close(); handlePassword()}} className="button">Confirm</Button>
                   <Button variant="link" onClick = {close} className="button">Cancel</Button>
                 </p>
               </div>

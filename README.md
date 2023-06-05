@@ -37,6 +37,8 @@ Open another terminal
     cd src
   
     npm install
+    
+    (optional) npm install --legacy-peer-deps # if there are dependencies in your package that you need to bypass
   
     npm start
  

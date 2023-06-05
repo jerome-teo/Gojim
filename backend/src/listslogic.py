@@ -3,6 +3,7 @@ import models
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.mutable import MutableList
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from flask_login import current_user
 
 # create Session
 Session = sessionmaker(bind=models.engine)
@@ -29,11 +30,12 @@ def create_new_workout():
     print("current username:")
     print(currUsername)
     print()
-    # data = request.json
-    data = request.form
+    data = request.json
+    # data = request.form
     name = data.get("name")
     info = data.get('info')
     tags = data.get('tags')
+    request.u
     print("data: ")
     print(data)
     print()
@@ -101,6 +103,8 @@ def save_workout():
     get the current user
     add it to savedWorkouts list
     """
+
+    # user.saved_workouts.append(workoutObj)
     
 
     return "<p>Saved Workouts</p>"

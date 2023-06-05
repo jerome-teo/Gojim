@@ -1,12 +1,12 @@
-from flask import Flask, request, jsonify, flash
+from flask import Flask
 from auth import auth
 from listslogic import listlogic
 from users import users
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 import models
 from sqlalchemy.orm import sessionmaker
-# from flask_login import LoginManager # manages login related things
-from flask_jwt_extended import JWTManager
+from flask_login import LoginManager # manages login related things
+# from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
@@ -14,12 +14,12 @@ CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://local
 app.register_blueprint(auth)
 app.register_blueprint(listlogic)
 app.register_blueprint(users)
-jwt = JWTManager(app)
+# jwt = JWTManager(app)
 
 # handles what pages we can and can't access
-# loginManager = LoginManager()
-# loginManager.login_view = 'auth.login' # name of our template and fnc
-# loginManager.init_app(app)
+loginManager = LoginManager()
+loginManager.login_view = 'auth.login' # name of our template and fnc
+loginManager.init_app(app)
 
 Session = sessionmaker(bind=models.engine)
 session = Session()

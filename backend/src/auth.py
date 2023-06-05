@@ -3,11 +3,11 @@ from flask import Blueprint, request, redirect, flash, jsonify, url_for, session
 import models
 #from __init__ import app
 from sqlalchemy.orm import sessionmaker
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS, cross_origin
-from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, \
-                                unset_jwt_cookies, jwt_required, JWTManager
+# from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, \
+#                                 unset_jwt_cookies, jwt_required, JWTManager
 
 # create Session
 Session = sessionmaker(bind=models.engine)
@@ -20,34 +20,51 @@ auth = Blueprint('auth', __name__)
 @cross_origin()
 def login():
     #json or form???
-    data = request.json
+    # data = request.json
+    data = request.form
+    print("DATA:")
+    print(data)
+    print()
     username = data.get('username')
     password = data.get('password')
 
-    # newUser = models.User("tim@gmail.com", "shivani", "hello1234",)
+    # newUser = models.User("tim@gmail.com", username, password, privacy=False)
     # session.add(newUser)
     # session.commit()
+
+    # print("newuser: ")
+    # print(newUser)
+    # print()
 
     # check if we have this user in our database, look for a specific entry
     user = session.query(models.User).filter_by(username=username).first() # filter all users by this email and returns the first result
     print(user)
+    print()
 
     # should only get one user because users much have usernames
     if user:
         # HEREE: i try to store the username of the curr session's user, but for some reason it's failing here
         # which means that it's failing to create a new workout list in listlogic
         #session["username"] = request.form['username'] # create a session for them
+        # if user.password == password:
+        #     return jsonify({"status": "login successful"}), 200
+        
         if check_password_hash(user.password, password): # if passwords are the same
-            access_token = create_access_token(identity=username)
+            print("true or false:")
+            print(check_password_hash(user.password, password))
+            print()
+            # LOG THEM IN
+            return jsonify({"status": "login successful"}), 200
+            # access_token = create_access_token(identity=username)
             # SUS
             # login_user(user, remember=True) # remembers that user is logged
             # redirect user to home page
-            response = {"acess_token": access_token}
-            return jsonify(response), 200 # turn this into a json object that we can return, but we're returning nothing here
+            # response = {"acess_token": access_token}
+            # return jsonify(response), 200 # turn this into a json object that we can return, but we're returning nothing here
         else:
             return jsonify({"error":"Incorrect password, try again."}),500
     else:
-        return jsonify({"error":"Incorrect password, try again."}),500
+        return jsonify({"error":"user not found, try again."}),500
     '''
     if username=="shivani" and password=="hello1234":
         response = {"status": "success"}
@@ -58,25 +75,30 @@ def login():
 
 @auth.route('/logout', methods=['GET'])
 # @login_required # don't want user to access this page unless they've logged in
-@jwt_required() # that' you've been loggin in to be able to logout
+# @jwt_required() # that' you've been loggin in to be able to logout
 def logout():
     # session.pop("username")
     # logout_user() # logs-out current user
     # redirects to the page that is rendered in login function
 
-    response = jsonify({"msg":"logout successful"})
-    unset_jwt_cookies(response)
-    return response
+    # response = jsonify({"msg":"logout successful"})
+    # unset_jwt_cookies(response)
+    # return response
+    pass
     # return redirect(url_for('auth.login'))
 
 @auth.route('/sign-up', methods=['POST'])
 @cross_origin()
 def sign_up():
-    data = request.json
+    # data = request.json
+    data = request.form
     email = data.get('email')
     username = data.get('username')
     password1 = data.get('password1')
     password2 = data.get('password2')
+    print("DATA:")
+    print(data)
+    print()
     #check
     #return jsonify({"message": "DONE"}), 200
     # email = request.form.get('email')
@@ -90,13 +112,12 @@ def sign_up():
     user = session.query(models.User).filter_by(username=username).first()
     print(user)
     if user:
-        flash('Email already exists.', category='error')
         return jsonify({"error": "Signup unsuccessful"}), 500
 
     # message flashing: flash a msg on screen using flask, import flash
-    if len(email) < 4:
-        # tell user there's an issue
-        return jsonify({"error": "Signup unsuccessful"}), 500
+    # if len(email) < 4:
+    #     # tell user there's an issue
+    #     return jsonify({"error": "Signup unsuccessful"}), 500
     elif len(username) < 4:
         return jsonify({"error": "Signup unsuccessful"}), 500
     elif password1 != password2:
@@ -105,8 +126,7 @@ def sign_up():
         return jsonify({"error": "Signup unsuccessful"}), 500
     else:
         # add user to database
-        #I removed name=name
-        newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='scrypt'), privacy=False)
+        newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='sha224'), privacy=False)
         # sha256, scrypt are hashing algorithms, there's others as well
         session.add(newUser) # add user to database
         # commit to the database

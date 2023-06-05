@@ -2,44 +2,73 @@ import React from 'react'
 import "./workouts.css"
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
+import Popup from 'reactjs-popup';
 
 const myWorkouts = [
   {
-    name: "Test Workout 1"
+    name: "Test Workout 1",
+    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5"
   },
   {
-    name: "Test Workout 2"
+    name: "Test Workout 2",
+    workoutString: "Curls:  Reps: 5 Sets: 5"
   },
   {
-    name: "Test Workout 3"
+    name: "Test Workout 3",
+    workoutString: "Crunches:  Reps: 5 Sets: 5"
   }
 ];
 
 const savedWorkouts = [
   {
-    name: "Saved Workout 1"
+    name: "Saved Workout 1",
+    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5"
   },
   {
-    name: "Saved Workout 2"
+    name: "Saved Workout 2",
+    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5"
   },
   {
-    name: "Saved Workout 3"
+    name: "Saved Workout 3",
+    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5"
   }
 ];
 
-const handleMyDelete = () => {
-  //handle deleting my workout here
-}
-
-const handleSaveRemove = () => {
-  //handle deleting saved workout here
-}
 
 const Workouts = () => {
 
+  const handleMyDelete = () => {
+    //handle deleting my workout here
+  }
+  
+  const handleSaveRemove = () => {
+    //handle deleting saved workout here
+  }
+
+  const handleLike = (/*can pass in something referring to the workout if necessary*/) => {
+    //add a like
+  }
+
+  const handleSave = (/*can pass in something referring to the workout if necessary*/) =>{
+    //save to workouts
+  }
+
   const myWorkoutResults = myWorkouts.map(workoutName =>
     <li key={workoutName.name} className="list">
-      <Button className = "ownWorkout" variant="link">{workoutName.name}</Button>
+      <Popup trigger={<Button className="ownWorkout" variant="link">{workoutName.name}</Button>} modal nested>
+        {closed => (
+          <div>
+            <div className="popupTitle">
+              {workoutName.name}
+            </div>
+            <div className="popupString">
+              {workoutName.workoutString}
+            </div>
+            <Button className="likeButton" variant="dark" onClick={handleLike}>Like</Button>
+            <Button className="saveButton" variant="dark" onClick={handleSave}>Save</Button>
+          </div>
+        )}
+      </Popup>
       <Button className="deleteButton" variant="danger" onClick={handleMyDelete}>
         Delete
       </Button>
@@ -48,7 +77,20 @@ const Workouts = () => {
 
   const savedWorkoutResults = savedWorkouts.map(workoutName =>
     <li key={workoutName.name} className="list">
-      <Button className = "ownWorkout" variant="link">{workoutName.name}</Button>
+      <Popup trigger={<Button className="ownWorkout" variant="link">{workoutName.name}</Button>} modal nested>
+        {closed => (
+          <div>
+            <div className="popupTitle">
+              {workoutName.name}
+            </div>
+            <div className="popupString">
+              {workoutName.workoutString}
+            </div>
+            <Button className="likeButton" variant="dark" onClick={handleLike}>Like</Button>
+            <Button className="saveButton" variant="dark" onClick={handleSave}>Save</Button>
+          </div>
+        )}
+      </Popup>
       <Button className="deleteButton" variant="danger" onClick={handleSaveRemove}>
         Remove
       </Button>

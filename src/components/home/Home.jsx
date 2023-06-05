@@ -2,19 +2,23 @@ import React from 'react'
 import "./home.css"
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useState } from 'react';
+import Popup from 'reactjs-popup';
 
 import Button from 'react-bootstrap/Button';
 
 
 const workouts = [
   {
-    name: "Test Workout 1"
+    name: "Test Workout 1",
+    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5"
   },
   {
-    name: "Test Workout 2"
+    name: "Test Workout 2",
+    workoutString: "Curls:  Reps: 5 Sets: 5"
   },
   {
-    name: "Test Workout 3"
+    name: "Test Workout 3",
+    workoutString: "Crunches:  Reps: 5 Sets: 5"
   }
 ];
 
@@ -42,9 +46,30 @@ const Home = () => {
 
   const workoutResults = workouts.map(workoutName =>
     <li key={workoutName.name} className="searchList">
-      <Button variant="link">{workoutName.name}</Button>
+      <Popup trigger={<Button variant="link">{workoutName.name}</Button>} modal nested>
+        {closed => (
+          <div>
+            <div className="popupTitle">
+              {workoutName.name}
+            </div>
+            <div className="popupString">
+              {workoutName.workoutString}
+            </div>
+            <Button className="likeButton" variant="dark" onClick={handleLike}>Like</Button>
+            <Button className="saveButton" variant="dark" onClick={handleSave}>Save</Button>
+          </div>
+        )}
+      </Popup>
     </li>
   );
+
+  const handleLike = (/*can pass in something referring to the workout if necessary*/) => {
+    //add a like
+  }
+
+  const handleSave = (/*can pass in something referring to the workout if necessary*/) =>{
+    //save to workouts
+  }
 
   const handleSelect = (tags) => {
     setTagString(tagString + tags.name + "\n");

@@ -35,3 +35,8 @@
     top:27.5%;
     width:10%;
 }
+
+.shownWorkouts p{
+    font-size: 150%;
+    font-weight: bolder;
+}

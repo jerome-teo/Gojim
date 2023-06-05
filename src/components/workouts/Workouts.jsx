@@ -73,11 +73,13 @@ const Workouts = () => {
         <p className="shownWorkouts">
           {showMine && (
             <ul>
+              <p>Created Workouts</p>
               {myWorkoutResults}
             </ul>
           )}
           {showSaved && (
             <ul>
+              <p>Saved Workouts</p>
               {savedWorkoutResults}
             </ul>
           )}

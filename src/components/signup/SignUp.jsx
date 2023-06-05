@@ -33,6 +33,10 @@ const SignUp = () => {
             console.log(jsonData)
             // Do something with the response data if needed
             setEmail("RIGHT");
+            setUsername("");
+            setPassword1("");
+            setPassword2("");
+            window.location.href = '/login';  
           } else {
             // Error response from the backend
             setEmail("WRONG");

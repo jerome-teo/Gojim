@@ -58,7 +58,7 @@ def login():
 
 @auth.route('/logout', methods=['GET'])
 # @login_required # don't want user to access this page unless they've logged in
-@jwt_required # that' you've been loggin in to be able to logout
+@jwt_required() # that' you've been loggin in to be able to logout
 def logout():
     # session.pop("username")
     # logout_user() # logs-out current user
@@ -111,7 +111,7 @@ def sign_up():
         session.add(newUser) # add user to database
         # commit to the database
         session.commit()
-        login_user(newUser, remember=True)
+        #login_user(newUser, remember=True)
 
         # redirect user to home page
         return jsonify({

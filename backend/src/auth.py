@@ -6,8 +6,8 @@ from sqlalchemy.orm import sessionmaker
 from flask_login import login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS, cross_origin
-from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, \
-                                unset_jwt_cookies, jwt_required, JWTManager
+from flask_jwt_extended import create_access_token, set_refresh_cookies, get_jwt, get_jwt_identity, \
+                                unset_jwt_cookies, jwt_required, JWTManager, set_access_cookies, create_refresh_token
 
 # create Session
 Session = sessionmaker(bind=models.engine)
@@ -39,11 +39,15 @@ def login():
         #session["username"] = request.form['username'] # create a session for them
         if check_password_hash(user.password, password): # if passwords are the same
             access_token = create_access_token(identity=username)
+            refresh_token = create_refresh_token(identity=username)
             # SUS
             # login_user(user, remember=True) # remembers that user is logged
             # redirect user to home page
-            response = {"acess_token": access_token}
-            return jsonify(response), 200 # turn this into a json object that we can return, but we're returning nothing here
+            response = jsonify({"acess_token": access_token})
+            #response.set_cookie('access_token', access_token, httponly=True)
+            set_access_cookies(response, access_token)
+            set_refresh_cookies(response, refresh_token)
+            return response, 200 # turn this into a json object that we can return, but we're returning nothing here
         else:
             return jsonify({"error":"Incorrect password, try again."}),500
     else:

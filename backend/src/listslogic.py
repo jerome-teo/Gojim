@@ -3,6 +3,7 @@ import models
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.mutable import MutableList
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from flask_cors import cross_origin
 
 # create Session
 Session = sessionmaker(bind=models.engine)
@@ -11,6 +12,7 @@ session = Session()
 listlogic = Blueprint('listlogic', __name__)
 
 @listlogic.route('/create-new-workout', methods=['GET','POST'])
+@cross_origin()
 @jwt_required()
 def create_new_workout():
     """
@@ -30,15 +32,15 @@ def create_new_workout():
     print(currUsername)
     print()
     # data = request.json
-    data = request.form
-    name = data.get("name")
-    info = data.get('info')
-    tags = data.get('tags')
+    data = request.json
+    workoutName = data.get('workoutName')
+    workoutString = data.get('workoutString')
+    tagString = data.get('tagString')
     print("data: ")
     print(data)
     print()
 
-    newlist = models.WorkoutLists(name=name, info=info, tags=tags, likes=0)
+    newlist = models.WorkoutLists(name=workoutName, info=workoutString, tags=tagString, likes=0)
     print(newlist)
     print()
     session.add(newlist)

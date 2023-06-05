@@ -91,16 +91,44 @@ const Create = () => {
 
       //Handles submitting the actual workout *********
       const navigate = useNavigate();
-      const finalize = () => {
+
+      const finalize = async (e) => {
+        e.preventDefault();
+        const data = {
+          workoutName,
+          workoutString,
+          tagString,
+        };
+
         if(workoutString !== "" && workoutName !== ""){
+          
+          try {
+            const response = await fetch('http://localhost:5000/create-new-workout', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            })
+            if (response.ok) {
+            const jsonData = await response.json();
+            console.log(jsonData)
+          } else {
+            console.error('Error: ');
+          }
           //Should send the workout string to the database
           //Should do the same for the tags in tagString
           //Should do the same for the workout name
           setWorkout("");
           setWorkoutName("");
           navigate("/workouts");
+        } catch (error){
+          console.error('Error:', error);
         }
-      }
+        //if bracket
+        }
+        //function bracket
+      };
 
       const handleUndo = () => {
         setWorkout(savedWorkoutString);

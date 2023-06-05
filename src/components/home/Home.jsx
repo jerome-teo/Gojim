@@ -46,7 +46,7 @@ const Home = () => {
 
   const workoutResults = workouts.map(workoutName =>
     <li key={workoutName.name} className="searchList">
-      <Popup trigger={<Button variant="link">{workoutName.name}</Button>} modal nested>
+      <Popup className="workoutPopup" trigger={<Button variant="link">{workoutName.name}</Button>} modal nested>
         {closed => (
           <div>
             <div className="popupTitle">
@@ -76,8 +76,11 @@ const Home = () => {
     //Depending on back-end implementation of search, can add tags.name to a data structure here
   }
 
-  const clearTags = () => {
+  const [showResults, setShowResults] = useState(false);
+  const handleSearch = () => {
     setTagString("");
+    setShowResults(true);
+    //Handle logic for finding appropriate workouts
   }
 
   const [tagString, setTagString] = useState("");
@@ -94,10 +97,14 @@ const Home = () => {
 
       {/*results class must be before class search so that search results appear above the below text*/}
       <div className="results">
-        <p>Search Results</p>
-        <ul>
-          {workoutResults}
-        </ul>
+        {showResults && (
+          <div>
+            <p className="searchTitle">Search Results</p>
+            <ul>
+              {workoutResults}
+            </ul>
+          </div>
+        )}
       </div>
       <div className='search'>
         <ReactSearchAutocomplete 
@@ -108,8 +115,7 @@ const Home = () => {
         />
       </div>
       <div className="searchButton">
-        <Button variant="secondary" onClick={clearTags}>
-          {/*Should update results section*/}
+        <Button variant="secondary" onClick={handleSearch}>
           Search!
         </Button>
       </div>

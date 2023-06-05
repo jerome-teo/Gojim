@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 
 const Create = () => {
 
+    //Possible tags
     const tags = [
         {
           id: 0,
@@ -28,37 +29,45 @@ const Create = () => {
         },
       ]
     
+      //Handles what tags to associate with exercise
       const handleSelect = (tags) => {
         setTagString(tagString + tags.name + "\n");
         //Depending on back-end implementation of search, can add tags.name to a data structure here
       }
     
+      //Clears tags
       const clearTags = () => {
+        //Should also handle clearing the tags for the search
         setTagString("");
       }
       const [tagString, setTagString] = useState("");
     
+      //Contains name of exercise
       const [exerciseName, setExerciseName] = useState("");
       const handleExerciseName = box => {
         setExerciseName(box.target.value);
       }
 
+      //Contains reps
       const [exerciseReps, setExerciseReps] = useState("");
       const handleExerciseReps = box => {
         setExerciseReps(box.target.value);
       }
 
+      //Contains sets
       const [exerciseSets, setExerciseSets] = useState("");
       const handleExerciseSets = box => {
         setExerciseSets(box.target.value);
       }
 
+      //Contains name of workout
       const [workoutName, setWorkoutName] = useState("");
       const handleNameChange = box => {
         setWorkoutName(box.target.value);
       }
       const [exerciseString, setExercise] = useState("");
 
+      //Necessary for state to update in one click
       const [savedWorkoutString, setPrevWorkout] = useState("");
       const [workoutString, setWorkout] = useState("");
       useEffect(() => {
@@ -68,11 +77,11 @@ const Create = () => {
         }
       }, [exerciseString]);
 
+      //Handles submitting exercise to the workoutString
       const handleExerciseButton = () => {
         if(exerciseName === "" || exerciseReps === "" || exerciseSets === ""){
           return;
         } else {
-          //Opportunity to store strings in a temporary database (or main string) here
           setExercise(exerciseName + ":  Reps: " + exerciseReps + " Sets: " + exerciseSets);
         }
         setExerciseName("");
@@ -80,6 +89,7 @@ const Create = () => {
         setExerciseSets("");
       }
 
+      //Handles submitting the actual workout *********
       const navigate = useNavigate();
       const finalize = () => {
         if(workoutString !== "" && workoutName !== ""){

@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const navigate = useNavigate();
+  
   function signOut(){
     //Should have signout logic here
     navigate("/login");

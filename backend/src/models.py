@@ -19,7 +19,7 @@ class WorkoutLists(base):
     name = Column("name", String)
     info = Column("info", String)
     tags = Column("tags", String)
-    likes = Column("ikes", Integer)
+    likes = Column("likes", Integer)
     # owner = Column(Integer, ForeignKey("users.username"))
 
     def __init__(self, name, info, tags, likes):
@@ -45,11 +45,11 @@ class User(UserMixin, base):
     username = Column("username", String(50), unique=True)
     password = Column("password", String(100))
     # error is that WorkoutLists need to be initialized here
-    my_workouts = Column("my_workouts", MutableList.as_mutable(ARRAY(Integer)))
-    saved_workouts = Column("saved_workouts", MutableList.as_mutable(ARRAY(Integer)))
+    #my_workouts = Column("my_workouts", MutableList.as_mutable(ARRAY(Integer)))
+    #saved_workouts = Column("saved_workouts", MutableList.as_mutable(ARRAY(Integer)))
     # my_workouts = Column("my_workouts", ARRAY(Integer))
     # saved_workouts = Column("saved_workouts", ARRAY(Integer))
-    privacy = Column("privacy", Boolean)
+    #privacy = Column("privacy", Boolean)
 
     def __init__(self, email, username, password, privacy):
         self.email = email

@@ -20,13 +20,15 @@ class WorkoutLists(base):
     info = Column("info", String)
     tags = Column("tags", String)
     likes = Column("likes", Integer)
+    owner = Column("owner", String)
     # owner = Column(Integer, ForeignKey("users.username"))
 
-    def __init__(self, name, info, tags, likes):
+    def __init__(self, name, info, tags, likes, owner):
         self.name = name
         self.info = info
         self.tags = tags
         self.likes = likes
+        self.owner = owner
         # self.owner = owner
     
     # train upper: lats reps: 8 sets: 3 (upperbody) (10 likes) by timsmith 

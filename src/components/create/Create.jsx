@@ -79,7 +79,8 @@ const Create = () => {
         setExerciseReps("");
         setExerciseSets("");
       }
-
+      const [owner, setOwner] = useState("");
+      //Handles submitting the actual workout *********
       const navigate = useNavigate();
 
       const finalize = async (e) => {
@@ -88,11 +89,13 @@ const Create = () => {
           workoutName,
           workoutString,
           tagString,
+          owner,
         };
-
+        
         if(workoutString !== "" && workoutName !== ""){
           
           try {
+            setOwner(localStorage.getItem("username"))
             const response = await fetch('http://localhost:5000/create-new-workout', {
               method: 'POST',
               headers: {

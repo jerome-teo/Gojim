@@ -13,6 +13,7 @@ listlogic = Blueprint('listlogic', __name__)
 
 @listlogic.route('/create-new-workout', methods=['POST'])
 @cross_origin()
+# @jwt_required()
 def create_new_workout():
     """
     Get the current user

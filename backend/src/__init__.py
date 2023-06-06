@@ -5,7 +5,6 @@ from users import users
 from flask_cors import CORS, cross_origin
 import models
 from sqlalchemy.orm import sessionmaker
-# from flask_login import LoginManager # manages login related things
 from flask_jwt_extended import JWTManager
 
 

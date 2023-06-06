@@ -19,8 +19,11 @@ auth = Blueprint('auth', __name__)
 @auth.route('/login', methods=['POST'])
 @cross_origin()
 def login():
-    #json or form???
     data = request.json
+    # data = request.form
+    print("DATA:")
+    print(data)
+    print()
     username = data.get('username')
     password = data.get('password')
 
@@ -49,16 +52,10 @@ def login():
             set_refresh_cookies(response, refresh_token)
             return response, 200 # turn this into a json object that we can return, but we're returning nothing here
         else:
-            return jsonify({"error":"Incorrect password, try again."}),500
+            return jsonify({"error":"Incorrect password, try again."}),406
     else:
-        return jsonify({"error":"Incorrect password, try again."}),500
-    '''
-    if username=="shivani" and password=="hello1234":
-        response = {"status": "success"}
-        return response, 200
-    else:
-        return 'error', 401
-    '''
+        return jsonify({"error":"user not found, try again."}),406
+
 
 @auth.route('/logout', methods=['GET'])
 # @login_required # don't want user to access this page unless they've logged in
@@ -76,6 +73,7 @@ def logout():
 @auth.route('/sign-up', methods=['POST'])
 @cross_origin()
 def sign_up():
+    # data = request.json
     data = request.json
     email = data.get('email')
     username = data.get('username')
@@ -94,19 +92,17 @@ def sign_up():
     user = session.query(models.User).filter_by(username=username).first()
     print(user)
     if user:
-        flash('Email already exists.', category='error')
-        return jsonify({"error": "Signup unsuccessful"}), 500
+        return jsonify({"error": "user already exists"}), 406
 
-    # message flashing: flash a msg on screen using flask, import flash
-    if len(email) < 4:
+    if len(email) < 8:
         # tell user there's an issue
-        return jsonify({"error": "Signup unsuccessful"}), 500
-    elif len(username) < 4:
-        return jsonify({"error": "Signup unsuccessful"}), 500
+        return jsonify({"error": "email too short"}), 406
+    elif len(username) < 8 or len(username) > 16:
+        return jsonify({"error": "invalid username"}), 406
     elif password1 != password2:
-        return jsonify({"error": "Signup unsuccessful"}), 500
+        return jsonify({"error": "passwords match"}), 406
     elif len(password1) < 7:
-        return jsonify({"error": "Signup unsuccessful"}), 500
+        return jsonify({"error": "password too short"}), 406
     else:
         # add user to database
         #I removed name=name
@@ -122,7 +118,6 @@ def sign_up():
             "email": newUser.email,
             "username": newUser.username,
             "password": newUser.password
-            # "name": newUser.name,
         }), 200
 
     # try:

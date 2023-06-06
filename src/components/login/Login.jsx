@@ -25,7 +25,7 @@ const Login = () => {
         },
         body: JSON.stringify(data),
       })
-      
+      console.log(JSON.stringify(data))
       //console.log("HERE")
       if (response.ok) {
         // Success response from the backend
@@ -33,6 +33,8 @@ const Login = () => {
         console.log(jsonData)
         localStorage.setItem("username", JSON.stringify(username))
         // Do something with the response data if needed
+        console.log("here is Login.jsx")
+        console.log(localStorage.getItem("username"))
         setUsername("RIGHT");
         window.location.href = '/';  
 

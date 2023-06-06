@@ -13,6 +13,7 @@ const Profile = () => {
   
   function signOut(){
     //Should have signout logic here
+    localStorage.clear();
     navigate("/login");
   }
 

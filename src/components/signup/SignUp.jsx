@@ -32,14 +32,14 @@ const SignUp = () => {
             const jsonData = await response.json();
             console.log(jsonData)
             // Do something with the response data if needed
-            setEmail("RIGHT");
+            setEmail("Signed up!");
             setUsername("");
             setPassword1("");
             setPassword2("");
             window.location.href = '/login';  
           } else {
             // Error response from the backend
-            setEmail("WRONG");
+            setEmail("Invalid Credentials");
             console.error('Error:');
             // Handle the error case accordingly
           }

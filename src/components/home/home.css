@@ -91,3 +91,9 @@
     right:10%;
     top:6%;
 }
+
+.likeCounter{
+    position: absolute;
+    right:22.5%;
+    top:15%;
+}

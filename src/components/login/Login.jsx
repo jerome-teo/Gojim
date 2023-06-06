@@ -56,7 +56,7 @@ const Login = () => {
   return (
     <div>
       <div className = "loginTitle">
-        Sign In
+        Log In
       </div>
 
       {/*Sign-in Credentials*/}

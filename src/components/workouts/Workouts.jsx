@@ -45,6 +45,7 @@ const Workouts = () => {
     //handle deleting saved workout here
   }
 
+  const [likeCount, setLikeCount] = useState(0);
   const handleLike = (/*can pass in something referring to the workout if necessary*/) => {
     //add a like
   }
@@ -64,6 +65,7 @@ const Workouts = () => {
             <div className="popupString">
               {workoutName.workoutString}
             </div>
+            <p className="likeCounter">{likeCount} Likes</p>
             <Button className="likeButton" variant="dark" onClick={handleLike}>Like</Button>
             <Button className="saveButton" variant="dark" onClick={handleSave}>Save</Button>
           </div>
@@ -86,6 +88,7 @@ const Workouts = () => {
             <div className="popupString">
               {workoutName.workoutString}
             </div>
+            <p className="likeCounter">{likeCount} Likes</p>
             <Button className="likeButton" variant="dark" onClick={handleLike}>Like</Button>
             <Button className="saveButton" variant="dark" onClick={handleSave}>Save</Button>
           </div>

@@ -31,12 +31,14 @@ const Login = () => {
         // Success response from the backend
         const jsonData = await response.json();
         console.log(jsonData)
+        localStorage.setItem("username", JSON.stringify(username))
         // Do something with the response data if needed
         setUsername("RIGHT");
+        window.location.href = '/';  
 
       } else {
         // Error response from the backend
-        setUsername("WRONG");
+        setUsername("Error: wrong password or username");
         console.error('Error:');
         // Handle the error case accordingly
       }
@@ -46,7 +48,7 @@ const Login = () => {
       console.error('Error:', error);
       // Handle any network or other errors
     }
-    window.location.href = '/';  
+    // window.location.href = '/';  
   };
 
   return (

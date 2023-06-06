@@ -28,20 +28,20 @@ const Create = () => {
           name: "Advanced"
         },
       ]
-    
+
       //Handles what tags to associate with exercise
       const handleSelect = (tags) => {
         setTagString(tagString + tags.name + "\n");
         //Depending on back-end implementation of search, can add tags.name to a data structure here
       }
-    
+
       //Clears tags
       const clearTags = () => {
         //Should also handle clearing the tags for the search
         setTagString("");
       }
       const [tagString, setTagString] = useState("");
-    
+
       //Contains name of exercise
       const [exerciseName, setExerciseName] = useState("");
       const handleExerciseName = box => {
@@ -88,7 +88,7 @@ const Create = () => {
         setExerciseReps("");
         setExerciseSets("");
       }
-
+      const [owner, setOwner] = useState("");
       //Handles submitting the actual workout *********
       const navigate = useNavigate();
 
@@ -98,11 +98,13 @@ const Create = () => {
           workoutName,
           workoutString,
           tagString,
+          owner,
         };
 
         if(workoutString !== "" && workoutName !== ""){
-          
+
           try {
+            setOwner(localStorage.getItem("username"))
             const response = await fetch('http://localhost:5000/create-new-workout', {
               method: 'POST',
               headers: {
@@ -139,10 +141,10 @@ const Create = () => {
       <div className="createTitle">
         Make Your Workout!
       </div>
-      
+
       <div className="createTagBox">
         <div className='createSearch'>
-          <ReactSearchAutocomplete 
+          <ReactSearchAutocomplete
             styling={{border: "1px solid #000000" }}
             items={tags}
             onSelect={handleSelect}

@@ -5,7 +5,7 @@ from users import users
 from flask_cors import CORS
 import models
 from sqlalchemy.orm import sessionmaker
-# from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)

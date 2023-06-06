@@ -79,7 +79,8 @@ const Create = () => {
         setExerciseReps("");
         setExerciseSets("");
       }
-      const [owner, setOwner] = useState("");
+      // const [owner, setOwner] = useState("");
+      const owner = localStorage.getItem("username")
       //Handles submitting the actual workout *********
       const navigate = useNavigate();
 
@@ -95,8 +96,13 @@ const Create = () => {
         if(workoutString !== "" && workoutName !== ""){
           
           try {
-            setOwner(localStorage.getItem("username"))
-            const response = await fetch('http://localhost:5000/create-new-workout', {
+            // setOwner(localStorage.getItem("username"))
+            console.log("here is Create.jsx")
+            // console.log(owner)
+            console.log(localStorage.getItem("username"))
+            console.log("localStorage:", localStorage)
+            console.log("data:", data)
+            const response = await fetch('http://127.0.0.1:5000/create-new-workout', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

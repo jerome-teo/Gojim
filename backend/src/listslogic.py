@@ -105,6 +105,8 @@ def save_workout():
     get the current user
     add it to savedWorkouts list
     """
+
+    # user.saved_workouts.append(workoutObj)
     
 
     return "<p>Saved Workouts</p>"

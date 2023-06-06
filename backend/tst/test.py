@@ -2,6 +2,7 @@ import requests
 
 def test_login():
     response = requests.post('http://127.0.0.1:5000/login', data={'username':'shivani', 'password':'hello1234'})
+    print(response)
     if response.status_code == 200:
         print("hello")
     elif response.status_code == 401:

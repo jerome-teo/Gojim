@@ -40,15 +40,15 @@ const SignUp = () => {
             window.location.href = '/login';  
           } else {
             // Error response from the backend
-            setEmail("WRONG");
+            // setEmail("WRONG");
             console.error('Error:');
             // Handle the error case accordingly
           }
         
           //setEmail("");
-          setUsername("");
-          setPassword1("");
-          setPassword2("");
+          // setUsername("");
+          // setPassword1("");
+          // setPassword2("");
         } catch (error) {
           console.error('Error:', error);
           // Handle any network or other errors

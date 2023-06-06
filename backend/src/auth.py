@@ -111,18 +111,18 @@ def sign_up():
     user = session.query(models.User).filter_by(username=username).first()
     print(user)
     if user:
-        return jsonify({"error": "Signup unsuccessful"}), 500
+        return jsonify({"error": "user already exists"}), 406
 
     # message flashing: flash a msg on screen using flask, import flash
-    # if len(email) < 4:
-    #     # tell user there's an issue
-    #     return jsonify({"error": "Signup unsuccessful"}), 500
-    elif len(username) < 4:
-        return jsonify({"error": "Signup unsuccessful"}), 500
+    if len(email) < 8:
+        # tell user there's an issue
+        return jsonify({"error": "email too short"}), 406
+    elif len(username) < 8 or 16 < len(username):
+        return jsonify({"error": "invalid username"}), 406
     elif password1 != password2:
-        return jsonify({"error": "Signup unsuccessful"}), 500
-    elif len(password1) < 7:
-        return jsonify({"error": "Signup unsuccessful"}), 500
+        return jsonify({"error": "passwords don't match"}), 406
+    elif len(password1) < 8 or 16 < len(password1):
+        return jsonify({"error": "invalid password"}), 406
     else:
         # add user to database
         newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='sha224'), privacy=False)

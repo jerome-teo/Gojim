@@ -35,12 +35,12 @@ const Login = () => {
         // Do something with the response data if needed
         console.log("here is Login.jsx")
         console.log(localStorage.getItem("username"))
-        setUsername("RIGHT");
+        setUsername("Logged in!");
         window.location.href = '/';  
 
       } else {
         // Error response from the backend
-        setUsername("Error: wrong password or username");
+        setUsername("Error: wrong credentials");
         console.error('Error:');
         // Handle the error case accordingly
       }

@@ -18,15 +18,14 @@ const Login = () => {
     try {
       // Send a POST request to the backend endpoint '/sign-up'
       
-      const response = await fetch('http://localhost:3000/login', {
-        mode: 'no-cors',
+      const response = await fetch('http://127.0.0.1:5000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       })
-      
+      console.log(JSON.stringify(data))
       //console.log("HERE")
       if (response.ok) {
         // Success response from the backend
@@ -34,6 +33,8 @@ const Login = () => {
         console.log(jsonData)
         localStorage.setItem("username", JSON.stringify(username))
         // Do something with the response data if needed
+        console.log("here is Login.jsx")
+        console.log(localStorage.getItem("username"))
         setUsername("RIGHT");
         window.location.href = '/';  
 

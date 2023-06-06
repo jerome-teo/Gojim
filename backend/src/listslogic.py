@@ -11,9 +11,9 @@ session = Session()
 
 listlogic = Blueprint('listlogic', __name__)
 
-@listlogic.route('/create-new-workout', methods=['GET','POST'])
+@listlogic.route('/create-new-workout', methods=['POST'])
 @cross_origin()
-#@jwt_required()
+# @jwt_required()
 def create_new_workout():
     """
     Get the current user
@@ -27,11 +27,7 @@ def create_new_workout():
     If this is solved, the workout should be created successfully,
         same goes for the other routes too
     """
-    #currUsername = get_jwt_identity()
-    #print("current username:")
-    #print(currUsername)
-    #print()
-    # data = request.json
+
     data = request.json
     workoutName = data.get('workoutName')
     workoutString = data.get('workoutString')
@@ -41,18 +37,12 @@ def create_new_workout():
     print(data)
     print()
 
-    # newlist = models.WorkoutLists(name=workoutName, info=workoutString, tags=tagString, likes=0)
-    newlist = models.WorkoutLists(name=workoutName, info=workoutString, tags=tagString, likes=0, owner=currUsername)
-    print(newlist)
-    print()
-    session.add(newlist)
     user = session.query(models.User).filter_by(username=currUsername).first()
-    print(user)
-    print()
-    #user.my_workouts.append(newlist)
+    newlist = models.WorkoutLists(name=workoutName, info=workoutString, tags=tagString, likes=0, owner=user.username)
+    session.add(newlist)
     session.commit()
     
-    return jsonify({}), 200
+    return jsonify({"status":"workout created"}), 200
 
 @listlogic.route('/get-my-workouts', methods=['GET'])
 @jwt_required()

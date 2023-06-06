@@ -1,7 +1,6 @@
 #### Flask Routing Logic
 from flask import Blueprint, request, redirect, flash, jsonify, url_for, session
 import models
-#from __init__ import app
 from sqlalchemy.orm import sessionmaker
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -19,9 +18,7 @@ auth = Blueprint('auth', __name__)
 @auth.route('/login', methods=['POST'])
 @cross_origin()
 def login():
-    #json or form???
-    # data = request.json
-    data = request.form
+    data = request.json
     print("DATA:")
     print(data)
     print()
@@ -31,7 +28,6 @@ def login():
     # newUser = models.User("tim@gmail.com", username, password, privacy=False)
     # session.add(newUser)
     # session.commit()
-
     # print("newuser: ")
     # print(newUser)
     # print()
@@ -43,37 +39,22 @@ def login():
 
     # should only get one user because users much have usernames
     if user:
-        # HEREE: i try to store the username of the curr session's user, but for some reason it's failing here
-        # which means that it's failing to create a new workout list in listlogic
-        #session["username"] = request.form['username'] # create a session for them
-        # if user.password == password:
-        #     return jsonify({"status": "login successful"}), 200
-        
         if check_password_hash(user.password, password): # if passwords are the same
             access_token = create_access_token(identity=username)
             refresh_token = create_refresh_token(identity=username)
-            # SUS
-            # login_user(user, remember=True) # remembers that user is logged
-            # redirect user to home page
             response = jsonify({"acess_token": access_token})
+
             #response.set_cookie('access_token', access_token, httponly=True)
             set_access_cookies(response, access_token)
             set_refresh_cookies(response, refresh_token)
             return response, 200 # turn this into a json object that we can return, but we're returning nothing here
         else:
-            return jsonify({"error":"Incorrect password, try again."}),500
+            return jsonify({"error":"Incorrect password, try again."}),406
     else:
-        return jsonify({"error":"user not found, try again."}),500
-    '''
-    if username=="shivani" and password=="hello1234":
-        response = {"status": "success"}
-        return response, 200
-    else:
-        return 'error', 401
-    '''
+        return jsonify({"error":"user not found, try again."}),406
+
 
 @auth.route('/logout', methods=['GET'])
-# @login_required # don't want user to access this page unless they've logged in
 # @jwt_required() # that' you've been loggin in to be able to logout
 def logout():
     # session.pop("username")
@@ -84,13 +65,13 @@ def logout():
     # unset_jwt_cookies(response)
     # return response
     pass
-    # return redirect(url_for('auth.login'))
+
 
 @auth.route('/sign-up', methods=['POST'])
 @cross_origin()
 def sign_up():
     # data = request.json
-    data = request.form
+    data = request.json
     email = data.get('email')
     username = data.get('username')
     password1 = data.get('password1')
@@ -98,13 +79,6 @@ def sign_up():
     print("DATA:")
     print(data)
     print()
-    #check
-    #return jsonify({"message": "DONE"}), 200
-    # email = request.form.get('email')
-    # username = request.form.get('username')
-    # #name = request.form.get('name')
-    # password1 = request.form.get('password1')
-    # password2 = request.form.get('password2')
 
     #### Validating Infomation
     # check to make sure that user doesn't already exist
@@ -113,43 +87,29 @@ def sign_up():
     if user:
         return jsonify({"error": "user already exists"}), 406
 
-    # message flashing: flash a msg on screen using flask, import flash
     if len(email) < 8:
         # tell user there's an issue
         return jsonify({"error": "email too short"}), 406
-    elif len(username) < 8 or 16 < len(username):
+    elif len(username) < 8 or len(username) > 16:
         return jsonify({"error": "invalid username"}), 406
     elif password1 != password2:
-        return jsonify({"error": "passwords don't match"}), 406
-    elif len(password1) < 8 or 16 < len(password1):
-        return jsonify({"error": "invalid password"}), 406
+        return jsonify({"error": "passwords match"}), 406
+    elif len(password1) < 7:
+        return jsonify({"error": "password too short"}), 406
     else:
         # add user to database
         newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='sha224'), privacy=False)
-        # sha256, scrypt are hashing algorithms, there's others as well
         session.add(newUser) # add user to database
-        # commit to the database
         session.commit()
-        #login_user(newUser, remember=True)
 
         # redirect user to home page
         return jsonify({
             "email": newUser.email,
             "username": newUser.username,
             "password": newUser.password
-            # "name": newUser.name,
         }), 200
 
-    # try:
-    #     create_user(request.form.get('username'),
-    #                 request.form.get('password'),
-    #                 request.form.get('name'),
-    #                 request.form.get('email'))
-    # except:
-    #     return "Signup unsuccessful", 500 # VERY broad catch statement
 
 @auth.route('/delete-account', methods=['DELETE'])
 def delete_acc():
     return "<p>Delete Account</p>"
-
-# tags:hiit,upperbody,lowerbody,fullbody

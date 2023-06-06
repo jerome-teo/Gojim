@@ -5,21 +5,16 @@ from users import users
 from flask_cors import CORS
 import models
 from sqlalchemy.orm import sessionmaker
-from flask_login import LoginManager # manages login related things
-# from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://127.0.0.1:3000"}})
 app.register_blueprint(auth)
 app.register_blueprint(listlogic)
 app.register_blueprint(users)
-# jwt = JWTManager(app)
+jwt = JWTManager(app)
 
-# handles what pages we can and can't access
-loginManager = LoginManager()
-loginManager.login_view = 'auth.login' # name of our template and fnc
-loginManager.init_app(app)
 
 Session = sessionmaker(bind=models.engine)
 session = Session()

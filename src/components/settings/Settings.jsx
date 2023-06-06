@@ -11,13 +11,13 @@ const Settings = () => {
 
   //Used for toggling public/private workout
   const [on, toggleOn] = useState(false);
-  
   const ref = useRef();
 
   //Handles toggling workouts as private or public
   const handleToggle = () => {
     toggleOn(!on);
     //handle backend logic here
+
   }
 
   //Handles changing username
@@ -30,11 +30,49 @@ const Settings = () => {
     ref.current.close();
     //handle backend logic here
   }
-
+  //Contains string for old password
+  const [oldpassword, setOldPassword] = useState("");
+  const handleOldPassword = box => {
+    setOldPassword(box.target.value);
+  }
+  //Contains string for new password
+  const [newpassword, setPassword] = useState("");
+  const handlePasswordChange = box => {
+    setPassword(box.target.value);
+  }
   //Handles changing password
-  const handlePassword = () => {
+  const handlePassword = async (e) => {
     ref.current.close();
     //handle backend logic here
+    const username=localStorage.getItem("username")
+    const data = {
+      username,
+      oldpassword,
+      newpassword,
+    };
+
+    try{
+      const response = await fetch ('http://127.0.0.1:5000/change-pwd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      console.log(JSON.stringify(data))
+
+      if (response.ok){
+        const jsonData = await response.json();
+        console.log(jsonData)
+        setPassword("Password changed!");
+        window.location.href = '/settings'
+      } else {
+        setPassword("Invalid password.");
+        console.error('Error');
+      }
+    } catch (error){
+      console.error('Error:', error);
+    }
   }
 
   //Handles deleting account
@@ -54,16 +92,7 @@ const Settings = () => {
     setEmail(box.target.value);
   }
 
-  //Contains string for old password
-  const [oldPassword, setOldPassword] = useState("");
-  const handleOldPassword = box => {
-    setOldPassword(box.target.value);
-  }
-  //Contains string for new password
-  const [password, setPassword] = useState("");
-  const handlePasswordChange = box => {
-    setPassword(box.target.value);
-  }
+
 
   return (
     <div>

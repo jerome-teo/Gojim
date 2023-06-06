@@ -18,7 +18,8 @@ const Login = () => {
     try {
       // Send a POST request to the backend endpoint '/sign-up'
       
-      const response = await fetch('http://localhost:5000/login', {
+      const response = await fetch('http://localhost:3000/login', {
+        mode: 'no-cors',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

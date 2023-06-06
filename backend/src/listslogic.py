@@ -4,10 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.mutable import MutableList
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask_cors import cross_origin
-
-# create Session
-Session = sessionmaker(bind=models.engine)
-session = Session()
+from auth import session
 
 listlogic = Blueprint('listlogic', __name__)
 
@@ -32,12 +29,11 @@ def create_new_workout():
     workoutName = data.get('workoutName')
     workoutString = data.get('workoutString')
     tagString = data.get('tagString')
-    currUsername = data.get('owner')
-    print("data: ")
-    print(data)
-    print()
+    username = data.get('owner')
 
-    user = session.query(models.User).filter_by(username=currUsername).first()
+    username = username[1:len(username)-1]
+    user = session.query(models.User).filter_by(username=username).first()
+
     newlist = models.WorkoutLists(name=workoutName, info=workoutString, tags=tagString, likes=0, owner=user.username)
     session.add(newlist)
     session.commit()
@@ -49,24 +45,31 @@ def create_new_workout():
 def get_my_workouts():
     """
     Get the current user
-    return myWorkouts list
+    
     """
 
-    currUsername = get_jwt_identity()
-    print("curr username:")
-    print(currUsername)
-    print()
-    print()
-    user = session.query(models.User).filter_by(username=currUsername).first()
-    all_workouts_ids = user.my_workouts
-    all_workouts = set()
-    for workout_id in all_workouts_ids:
-        workout_obj = session.query(models.WorkoutLists).filter_by(id=workout_id)
-        all_workouts.add(workout_obj)
+    data = request.json
+    username = data.get('owner')
+    username = username[1:len(username)-1]
 
-    for workout in all_workouts:
-        print(workout)
-        print()
+    # the workout has to be owned by the current user
+    workouts = session.query(models.User, models.WorkoutLists).filter(models.WorkoutLists.owner == models.User.username).all()
+    for w in workouts:
+        print("workouts: ")
+        print(w)
+    
+
+
+    # user = session.query(models.User).filter_by(username=currUsername).first()
+    # all_workouts_ids = user.my_workouts
+    # all_workouts = set()
+    # for workout_id in all_workouts_ids:
+    #     workout_obj = session.query(models.WorkoutLists).filter_by(id=workout_id)
+    #     all_workouts.add(workout_obj)
+
+    # for workout in all_workouts:
+    #     print(workout)
+    #     print()
 
     return "<p>My Workouts</p>"
 
@@ -74,16 +77,21 @@ def get_my_workouts():
 def get_saved_workouts():
     """
     get the current user
-    return savedWorkouts list
+    
     """
 
-    currUsername = get_jwt_identity
-    user = session.query(models.User).filter_by(username=currUsername).first()
-    all_workouts_ids = user.saved_workouts
-    all_workouts = set()
-    for workout_id in all_workouts_ids:
-        workout_obj = session.query(models.WorkoutLists).filter_by(id=workout_id)
-        all_workouts.add(workout_obj)
+
+    data = request.json
+    username = data.get('owner') # "name"
+    username = username[1:len(username)-1] # name
+    user = session.query(models.User).filter_by(username=username).first()
+
+
+    # all_workouts_ids = user.saved_workouts
+    # all_workouts = set()
+    # for workout_id in all_workouts_ids:
+    #     workout_obj = session.query(models.WorkoutLists).filter_by(id=workout_id)
+    #     all_workouts.add(workout_obj)
 
 
     return "<p>Saved Workouts</p>"
@@ -107,17 +115,17 @@ def public_workouts():
     """
     loop through all users
     if they are public
-        return their myWorkouts list
+        
     """
 
-    users = session.query(models.User).all()
-    all_workouts = set()
-    for user in users:
-        if not user.privacy:
-            all_workouts.add(user.my_workouts)
+    # users = session.query(models.User).all()
+    # all_workouts = set()
+    # for user in users:
+    #     if not user.privacy:
+    #         all_workouts.add(user.my_workouts)
 
     # returns all workouts from public accounts
-    return all_workouts
+    pass
 
 
 @listlogic.route('/like-workout', methods=['GET','POST'])

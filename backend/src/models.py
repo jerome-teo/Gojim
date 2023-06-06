@@ -36,7 +36,6 @@ class WorkoutLists(base):
         self.tags = tags
         self.likes = likes
         self.owner = owner
-        # self.owner = owner
     
     # train upper: lats reps: 8 sets: 3 (upperbody) (10 likes) by timsmith 
     def __repr__(self):

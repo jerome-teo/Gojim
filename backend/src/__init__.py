@@ -13,7 +13,7 @@ CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://local
 app.register_blueprint(auth)
 app.register_blueprint(listlogic)
 app.register_blueprint(users)
-# jwt = JWTManager(app)
+jwt = JWTManager(app)
 
 
 Session = sessionmaker(bind=models.engine)

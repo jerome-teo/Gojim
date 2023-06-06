@@ -19,7 +19,6 @@ auth = Blueprint('auth', __name__)
 @cross_origin()
 def login():
     data = request.json
-    # data = request.form
     print("DATA:")
     print(data)
     print()
@@ -56,7 +55,6 @@ def login():
 
 
 @auth.route('/logout', methods=['GET'])
-# @login_required # don't want user to access this page unless they've logged in
 # @jwt_required() # that' you've been loggin in to be able to logout
 def logout():
     # session.pop("username")
@@ -101,11 +99,8 @@ def sign_up():
     else:
         # add user to database
         newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='sha224'), privacy=False)
-        # sha256, scrypt are hashing algorithms, there's others as well
         session.add(newUser) # add user to database
-        # commit to the database
         session.commit()
-        #login_user(newUser, remember=True)
 
         # redirect user to home page
         return jsonify({
@@ -118,5 +113,3 @@ def sign_up():
 @auth.route('/delete-account', methods=['DELETE'])
 def delete_acc():
     return "<p>Delete Account</p>"
-
-# tags:hiit,upperbody,lowerbody,fullbody

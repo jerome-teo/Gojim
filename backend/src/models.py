@@ -25,7 +25,7 @@ class WorkoutLists(base):
     id = Column("workout_list_id", Integer, primary_key=True)
     name = Column("name", String)
     info = Column("info", String)
-    tags = Column("tags", String)
+    tags = Column("tags", String) # tags:hiit,upperbody,lowerbody,fullbody
     likes = Column("likes", Integer)
     # owner = Column("owner", String)
     owner = Column("owner", String, ForeignKey("users.username"))

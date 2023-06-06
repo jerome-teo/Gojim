@@ -27,8 +27,8 @@ class WorkoutLists(base):
     info = Column("info", String)
     tags = Column("tags", String)
     likes = Column("likes", Integer)
-    owner = Column("owner", String)
-    # owner = Column(Integer, ForeignKey("users.username"))
+    # owner = Column("owner", String)
+    owner = Column("owner", String, ForeignKey("users.username"))
 
     def __init__(self, name, info, tags, likes, owner):
         self.name = name
@@ -40,7 +40,7 @@ class WorkoutLists(base):
     
     # train upper: lats reps: 8 sets: 3 (upperbody) (10 likes) by timsmith 
     def __repr__(self):
-        return f"{self.name}: ({self.info}) ({self.tags}) ({self.likes} likes)"
+        return f"{self.name}: ({self.info}) ({self.tags}) ({self.likes} likes) created by {self.owner}"
 
 
 class User(base):

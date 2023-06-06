@@ -11,13 +11,14 @@ def test_login():
 
 def test_logout():
     response = requests.post('http://127.0.0.1:5000/sign-up', headers = {'Content-Type': 'application/json'}, data={'email':'tims@gmail.com', 'username':'timsmith', 'password1':'hello12345', 'password2':'hello12345'})
+    print(response)
     if response.status_code == 200:
         print('successful account created')
     elif response.status_code == 401:
         print('account not created')
 
 def test_new_workout():
-    response = requests.post('http://127.0.0.1:5000/create-new-workout', data={'name':'train upper', 'info':'lats, reps: 8, sets: 10', 'tags':'upper,chest'})
+    response = requests.post('http://127.0.0.1:5000/create-new-workout', headers = {'Content-Type': 'application/json'}, data={'workoutName':'Train Upper', 'workoutString':'lats, reps: 8, sets: 10', 'tagString':'upper,chest', 'owner':'hello123'})
     print(response.json())
     if response.status_code == 200:
         print('workout list created')
@@ -33,8 +34,8 @@ def test_get_my_workouts():
         print('workout not retrieved')
 
 if __name__=='__main__':
-    #test_login()
-    test_logout()
-    #test_new_workout()
-    #test_get_my_workouts()
+    # test_login()
+    # test_logout()
+    test_new_workout()
+    # test_get_my_workouts()
     pass

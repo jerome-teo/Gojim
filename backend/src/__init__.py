@@ -9,7 +9,7 @@ from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://127.0.0.1:3000"}})
 app.register_blueprint(auth)
 app.register_blueprint(listlogic)
 app.register_blueprint(users)

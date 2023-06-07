@@ -1,8 +1,8 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify
 import models
-from flask_jwt_extended import get_jwt_identity, jwt_required
-from flask_cors import cross_origin
 from auth import session
+from flask_jwt_extended import jwt_required
+from flask_cors import cross_origin
 
 listlogic = Blueprint('listlogic', __name__)
 

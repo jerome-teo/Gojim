@@ -5,6 +5,7 @@ import "./login.css"
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorFlag, setErrorFlag] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the form from submitting normally
@@ -35,16 +36,16 @@ const Login = () => {
         // Do something with the response data if needed
         console.log("here is Login.jsx")
         console.log(localStorage.getItem("username"))
-        setUsername("RIGHT");
+        setErrorFlag("0");
         window.location.href = '/';  
 
       } else {
         // Error response from the backend
-        setUsername("Error: wrong password or username");
+        setErrorFlag("1");
         console.error('Error:');
         // Handle the error case accordingly
       }
-      //setUsername("");
+      setUsername("");
       setPassword("");
     } catch (error) {
       console.error('Error:', error);
@@ -90,6 +91,8 @@ const Login = () => {
         {/*Submit Button*/}
         <div className = "submitButton" onClick={handleSubmit}>
           <input type="submit" value="Submit" />
+          <p></p>
+          {errorFlag === "1"? <div style={{color: "red"}}> Invalid Username or Password </div> : <div> </div>}
         </div>
       </form>
 

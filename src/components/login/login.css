@@ -12,14 +12,16 @@
 }
 
 .submitButton {
+    position: absolute;
     font-size: 100%;
     margin-top: 25px;
     margin-left: 100px;
 }
 
 .signupButton {
+    position: absolute;
     font-size: 100%;
-    margin-top: 50px;
+    margin-top: 150px;
     margin-left: 100px;
 }
 

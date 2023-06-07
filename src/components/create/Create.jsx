@@ -181,7 +181,9 @@ const Create = () => {
       </Button>
 
       <div className="workoutPreview">
-        <p><div className="name">Name:</div><textarea onChange={handleNameChange} value={workoutName} className="nameInput"></textarea></p>
+        <div className="nameAndBox">
+          <p><div className="name">Name:</div><textarea onChange={handleNameChange} value={workoutName} className="nameInput"></textarea></p>
+        </div>
         <textarea className="workoutPreviewBox" readOnly={true} value={workoutString}/>
       </div>
       <Button className="workoutButton" variant="secondary" onClick={finalize}>

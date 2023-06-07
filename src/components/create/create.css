@@ -63,14 +63,14 @@
 }
 
 .workoutPreviewBox{
-    width:30%;
+    width:150%;
     height:42.2%;
     resize:none;
     text-align: center;
     border-color:brown;
     border-radius: 10px;
     position: absolute;
-    left:71%;
+    right:7%;
     top:8%;
 }
 
@@ -79,7 +79,7 @@
     right:7%;
     top:27.1%;
     height:100%;
-    width: 120%;
+    width:20%;
 }
 
 .workoutPreview p{
@@ -90,8 +90,6 @@
 
 .name{
     font-size: 125%;
-    position: absolute;
-    right:20%;
 }
 
 .workoutButton{
@@ -110,8 +108,11 @@
     width:350px;
     height:31px;
     resize: none;
-    position: absolute;
-    top:3px;
-    left:20.5%;
     margin-left: 1%;
+}
+
+.nameAndBox{
+    position: absolute;
+    right:15%;
+    bottom:105%;
 }

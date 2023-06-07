@@ -15,25 +15,21 @@ def create_new_workout():
     """
     Get the current user
     Create a workout object
-    add the workout obj to myWorkouts list
+    add the workout obj to myWorkouts db
     """
 
-    """
-    READ THIS:
-    When I get my jwt identity, I think it's returning a 401 (missing authorized header)
-    If this is solved, the workout should be created successfully,
-        same goes for the other routes too
-    """
 
     data = request.json
     workoutName = data.get('workoutName')
     workoutString = data.get('workoutString')
     tagString = data.get('tagString')
-    username = data.get('owner')
 
+    # get current user
+    username = data.get('owner')
     username = username[1:len(username)-1]
     user = session.query(models.User).filter_by(username=username).first()
 
+    # create and add workout obj
     newlist = models.WorkoutLists(name=workoutName, info=workoutString, tags=tagString, likes=0, owner=user.username)
     session.add(newlist)
     session.commit()
@@ -44,34 +40,24 @@ def create_new_workout():
 @jwt_required()
 def get_my_workouts():
     """
-    Get the current user
-    
+    Get the current username
+    Get all workouts owned by user
+    return workouts?
     """
 
+    # get current username
     data = request.json
     username = data.get('owner')
     username = username[1:len(username)-1]
 
-    # the workout has to be owned by the current user
-    workouts = session.query(models.User, models.WorkoutLists).filter(models.WorkoutLists.owner == models.User.username).all()
-    for w in workouts:
-        print("workouts: ")
-        print(w)
+    # workouts owned by user
+    workouts = session.query(models.WorkoutLists).filter_by(owner=username).all()
+    # for w in workouts:
+    #     print("workouts: ")
+    #     print(w)
     
+    return workouts # FIX THIS
 
-
-    # user = session.query(models.User).filter_by(username=currUsername).first()
-    # all_workouts_ids = user.my_workouts
-    # all_workouts = set()
-    # for workout_id in all_workouts_ids:
-    #     workout_obj = session.query(models.WorkoutLists).filter_by(id=workout_id)
-    #     all_workouts.add(workout_obj)
-
-    # for workout in all_workouts:
-    #     print(workout)
-    #     print()
-
-    return "<p>My Workouts</p>"
 
 @listlogic.route('/get-saved-workouts', methods=['GET'])
 def get_saved_workouts():
@@ -85,6 +71,7 @@ def get_saved_workouts():
     username = data.get('owner') # "name"
     username = username[1:len(username)-1] # name
     user = session.query(models.User).filter_by(username=username).first()
+
 
 
     # all_workouts_ids = user.saved_workouts
@@ -104,7 +91,7 @@ def save_workout():
     add it to savedWorkouts list
     """
 
-    # user.saved_workouts.append(workoutObj)
+    # user.saved_workouts.append(workoutObj) ?
     
 
     return "<p>Saved Workouts</p>"
@@ -113,19 +100,29 @@ def save_workout():
 @listlogic.route('/public-workouts', methods=['GET'])
 def public_workouts():
     """
-    loop through all users
+    loop through users
     if they are public
-        
+        add all their workouts to a set
+    return set of workouts     
     """
 
-    # users = session.query(models.User).all()
-    # all_workouts = set()
-    # for user in users:
-    #     if not user.privacy:
-    #         all_workouts.add(user.my_workouts)
+    all_public_workouts = set()
+    users = session.query(models.User).all()
+    for u in users:
+        if not u.privacy:
+            user_workouts = session.query(models.WorkoutLists).filter_by(owner=u.username).all()
+            for w in user_workouts:
+                all_public_workouts.append(w)
 
-    # returns all workouts from public accounts
-    pass
+    # TESTING
+    for work, i in all_public_workouts:
+        print("workout " + i + " :")
+        print(work)
+        i += 1
+        print()
+
+    
+    return all_public_workouts # FIX THIS
 
 
 @listlogic.route('/like-workout', methods=['GET','POST'])
@@ -140,12 +137,3 @@ def like_or_unlike_workout():
     return that count, and populate it on the frontend so that the like number matches
     """
     return "<p>Likes</p>"
-
-# @listlogic.route('/unlike-workout', methods=['GET','POST'])
-# def unlike_workout():
-#     """
-#     get the current workout
-#     decrement like variable
-#     return that count, and populate it on the frontend so that the like number matches
-#     """
-#     return "<p>Un Likes</p>"

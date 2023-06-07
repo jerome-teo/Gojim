@@ -41,9 +41,28 @@ def change_pwd():
     return jsonify({"message": "Password changed successfully."}), 200
 
 @users.route('/change-username', methods=["POST"])
+@cross_origin()
 #@jwt_required()
 def change_username():
-    return "<p>Change Username</p>"
+    data = request.json
+    oldusername = data.get('username')
+    oldusername = oldusername.strip('\"')
+    newusername = data.get('newusername')
+    
+    user = session.query(models.User).filter_by(username=oldusername).first()
+    #If user is not logged in, unable to change username
+    if not user:
+        return jsonify({"error": "No associated account"}), 406
+    #If the newusername is already taken
+    newuser = session.query(models.User).filter_by(username=newusername).first()
+    if newuser:
+        return jsonify({"error": "Username already taken."}), 406
+    #If the newusername is too short or too long
+    if len(newusername) < 8 or len(newusername) > 16:
+        return jsonify({"error": "invalid username"}), 406
+    user.username = newusername
+    return jsonify({"message": "Username changed successfully."}), 200
+
 
 @users.route('/change-email', methods=["POST"])
 #@jwt_required()

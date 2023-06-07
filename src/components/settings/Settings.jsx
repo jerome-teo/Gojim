@@ -20,9 +20,47 @@ const Settings = () => {
 
   }
 
-  //Handles changing username
-  const handleUsername = () => {
+ 
+  //Contains newly typed username
+  const [newusername, setUsername] = useState("");
+  const handleNameChange = box => {
+    setUsername(box.target.value);
+  }
+
+   //Handles changing username
+  const handleUsername = async (e) => {
     //handle backend logic here
+    const username=localStorage.getItem("username")
+    const data = {
+      username,
+      newusername,
+    };
+
+    try{
+      const response = await fetch ('http://127.0.0.1:5000/change-username', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      console.log(JSON.stringify(data))
+
+      if (response.ok){
+        const jsonData = await response.json();
+        console.log(jsonData)
+        localStorage.clear();
+        localStorage.setItem("username", JSON.stringify(newusername))
+        setUsername("Username changed!");
+
+        window.location.href = '/settings'
+      } else {
+        setUsername("Invalid Username/Already taken.");
+        console.error('Error');
+      }
+    } catch(error){
+      console.error('Error', error);
+    }
   }
 
   //Handles changing email
@@ -80,11 +118,7 @@ const Settings = () => {
     //handle backend logic here
   }
 
-  //Contains newly typed username
-  const [username, setUsername] = useState("");
-  const handleNameChange = box => {
-    setUsername(box.target.value);
-  }
+
 
   //Contains newly typed email
   const [email, setEmail] = useState("");

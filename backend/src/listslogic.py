@@ -34,6 +34,23 @@ def create_new_workout():
     return jsonify({"status":"workout created"}), 200
 
 
+@listlogic.route('/get-num-workouts', methods=['GET'])
+def get_num_workouts():
+
+    # get current username
+    data = request.json
+    username = data.get('owner')
+    username = username[1:len(username)-1]
+    
+    # workouts owned by user
+    workouts = session.query(models.WorkoutLists).filter_by(owner=username).all()
+    for w, i in workouts:
+        i += 1
+        print(i) # TESTING
+
+    return jsonify({"num_workouts":i}), 200
+
+
 @listlogic.route('/get-my-workouts', methods=['GET'])
 @jwt_required()
 def get_my_workouts():
@@ -157,10 +174,10 @@ def like_or_unlike_workout():
 
     # get current workout & if it's plus or minus
     data = request.json
-    currWokroutid = data.get("id")
+    currWokroutId = data.get("id")
     plus_or_minus = data.get("plus_or_minus")
 
-    workout = session.query(models.WorkoutLists).filter_by(id=currWokroutid).first()
+    workout = session.query(models.WorkoutLists).filter_by(id=currWokroutId).first()
     # get current like count
     workout_like = workout.like
 
@@ -174,6 +191,23 @@ def like_or_unlike_workout():
         session.commit()
         return jsonify({"status":"workout unliked"}), 200
 
+<<<<<<< Updated upstream
+    return jsonify({"status":"failed to perform action"}), 406
+=======
     return jsonify({"status":"failed to perform action"}), 406
 
-deleteworkout
+
+@listlogic.route('/delete-workout', methods=['POST'])
+def delete_workout():
+    
+    # get current workout
+    data = request.json
+    currWorkoutId = data.get("id")
+    
+    # delete workout
+    workout = session.query(models.WorkoutLists).filter_by(id=currWorkoutId).first()
+    session.delete(workout)
+    session.commit()
+
+    return jsonify({"status":"workout deleted!"}), 200
+>>>>>>> Stashed changes

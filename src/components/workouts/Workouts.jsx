@@ -54,6 +54,10 @@ const Workouts = () => {
     //save to workouts
   }
 
+  const [workoutName, setWorkoutName] = useState({
+    listOfNames: [],
+  });
+
   const myWorkoutResults = myWorkouts.map(workoutName =>
     <li key={workoutName.name} className="list">
       <Popup className="workoutPopup" trigger={<Button className="ownWorkout" variant="link">{workoutName.name}</Button>} modal nested>
@@ -102,9 +106,48 @@ const Workouts = () => {
 
   const [showMine, setShowMine] = useState(false);
   const [showSaved, setShowSaved] = useState(false);
+
+  const owner = localStorage.getItem("username")
+
   const handleMine = () => {
     setShowMine(true);
     setShowSaved(false);
+    const finalize = async (e) => {
+      e.preventDefault();
+      const data = {
+        owner,
+      }
+
+      // try {
+      //   console.log("here is workouts.jsx")
+      //   console.log(localStorage.getItem("username"))
+      //   const response = await fetch('http://127.0.0.1:5000/get-my-workouts-names', {
+      //     method: 'GET',
+      //     header: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify(data),
+      //   })
+      //   if (response) {
+      //     const jsonData = await response.json();
+      //     console.log(jsonData)
+      //   } else {
+      //     console.error('Error: ');
+      //   }
+      // }
+      // catch (error) {
+      //   console.error('Error:', error);
+      // }
+      try {
+        console.log("here is workouts.jsx")
+        console.log(localStorage.getItem("username"))
+        fetch("http://127.0.0.1:5000/get-my-workouts-names").then(
+          response => response.json()
+        ).then(
+
+        )
+      }
+    }
   }
   const handleSaved = () => {
     setShowMine(false);

@@ -94,7 +94,7 @@ def sign_up():
         return jsonify({"error": "invalid username"}), 406
     elif password1 != password2:
         return jsonify({"error": "passwords match"}), 406
-    elif len(password1) < 7:
+    elif len(password1) < 8:
         return jsonify({"error": "password too short"}), 406
     else:
         # add user to database

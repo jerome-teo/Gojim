@@ -175,3 +175,5 @@ def like_or_unlike_workout():
         return jsonify({"status":"workout unliked"}), 200
 
     return jsonify({"status":"failed to perform action"}), 406
+
+deleteworkout

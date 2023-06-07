@@ -1,5 +1,5 @@
 # gojim
-GoJim is an interactive webapp that allows users to share their preferred workout sequences and exchange feedback with others.
+GoJim is an interactive webapp that allows users to share their preferred workout sequences and view others' created workouts as well.
 
 **Key Features**
 - Users can create accounts on the signup page and authenticate using the login page to access their account information.

@@ -49,3 +49,36 @@ def change_username():
 #@jwt_required()
 def change_email():
     return "<p>Change Email</p>"
+
+
+@users.route('/make-acc-public', methods=["POST"])
+@jwt_required()
+def make_acc_public():
+    """
+    get the current user
+    set their privacy boolean to False
+    """
+
+    data = request.json
+    username = data.get('owner') # "name"
+    username = username[1:len(username)-1] # name
+    user = session.query(models.User).filter_by(username=username).first()
+    user.privacy = False
+
+    return jsonify({"status":"Account made public!"}), 200
+
+@users.route('/make-acc-private', methods=["POST"])
+@jwt_required()
+def make_acc_private():
+    """
+    get the current user
+    set their privacy boolean to true
+    """
+
+    data = request.json
+    username = data.get('owner') # "name"
+    username = username[1:len(username)-1] # name
+    user = session.query(models.User).filter_by(username=username).first()
+    user.privacy = True
+
+    return jsonify({"status":"Account made private!"}), 200

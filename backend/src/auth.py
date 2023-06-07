@@ -1,8 +1,7 @@
 #### Flask Routing Logic
-from flask import Blueprint, request, redirect, flash, jsonify, url_for, session
+from flask import Blueprint, request, jsonify, session
 import models
 from sqlalchemy.orm import sessionmaker
-from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS, cross_origin
 from flask_jwt_extended import create_access_token, set_refresh_cookies, get_jwt, get_jwt_identity, \
@@ -94,11 +93,11 @@ def sign_up():
         return jsonify({"error": "invalid username"}), 406
     elif password1 != password2:
         return jsonify({"error": "passwords match"}), 406
-    elif len(password1) < 7:
+    elif len(password1) < 8:
         return jsonify({"error": "password too short"}), 406
     else:
-        # add user to database
-        newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='sha224'), privacy=False)
+        # add user to database, new user is created as private account
+        newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='sha224'), privacy=True)
         session.add(newUser) # add user to database
         session.commit()
 

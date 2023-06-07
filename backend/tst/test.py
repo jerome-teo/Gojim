@@ -37,7 +37,7 @@ def test_new_workout():
 
 def test_get_my_workouts():
     response = requests.get('http://127.0.0.1:5000/get-my-workouts')
-    print(response.text)
+    # print(response.text)
     if response.status_code == 200:
         print('workout retrieved')
     elif response.status_code == 500:
@@ -45,7 +45,7 @@ def test_get_my_workouts():
 
 if __name__=='__main__':
     # test_login()
-    test_signup()
+    # test_signup()
     test_new_workout()
     # test_get_my_workouts()
     pass

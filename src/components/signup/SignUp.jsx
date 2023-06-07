@@ -6,6 +6,7 @@ const SignUp = () => {
     const [username, setUsername] = useState("");
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
+    const [errorFlag, setErrorFlag] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent the form from submitting normally
@@ -32,22 +33,23 @@ const SignUp = () => {
             const jsonData = await response.json();
             console.log(jsonData)
             // Do something with the response data if needed
-            setEmail("Signed up!");
+            setEmail("");
             setUsername("");
             setPassword1("");
             setPassword2("");
+            setErrorFlag("0");
             window.location.href = '/login';  
           } else {
             // Error response from the backend
-            setEmail("Invalid Credentials");
+            setErrorFlag("1");
             console.error('Error:');
             // Handle the error case accordingly
           }
         
           //setEmail("");
-          setUsername("");
-          setPassword1("");
-          setPassword2("");
+          // setUsername("");
+          // setPassword1("");
+          // setPassword2("");
         } catch (error) {
           console.error('Error:', error);
           // Handle any network or other errors
@@ -115,6 +117,8 @@ const SignUp = () => {
                 {/*Submit Button*/}
                 <div className = "submitSignUp" onClick={handleSubmit}>
                     <input type="submit" value="Sign Up Now!" />
+                    <p></p>
+                    {errorFlag === "1"? <div style = {{color: "red"}}> Invalid Credentials </div> : <div> </div>}
                 </div>
             </form>
         </div>

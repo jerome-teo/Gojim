@@ -49,7 +49,7 @@ def make_acc_public():
 
 @users.route('/make-acc-private', methods=["POST"])
 @jwt_required()
-def make_acc_public():
+def make_acc_private():
     """
     get the current user
     set their privacy boolean to true

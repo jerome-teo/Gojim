@@ -1,7 +1,5 @@
 from flask import Blueprint, request, jsonify, session
 import models
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.mutable import MutableList
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask_cors import cross_origin
 from auth import session

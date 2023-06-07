@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify
-from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 from flask_cors import cross_origin
 from sqlalchemy.orm import sessionmaker

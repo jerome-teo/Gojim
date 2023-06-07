@@ -13,10 +13,37 @@ users = Blueprint('users', __name__)
 def profile():
     return "<p>Profile</p>"
 
-@users.route('/settings', methods=["PUT"])
+@users.route('/getprivacy', methods=['POST'])
+@cross_origin()
+def getprivacy():
+    data = request.json
+    username = data.get('username')
+    username = username.strip('\"')
+    user = session.query(models.User).filter_by(username=username).first()
+    if not user:
+        return jsonify({"error": "No associated account"}), 406
+    else:
+        privacy = user.privacy
+        settings = {
+            'privacy' : privacy
+        }
+        return jsonify(settings), 200
+
+@users.route('/privacy', methods=["POST"])
+@cross_origin()
 #@jwt_required()
 def settings():
-    return "<p>Settings</p>"
+    data = request.json
+    username = data.get('username')
+    username = username.strip('\"')
+    user = session.query(models.User).filter_by(username=username).first()
+    if not user:
+        return jsonify({"error": "No associated account"}), 406
+    else:
+        user.privacy = not user.privacy
+        session.commit()
+    return jsonify({"message": "Private settings changed successfully."}), 200
+
 
 @users.route('/change-pwd', methods=["POST"])
 @cross_origin()
@@ -35,6 +62,7 @@ def change_pwd():
         if len(newpassword) < 8:
             return jsonify({"error": "Invalid password"}), 406
         user.password = generate_password_hash(newpassword, method='sha224')
+        session.commit()
     else:
         return jsonify({"error": "Wrong password"}), 406
 
@@ -61,10 +89,24 @@ def change_username():
     if len(newusername) < 8 or len(newusername) > 16:
         return jsonify({"error": "invalid username"}), 406
     user.username = newusername
+    session.commit()
     return jsonify({"message": "Username changed successfully."}), 200
 
 
 @users.route('/change-email', methods=["POST"])
+@cross_origin()
 #@jwt_required()
 def change_email():
-    return "<p>Change Email</p>"
+    data = request.json
+    username=data.get('username')
+    username=username.strip('\"')
+    newemail=data.get('email')
+
+    user = session.query(models.User).filter_by(username=username).first()
+    if not user:
+        return jsonify({"error": "No associated account"}), 406
+    if len(newemail) < 8:
+        return jsonify({"error": "invalid email"}), 406
+    user.email = newemail
+    session.commit()
+    return jsonify({"message": "Email changed successfully."}), 200

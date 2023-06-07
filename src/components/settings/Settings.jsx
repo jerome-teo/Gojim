@@ -1,26 +1,82 @@
 import React from 'react'
 import "./settings.css"
 import Switch from "react-switch";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRef } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import Button from 'react-bootstrap/Button';
 
 const Settings = () => {
-
+  
   //Used for toggling public/private workout
-  const [on, toggleOn] = useState(false);
   const ref = useRef();
+  const [on, toggleOn] = useState(false);
+  // let data
+  // const fetchUserSettings = (data) => {
+  //   const username=localStorage.getItem("username")
+  //   const info = {
+  //     username,
+  //   };
+  //   try {
+  //     const response =  fetch('http://127.0.0.1:5000/getprivacy', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(info)
+  //     });
+  //     data =  response.json();
+  //   } catch (error) {
+  //     console.error('Error fetching user settings:', error);
+  //   }
+  // };
+  // fetchUserSettings(data);
+  // useEffect(() => {
+  //   toggleOn(true);
+  //   // fetchUserSettings(data);
+  // }, [data]);
 
+  // fetchUserSettings(data);
+  // console.log(data.privacy)
+  // const [on, toggleOn] = useState(data.privacy);
+  // if (on === null) {
+  //   return <div>Loading...</div>;
+  // }
   //Handles toggling workouts as private or public
-  const handleToggle = () => {
+  const handleToggle = async (e) => {
     toggleOn(!on);
     //handle backend logic here
+    const username=localStorage.getItem("username")
+    const data = {
+      username,
+      on,
+    };
 
+    try{
+      const response = await fetch ('http://127.0.0.1:5000/privacy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      console.log(JSON.stringify(data))
+
+
+      if(response.ok){
+        const jsonData = await response.json();
+        console.log(jsonData)
+      }
+      else{
+        toggleOn(!on);
+      }
+    } catch(error){
+      console.error('Error', error);
+    }
   }
 
- 
+ //USERNAME
   //Contains newly typed username
   const [newusername, setUsername] = useState("");
   const handleNameChange = box => {
@@ -62,12 +118,48 @@ const Settings = () => {
       console.error('Error', error);
     }
   }
+//EMAIL
+    //Contains newly typed email
+    const [email, setEmail] = useState("");
+    const handleEmailChange = box => {
+      setEmail(box.target.value);
+    }
 
   //Handles changing email
-  const handleEmail = () => {
+  const handleEmail = async (e) => {
     ref.current.close();
     //handle backend logic here
+    const username=localStorage.getItem("username")
+    const data = {
+      username,
+      email,
+    };
+
+    try{
+      const response = await fetch ('http://127.0.0.1:5000/change-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      console.log(JSON.stringify(data))
+
+      if (response.ok){
+        const jsonData = await response.json();
+        console.log(jsonData)
+        setEmail("Email changed!");
+        window.location.href = '/settings'
+      } else {
+        setEmail("Invalid email.");
+        console.error('Error');
+      }
+    } catch (error){
+      console.error('Error:', error);
+    }
   }
+
+//PASSWORD
   //Contains string for old password
   const [oldpassword, setOldPassword] = useState("");
   const handleOldPassword = box => {
@@ -120,11 +212,7 @@ const Settings = () => {
 
 
 
-  //Contains newly typed email
-  const [email, setEmail] = useState("");
-  const handleEmailChange = box => {
-    setEmail(box.target.value);
-  }
+
 
 
 

@@ -13,14 +13,16 @@
     margin-right: 30px;
 }
 
-.navtabs a{
-    color:black;
+
+.navtabs Button{
     text-decoration: none;
-    font-size: larger;
 }
 
 .navtabs p{
-    margin: 13px; 
+    margin: 5px; 
+    color:black;
+    text-decoration: none;
+    font-size: large;
 }
 
 .rounded-circle{
@@ -45,7 +47,8 @@
 .logo{
     position: absolute;
     font-size: larger;
-    left:6.5%;
+    left:6.75%;
+    top:25%;
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-weight: bolder;
 }

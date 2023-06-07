@@ -1,8 +1,7 @@
 #### Flask Routing Logic
-from flask import Blueprint, request, redirect, flash, jsonify, url_for, session
+from flask import Blueprint, request, jsonify, session
 import models
 from sqlalchemy.orm import sessionmaker
-from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS, cross_origin
 from flask_jwt_extended import create_access_token, set_refresh_cookies, get_jwt, get_jwt_identity, \

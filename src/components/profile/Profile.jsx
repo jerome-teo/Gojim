@@ -30,7 +30,7 @@ const Profile = () => {
       </div>
       <div className="buttons">
         <p><Link to="/workouts">My Workouts</Link> </p>
-        <p><Button className="signOut" variant="danger" onClick={signOut} >Sign Out</Button></p>
+        <p><Button className="signOut" variant="danger" onClick={signOut} >Log Out</Button></p>
       </div>
     </div>
   )

@@ -25,9 +25,9 @@ const Profile = () => {
 
   return (
     <div className="profile">
-      <Button variant="link" /*onClick={prompt for file}*/ className="rounded-circle">
+      <div /*onClick={prompt for file}*/ className="rounded-circle">
         <img src="default.png"></img>
-      </Button>
+      </div>
       <div className="profileGraphic">{username.substring(0,1)}</div>
       <div className="profileText">
         <p>{username}</p>

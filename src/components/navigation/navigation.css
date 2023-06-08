@@ -60,4 +60,6 @@
     right:3.42%;
     top:13%;
     user-select: none;
+    text-decoration: none;
+    cursor:pointer;
 }

@@ -111,7 +111,7 @@ const Settings = () => {
 
         window.location.href = '/settings'
       } else {
-        setUsername("Invalid Username/Already taken.");
+        setUsername("Invalid Username"); //previously "Invalid Username/Already taken."
         console.error('Error');
       }
     } catch(error){
@@ -172,7 +172,6 @@ const Settings = () => {
   }
   //Handles changing password
   const handlePassword = async (e) => {
-    ref.current.close();
     //handle backend logic here
     const username=localStorage.getItem("username")
     const data = {
@@ -197,7 +196,8 @@ const Settings = () => {
         setPassword("Password changed!");
         window.location.href = '/settings'
       } else {
-        setPassword("Invalid password.");
+        setPassword("Invalid Input");
+        setOldPassword("Invalid Input");
         console.error('Error');
       }
     } catch (error){
@@ -206,12 +206,45 @@ const Settings = () => {
   }
 
   //Handles deleting account
-  const handleDelete = () => {
+  const [deleteaccount, setdeleteaccount] = useState(false);
+  const handleDelete = async (e) => {
     //handle backend logic here
+    const username=localStorage.getItem("username")
+    setdeleteaccount(true);
+    const data = {
+      deleteaccount,
+      username,
+    };
+    try{
+      const response = await fetch ('http://127.0.0.1:5000/delete-account', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      console.log(JSON.stringify(data))
+
+      if (response.ok){
+        const jsonData = await response.json();
+        console.log(jsonData)
+        localStorage.clear();
+        window.location.href = "/login"
+      } else {
+        console.error('Error');
+      }
+    } catch (error){
+      console.error('Error:', error);
+    }
   }
 
 
-
+  const handleClose = () => {
+    setPassword("")
+    setOldPassword("")
+    setUsername("")
+    setEmail("")
+  }
 
 
 
@@ -231,13 +264,14 @@ const Settings = () => {
 
         {/*Change Name*/}
         <p>
-          <Popup ref={ref} position="right center" trigger={<Button variant="link" className="button">Change Username</Button>}>
+          <Popup ref={ref} onClose={handleClose} position="right center" trigger={<Button variant="link" className="button">Change Username</Button>}>
             {close =>(
               <div>
                 <p className="settingsPopupTitle">New Username</p>
-                <p><input type="text" className="input" onChange={handleNameChange}/></p>
+                <p className="settingsPopupSubtitle">8-16 characters</p>
+                <p><input value={newusername} type="text" className="input" onChange={handleNameChange}/></p>
                 <p>
-                  <Button variant="link" onClick = {() => {close(); handleUsername()}} className="button">Confirm</Button>
+                  <Button variant="link" onClick = {() => {handleUsername()}} className="button">Confirm</Button>
                   <Button variant="link" onClick = {close} className="button">Cancel</Button>
                 </p>
               </div>
@@ -247,7 +281,7 @@ const Settings = () => {
 
         {/*Change email*/}
         <p>
-          <Popup ref={ref} position="right center" trigger={<Button variant="link" className="button">Change Email</Button>}>
+          <Popup ref={ref} onClose={handleClose} position="right center" trigger={<Button variant="link" className="button">Change Email</Button>}>
             {close =>(
               <div>
                 <p className="settingsPopupTitle">New Email</p>
@@ -263,15 +297,16 @@ const Settings = () => {
 
         {/*Change password; asks for both old password and new pasword*/}
         <p>
-          <Popup ref={ref} position="right center" trigger={<Button variant="link" className="button">Change Password</Button>}>
+          <Popup ref={ref} onClose={handleClose} position="right center" trigger={<Button variant="link" className="button">Change Password</Button>}>
             {close =>(
               <div>
                 <p className="settingsPopupTitle">Old Password</p>
-                <p><input type="text" className="input" onChange={handleOldPassword}/></p>
+                <p><input value={oldpassword} type="text" className="input" onChange={handleOldPassword}/></p>
                 <p className="settingsPopupTitle">New Password</p>
-                <p><input type="text" className="input" onChange={handlePasswordChange}/></p>
+                <p className="settingsPopupSubtitle">8-16 characters</p>
+                <p><input value={newpassword} type="text" className="input" onChange={handlePasswordChange}/></p>
                 <p>
-                  <Button variant="link" onClick = {() => {close(); handlePassword()}} className="button">Confirm</Button>
+                  <Button variant="link" onClick = {() => {handlePassword()}} className="button">Confirm</Button>
                   <Button variant="link" onClick = {close} className="button">Cancel</Button>
                 </p>
               </div>
@@ -280,7 +315,7 @@ const Settings = () => {
         </p>
 
         {/*Delete Account*/}
-        <p><Button variant="link" onClick = {handleDelete} className="button">Delete Account</Button></p>
+        <p><Button variant="link" onClick = {() => {handleDelete()}} className="button">Delete Account</Button></p>
       
       </div>
     </div>

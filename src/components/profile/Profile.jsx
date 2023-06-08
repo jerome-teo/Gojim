@@ -1,12 +1,13 @@
 import React from 'react'
 import "./profile.css"
 import { useNavigate } from "react-router-dom";
-
 //if not logged in, should redirect to login page
 
 import Button from 'react-bootstrap/Button';
 
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -17,20 +18,25 @@ const Profile = () => {
     navigate("/login");
   }
 
+  const [username, setUsername] = useState("default")
+  useEffect(() => {
+    setUsername(localStorage.getItem("username").substring(1,localStorage.getItem("username").length-1))
+  });
+
   return (
     <div className="profile">
       <Button variant="link" /*onClick={prompt for file}*/ className="rounded-circle">
         <img src="default.png"></img>
       </Button>
       <div className="profileText">
-        <p>John Smith</p>
+        <p>{username}</p>
         <div className="lesserText">
           <p>XX Workouts Created</p>
         </div>
       </div>
       <div className="buttons">
         <p><Link to="/workouts">My Workouts</Link> </p>
-        <p><Button className="signOut" variant="danger" onClick={signOut} >Sign Out</Button></p>
+        <p><Button className="signOut" variant="danger" onClick={signOut} >Log Out</Button></p>
       </div>
     </div>
   )

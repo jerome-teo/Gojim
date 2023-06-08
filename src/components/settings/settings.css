@@ -32,3 +32,9 @@
 .settingsPopupTitle{
     margin:10px;
 }
+
+.settingsPopupSubtitle{
+    margin:10px;
+    font-size: 75%;
+    color:dodgerblue;
+}

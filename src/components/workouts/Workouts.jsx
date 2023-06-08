@@ -6,6 +6,7 @@ import Popup from 'reactjs-popup';
 
 const myWorkouts = [
   {
+    id: "1",
     name: "Test Workout 1",
     workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5"
   },
@@ -37,8 +38,37 @@ const savedWorkouts = [
 
 const Workouts = () => {
 
-  const handleMyDelete = () => {
-    //handle deleting my workout here
+  const [deleteworkout, setdeleteworkout] = useState(false);
+
+  //FAULT LOGIC GOTTA FIX
+  const handleMyDelete = async (e) => {
+    //handle backend logic here
+    const workoutId = 1; // FIX
+    setdeleteworkout(true);
+    const data = {
+      deleteworkout,
+      workoutId,
+    };
+    try{
+      const response = await fetch ('http://127.0.0.1:5000/delete-workout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      console.log(JSON.stringify(data))
+
+      if (response.ok){
+        const jsonData = await response.json();
+        console.log(jsonData)
+        // window.location.href = "/"
+      } else {
+        console.error('Error');
+      }
+    } catch (error){
+      console.error('Error:', error);
+    }
   }
   
   const handleSaveRemove = () => {

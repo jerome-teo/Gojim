@@ -29,6 +29,7 @@ def getprivacy():
         }
         return jsonify(settings), 200
 
+
 @users.route('/privacy', methods=["POST"])
 @cross_origin()
 def settings():
@@ -111,6 +112,7 @@ def change_email():
     session.commit()
     return jsonify({"message": "Email changed successfully."}), 200
 
+
 @users.route('/delete-account', methods=["POST"])
 @cross_origin()
 #@jwt_required()
@@ -142,6 +144,7 @@ def make_acc_public():
     user.privacy = False
 
     return jsonify({"status":"Account made public!"}), 200
+
 
 @users.route('/make-acc-private', methods=["POST"])
 @jwt_required()

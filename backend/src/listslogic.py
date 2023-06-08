@@ -4,7 +4,9 @@ from auth import session
 from flask_jwt_extended import jwt_required
 from flask_cors import cross_origin
 
+
 listlogic = Blueprint('listlogic', __name__)
+
 
 @listlogic.route('/create-new-workout', methods=['POST'])
 @cross_origin()
@@ -103,30 +105,6 @@ def save_workout():
     return jsonify({"status":"workout saved!"}), 200
 
 
-@listlogic.route('/get-saved-workout-names', methods=['GET'])
-def get_saved_workout_names():
-    """
-    get the current user
-    loop through saved workouts
-        add names to list
-    return list
-    """
-
-    # get current user
-    data = request.json
-    username = data.get('owner') # "name"
-    username = username[1:len(username)-1] # name
-    user = session.query(models.User).filter_by(username=username).first()
-
-    # loop through saved workouts
-    saved_workouts_json = []
-    for w in user.saved_workouts:
-        saved_workouts_json.append({'id': w.id, 'name':w.name, 'info':w.info, 'likes':w.likes})
-
-    # return json object of workouts
-    return saved_workouts_json, jsonify({"status":"got saved workouts in json object"}), 200
-
-
 @listlogic.route('/unsave-workout', methods=['POST'])
 def unsave_workout():
     """
@@ -151,6 +129,30 @@ def unsave_workout():
     session.commit()
 
     return jsonify({"status":"workout unsaved!"}), 200
+
+
+@listlogic.route('/get-saved-workout-names', methods=['GET'])
+def get_saved_workout_names():
+    """
+    get the current user
+    loop through saved workouts
+        add names to list
+    return list
+    """
+
+    # get current user
+    data = request.json
+    username = data.get('owner') # "name"
+    username = username[1:len(username)-1] # name
+    user = session.query(models.User).filter_by(username=username).first()
+
+    # loop through saved workouts
+    saved_workouts_json = []
+    for w in user.saved_workouts:
+        saved_workouts_json.append({'id': w.id, 'name':w.name, 'info':w.info, 'likes':w.likes})
+
+    # return json object of workouts
+    return saved_workouts_json, jsonify({"status":"got saved workouts in json object"}), 200
 
 
 # Home is where this is called

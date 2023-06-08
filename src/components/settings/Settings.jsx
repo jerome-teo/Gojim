@@ -206,15 +206,37 @@ const Settings = () => {
   }
 
   //Handles deleting account
-  const handleDelete = () => {
+  const [deleteaccount, setdeleteaccount] = useState(false);
+  const handleDelete = async (e) => {
     //handle backend logic here
+    const username=localStorage.getItem("username")
+    setdeleteaccount(true);
+    const data = {
+      deleteaccount,
+      username,
+    };
+    try{
+      const response = await fetch ('http://127.0.0.1:5000/delete-account', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      console.log(JSON.stringify(data))
+
+      if (response.ok){
+        const jsonData = await response.json();
+        console.log(jsonData)
+        localStorage.clear();
+        window.location.href = "/login"
+      } else {
+        console.error('Error');
+      }
+    } catch (error){
+      console.error('Error:', error);
+    }
   }
-
-
-
-
-
-
 
   return (
     <div>
@@ -280,7 +302,7 @@ const Settings = () => {
         </p>
 
         {/*Delete Account*/}
-        <p><Button variant="link" onClick = {handleDelete} className="button">Delete Account</Button></p>
+        <p><Button variant="link" onClick = {() => {handleDelete()}} className="button">Delete Account</Button></p>
       
       </div>
     </div>

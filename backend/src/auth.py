@@ -110,6 +110,6 @@ def sign_up():
         }), 200
 
 
-@auth.route('/delete-account', methods=['DELETE'])
-def delete_acc():
-    return "<p>Delete Account</p>"
+# @auth.route('/delete-account', methods=['DELETE'])
+# def delete_acc():
+#     return "<p>Delete Account</p>"

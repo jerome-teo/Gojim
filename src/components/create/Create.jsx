@@ -5,33 +5,63 @@ import "./create.css"
 import { useNavigate } from "react-router-dom";
 
 import Button from 'react-bootstrap/Button';
+//Possible tags
+const tags = [
+  {
+    id: 0,
+    name: "Upper-body"
+  },{
+    id: 1,
+    name: "Lower-body"
+  },{
+    id: 2,
+    name: "Beginner"
+  },{
+    id: 3,
+    name: "Intermediate"
+  },{
+    id: 4,
+    name: "Advanced"
+  },{
+    id: 5,
+    name: "Short"
+  },{
+    id: 6,
+    name: "Long"
+  },{
+    id: 7,
+    name: "Full-body"
+  },{
+    id: 8,
+    name: "No Equipment"
+  },{
+    id: 9,
+    name: "Dumbbells Only"
+  },{
+    id: 10,
+    name: "Back"
+  },{
+    id: 11,
+    name: "Chest"
+  },{
+    id: 12,
+    name: "Legs"
+  },{
+    id: 13,
+    name: "Arms"
+  },{
+    id: 14,
+    name: "Shoulders"
+  }
+]
 
 const Create = () => {
 
-    //Possible tags
-    const tags = [
-        {
-          id: 0,
-          name: "Upper-body"
-        },
-        {
-          id: 1,
-          name: "Lower-body"
-        },{
-          id: 2,
-          name: "Beginner"
-        },{
-          id: 3,
-          name: "Intermediate"
-        },{
-          id: 4,
-          name: "Advanced"
-        },
-      ]
-
       //Handles what tags to associate with exercise
       const handleSelect = (tags) => {
-        setTagString(tagString + tags.name + "\n");
+        if(!tagString.includes(tags.name)){
+          setTagString(tagString + tags.name + "\n");
+        }
         //Depending on back-end implementation of search, can add tags.name to a data structure here
       }
 

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Popup from 'reactjs-popup';
 
 import Button from 'react-bootstrap/Button';
-
+import { useNavigate } from "react-router-dom";
 
 const workouts = [
   {
@@ -70,6 +70,8 @@ const tags = [
   }
 ]
 const Home = () => {
+  
+  const navigate = useNavigate();
 
   const workoutResults = workouts.map(workoutName =>
     <li key={workoutName.name} className="searchList">
@@ -94,10 +96,16 @@ const Home = () => {
 
   const [likeCount, setLikeCount] = useState(0); //Maybe best to handle another way, depending on backend
   const handleLike = (/*can pass in something referring to the workout if necessary*/) => {
+    if(localStorage.getItem("username") === null){
+      navigate("/login")
+    }
     //add a like
   }
 
   const handleSave = (/*can pass in something referring to the workout if necessary*/) =>{
+    if(localStorage.getItem("username") === null){
+      navigate("/login")
+    }
     //save to workouts
   }
 

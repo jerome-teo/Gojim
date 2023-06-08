@@ -175,3 +175,25 @@ def like_or_unlike_workout():
         return jsonify({"status":"workout unliked"}), 200
 
     return jsonify({"status":"failed to perform action"}), 406
+
+def create_default_workout(workoutName, workoutString, tagString):
+    # create and add workout obj
+    newlist = models.WorkoutLists(name="Default Back", info="Seated Row:  Reps: 10 Sets: 4\nDeadlift:  Reps: 8 Sets: 3-4\nDumbbell Row:  Reps: 10 Sets: 3-4", tags="Upper-body\nBack\nBeginner", likes=0, owner="admin")
+    session.add(newlist)
+    session.commit()
+
+    newlist = models.WorkoutLists(name="Default Chest", info="Bench Press:  Reps: 8 Sets: 4\nPush-ups:  Reps: 10 Sets: 3-4\nSvend Press:  Reps: 10 Sets: 3-4", tags="Upper-body\nChest\nBeginner", likes=0, owner="admin")
+    session.add(newlist)
+    session.commit()
+
+    newlist = models.WorkoutLists(name="Default Legs", info="Calf Raises:  Reps: 12 Sets: 4\nSquats:  Reps: 8 Sets: 3-4\nLeg Press:  Reps: 12 Sets: 4\nDeadlift:  Reps: 8 Sets: 3", tags="Lower-body\nLegs\nBeginner", likes=0, owner="admin")
+    session.add(newlist)
+    session.commit()
+
+    newlist = models.WorkoutLists(name="Default Arms", info="Concentration Curls:  Reps: 10 Sets: 4\nOverhead Tricep Extensions:  Reps: 10 Sets: 4\nHammer Curls:  Reps: 10 Sets: 3\nDumbbell floor press:  Reps: 10 Sets: 3", tags="Upper-body\nArms\nBeginner", likes=0, owner="admin")
+    session.add(newlist)
+    session.commit()
+
+    newlist = models.WorkoutLists(name="Default Shoulders", info="Lateral Raises:  Reps: 10 Sets: 3-4\nDumbbell shrugs:  Reps: 10 Sets: 3\nShoulder Press:  Reps: 10 Sets: 3-4", tags="Upper-body\nShoulders\nBeginner", likes=0, owner="admin")
+    session.add(newlist)
+    session.commit()

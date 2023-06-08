@@ -42,3 +42,12 @@
     top:150%;
     left:0%;
 }
+
+.profileGraphic{
+    position: absolute;
+    font-size: 1000%;
+    top:29%;
+    left:14%;
+    color:floralwhite;
+    user-select: none;
+}

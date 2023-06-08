@@ -77,6 +77,9 @@ const Navigation = () => {
             <Button variant="link" onClick={toProfile} className="rounded-circle">
               <img src="default.png"></img>
             </Button>
+            {loggedIn && (
+              <div onClick={toProfile} className="profileLetter">{localStorage.getItem("username").substring(1,2)}</div>
+            )}
         </div>
       </div>
       <Outlet />

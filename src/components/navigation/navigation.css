@@ -52,3 +52,12 @@
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-weight: bolder;
 }
+
+.profileLetter{
+    position: absolute;
+    font-size: 200%;
+    color:floralwhite;
+    right:3.42%;
+    top:13%;
+    user-select: none;
+}

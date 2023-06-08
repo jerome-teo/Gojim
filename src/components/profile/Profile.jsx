@@ -28,6 +28,7 @@ const Profile = () => {
       <Button variant="link" /*onClick={prompt for file}*/ className="rounded-circle">
         <img src="default.png"></img>
       </Button>
+      <div className="profileGraphic">{username.substring(0,1)}</div>
       <div className="profileText">
         <p>{username}</p>
         <div className="lesserText">

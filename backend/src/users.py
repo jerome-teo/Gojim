@@ -9,9 +9,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 users = Blueprint('users', __name__)
 
 @users.route('/profile', methods=['GET'])
-#@jwt_required()
 def profile():
     return "<p>Profile</p>"
+
 
 @users.route('/getprivacy', methods=['POST'])
 @cross_origin()
@@ -31,7 +31,6 @@ def getprivacy():
 
 @users.route('/privacy', methods=["POST"])
 @cross_origin()
-#@jwt_required()
 def settings():
     data = request.json
     username = data.get('username')
@@ -47,7 +46,6 @@ def settings():
 
 @users.route('/change-pwd', methods=["POST"])
 @cross_origin()
-#@jwt_required()
 def change_pwd():
     data = request.json
     oldpassword = data.get('oldpassword')
@@ -68,9 +66,9 @@ def change_pwd():
 
     return jsonify({"message": "Password changed successfully."}), 200
 
+
 @users.route('/change-username', methods=["POST"])
 @cross_origin()
-#@jwt_required()
 def change_username():
     data = request.json
     oldusername = data.get('username')
@@ -95,7 +93,6 @@ def change_username():
 
 @users.route('/change-email', methods=["POST"])
 @cross_origin()
-#@jwt_required()
 def change_email():
     data = request.json
     username=data.get('username')

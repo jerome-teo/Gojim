@@ -191,9 +191,6 @@ def like_or_unlike_workout():
         session.commit()
         return jsonify({"status":"workout unliked"}), 200
 
-<<<<<<< Updated upstream
-    return jsonify({"status":"failed to perform action"}), 406
-=======
     return jsonify({"status":"failed to perform action"}), 406
 
 
@@ -210,4 +207,3 @@ def delete_workout():
     session.commit()
 
     return jsonify({"status":"workout deleted!"}), 200
->>>>>>> Stashed changes

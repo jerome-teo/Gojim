@@ -147,6 +147,7 @@ const Workouts = () => {
 
         )
       }
+      catch{}
     }
   }
   const handleSaved = () => {

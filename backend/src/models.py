@@ -52,7 +52,7 @@ class User(base):
     email = Column("email", String, unique=True)
     username = Column("username", String(50), unique=True)
     password = Column("password", String(100))
-    privacy = Column("privacy", Boolean) # True for public, false for private
+    privacy = Column("privacy", Boolean) # True for private, false for public
     saved_workouts = relationship("WorkoutLists", secondary="user_saved_workouts")
 
     def __init__(self, email, username, password, privacy):

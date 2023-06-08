@@ -28,7 +28,42 @@ def change_username():
 @users.route('/change-email', methods=["POST"])
 @jwt_required()
 def change_email():
+<<<<<<< Updated upstream
     return "<p>Change Email</p>"
+=======
+    data = request.json
+    username=data.get('username')
+    username=username.strip('\"')
+    newemail=data.get('email')
+
+    user = session.query(models.User).filter_by(username=username).first()
+    emailalreadyexists = session.query(models.User).filter_by(email=newemail).first()
+    if not user:
+        return jsonify({"error": "No associated account"}), 406
+    if len(newemail) < 8:
+        return jsonify({"error": "invalid email"}), 406
+    if emailalreadyexists:
+        return jsonify({"error": "Email already used."}), 406
+    user.email = newemail
+    session.commit()
+    return jsonify({"message": "Email changed successfully."}), 200
+
+@users.route('/delete-account', methods=["POST"])
+@cross_origin()
+#@jwt_required()
+def delete_account():
+    data = request.json
+    username=data.get('username')
+    username=username.strip('\"')
+    
+    user = session.query(models.User).filter_by(username=username).first()
+    if not user:
+        return jsonify({"error": "No associated account"}), 406
+    session.delete(user)
+    session.commit()
+    
+    return jsonify({"message": "Account deleted."}), 200
+>>>>>>> Stashed changes
 
 
 @users.route('/make-acc-public', methods=["POST"])

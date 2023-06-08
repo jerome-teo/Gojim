@@ -127,6 +127,32 @@ def get_saved_workout_names():
     return saved_workouts_json, jsonify({"status":"got saved workouts in json object"}), 200
 
 
+@listlogic.route('/unsave-workout', methods=['POST'])
+def unsave_workout():
+    """
+    get the current user
+    get the current workout id
+    remove from saved workouts list
+    """
+
+    data = request.json
+
+    # get current workout
+    workout_id = data.get("id")
+    workout = session.query(models.User).filter_by(id=workout_id).first()
+
+    # get current user
+    username = data.get('owner') # "name"
+    username = username[1:len(username)-1] # name
+    user = session.query(models.User).filter_by(username=username).first()
+
+    # remove saved workout
+    user.saved_workouts.remove(workout)
+    session.commit()
+
+    return jsonify({"status":"workout unsaved!"}), 200
+
+
 # Home is where this is called
 @listlogic.route('/get-public-workouts', methods=['GET'])
 def get_public_workouts():
@@ -206,6 +232,8 @@ def delete_workout():
     
     # delete workout
     workout = session.query(models.WorkoutLists).filter_by(id=currWorkoutId).first()
+    if not workout:
+        return jsonify({"error": "No associated workout"}), 406
     session.delete(workout)
     session.commit()
 

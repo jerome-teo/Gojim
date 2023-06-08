@@ -45,8 +45,8 @@ const Login = () => {
         console.error('Error:');
         // Handle the error case accordingly
       }
-      setUsername("");
-      setPassword("");
+      // setUsername("");
+      // setPassword("");
     } catch (error) {
       console.error('Error:', error);
       // Handle any network or other errors

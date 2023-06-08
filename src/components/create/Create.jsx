@@ -56,6 +56,7 @@ const tags = [
 ]
 
 const Create = () => {
+      const [errorMessage, setErrorMessage] = useState("");
 
       //Handles what tags to associate with exercise
       const handleSelect = (tags) => {
@@ -110,9 +111,11 @@ const Create = () => {
       //Handles submitting exercise to the workoutString
       const handleExerciseButton = () => {
         if(exerciseName === "" || exerciseReps === "" || exerciseSets === ""){
+          setErrorMessage("1");
           return;
         } else {
           setExercise(exerciseName + ":  Reps: " + exerciseReps + " Sets: " + exerciseSets);
+          setErrorMessage("0");
         }
         setExerciseName("");
         setExerciseReps("");
@@ -206,6 +209,9 @@ const Create = () => {
       <Button className="exerciseButton" variant="secondary" onClick={handleExerciseButton}>
         Add Exercise
       </Button>
+      <div className='errorMessage'>
+        {errorMessage === "1"? <div style={{color: "red"}}> Invalid Username or Password </div> : <div> </div>}
+      </div>
       <Button className="undoButton" variant="danger" onClick={handleUndo}>
         Undo
       </Button>

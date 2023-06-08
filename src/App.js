@@ -10,8 +10,36 @@ import "./App.css"
 import { Route } from 'react-router-dom';
 import { Routes } from 'react-router-dom';
 import Profile from "./components/profile/Profile";
+import { useEffect } from "react";
 
 function App() {
+
+    useEffect(() => {
+        // addDefault workouts taken from create.jsx logic
+        const addDefaultWorkouts = async () => {
+            try {
+                console.log("creating default workouts")
+                const response = await fetch('http://127.0.0.1:5000/create-default-workout', {
+                  method: 'POST',
+                  mode:"no-cors",
+                  headers: {
+                    'Access-Control-Allow-Origin':'*',
+                    'Access-Control-Allow-Methods':'POST,PATCH,OPTIONS'
+                  },
+                })
+                if (response.ok) {
+                const jsonData = await response.json();
+                console.log("Error")
+              } else {
+                console.error('Error: ');
+              }
+            } catch (error){
+              console.error('Error:', error);
+            }
+        }
+        addDefaultWorkouts();
+    }, []);
+
     return (
         <div>
             <Routes>

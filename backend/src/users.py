@@ -22,12 +22,10 @@ def getprivacy():
     user = session.query(models.User).filter_by(username=username).first()
     if not user:
         return jsonify({"error": "No associated account"}), 406
-    else:
-        privacy = user.privacy
-        settings = {
-            'privacy' : privacy
-        }
-        return jsonify(settings), 200
+    privacy = user.privacy
+    settings = [{'privacy' : privacy}]
+    print(settings)
+    return jsonify(settings), 200
 
 
 @users.route('/privacy', methods=["POST"])

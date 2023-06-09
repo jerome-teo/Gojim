@@ -22,3 +22,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 backend/src/database.db
+backend/src/__pycache__/users.cpython-39.pyc
+backend/src/__pycache__/search.cpython-39.pyc
+backend/src/__pycache__/models.cpython-39.pyc
+backend/src/__pycache__/listslogic.cpython-39.pyc
+backend/src/__pycache__/auth.cpython-39.pyc

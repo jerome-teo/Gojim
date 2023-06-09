@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
 import Popup from 'reactjs-popup';
 import { json } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const myWorkouts = [
   {
@@ -170,7 +171,12 @@ const Workouts = () => {
     };
   }
     handleMyLike();
+
   }
+
+  useEffect(() => {
+    setLikeCount(likeCount);
+  }, [likeCount]);
 
   const handleDisplay = (workoutId) => {
     console.log("here is handle display")
@@ -211,6 +217,7 @@ const Workouts = () => {
         console.error('Error:', error);
       };
     }
+    handleMyDisplay();
   }
 
   const myWorkoutResults = myWorkout.map(workoutName =>
@@ -224,7 +231,7 @@ const Workouts = () => {
             <div className="popupString">
               {workoutName.workoutString}
             </div>
-            <p className="likeCounter">{likeCount} Likes</p>
+            <p className="likeCounter">{workoutName.likes} Likes</p>
             <Button className="likeButton" variant="dark" onClick={() => handleLike(workoutName.id)}>Like</Button>
           </div>
         )}

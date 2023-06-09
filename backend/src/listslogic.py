@@ -253,6 +253,7 @@ def like_or_unlike_workout():
     username = username[1:len(username)-1] # name
     user = session.query(models.User).filter_by(username=username).first()
 
+
     # add it if it's in there
     if workout not in user.liked_workouts:
         user.liked_workouts.append(workout)

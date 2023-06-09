@@ -34,6 +34,6 @@ def search_for_workout():
 
     # if workout_json is not empty, successful, else send EMPTY LIST tag not found
     if workout_json:
-        return workout_json, jsonify({"status":"searched successfully!"}), 200
+        return jsonify(workout_json), 200
     else:
-        return workout_json, jsonify({"status":"no such tag found"}), 406
+        return jsonify(workout_json), 406

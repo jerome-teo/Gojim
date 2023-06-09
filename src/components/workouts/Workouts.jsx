@@ -6,19 +6,26 @@ import Popup from 'reactjs-popup';
 
 const myWorkouts = [
   {
-    id: "1",
+    id: 0,
     name: "Test Workout 1",
-    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5"
+    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5",
+    likes: 0
   },
   {
+    id: 1,
     name: "Test Workout 2",
-    workoutString: "Curls:  Reps: 5 Sets: 5"
+    workoutString: "Curls:  Reps: 5 Sets: 5",
+    likes: 0
   },
   {
+    id: 2,
     name: "Test Workout 3",
-    workoutString: "Crunches:  Reps: 5 Sets: 5"
+    workoutString: "Crunches:  Reps: 5 Sets: 5",
+    likes: 0
   }
 ];
+
+const [myWorkout, setMyWorkout] = useState(myWorkouts)
 
 const savedWorkouts = [
   {

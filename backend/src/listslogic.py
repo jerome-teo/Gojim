@@ -269,7 +269,7 @@ def like_or_unlike_workout():
     return jsonify(jsonObj), 200
 
 
-
+# DONE
 @listlogic.route('/get-num-likes', methods=['POST'])
 @cross_origin()
 def get_num_likes():
@@ -281,6 +281,42 @@ def get_num_likes():
 
     jsonObj = [{"num_likes":workout.likes}]
 
+    return jsonify(jsonObj), 200
+
+
+# IP
+@listlogic.route('/get-if-liked', methods=['POST'])
+@cross_origin()
+def get_if_liked():
+
+    # get current workout
+    data = request.json
+    currWorkoutId = data.get("workoutId")
+    workout = session.query(models.WorkoutLists).filter_by(id=currWorkoutId).first()
+    
+    print("workout right now!")
+    print(workout)
+    print()
+
+    # get current user
+    username = data.get('owner') # "name"
+    username = username[1:len(username)-1] # name
+    user = session.query(models.User).filter_by(username=username).first()
+
+    jsonObj = []
+    for w in user.liked_workouts:
+        print("w and workout")
+        print(w)
+        print(workout)
+        if w.id == workout.id:
+            jsonObj = [{"liked": True}]
+        else:
+            jsonObj = [{"liked": False}]
+    
+    print("here")
+    print(jsonObj)
+    print()
+    
     return jsonify(jsonObj), 200
 
 

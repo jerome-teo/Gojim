@@ -128,20 +128,53 @@ const Workouts = () => {
   }
 
 
-  function useForceUpdate(){
-    const [value, setValue] = useState(0); // integer state
-    return () => setValue(value => value + 1); // update the state to force render
+  const [likedThisSession, setLiked] = useState(false);
+
+  const handleDisplay = (workoutId) => {
+    console.log("handle display")
+    const handleMyDisplay = async (e) => {
+      console.log(workoutId)
+      console.log("here is handle my display!")
+
+      const data = {
+        workoutId,
+        owner,
+      };
+      try {
+        const response = await fetch ('http://127.0.0.1:5000/get-if-liked', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        console.log(JSON.stringify(data))
+
+        if (response.ok) {
+          const jsonData = await response.json();
+          console.log(jsonData)
+
+          let boolArray = Array.from(jsonData)
+          console.log("im here!")
+          console.log(Array.from(jsonData))
+          console.log(boolArray[0].liked)
+          setLiked(boolArray[0].liked)
+        } else {
+          console.error('Error');
+        }
+      } catch (error){
+        console.error('Error:', error);
+      };
+    }
+    handleMyDisplay();
   }
 
-
-  const [likeCount, setLikeCount] = useState(0);
-  const [likedThisSession, setLiked] = useState(false);
   const handleLike = (workoutId) => {
-    setLiked(false);
+    
     // add a like
     //save to workouts
     console.log("here is handle like")
-    const handleMyLike= async (e) => {
+    const handleMyLike = async (e) => {
       console.log(workoutId)
       console.log("here is handle my like!!!")
     // e.preventDefault();
@@ -150,7 +183,10 @@ const Workouts = () => {
       workoutId,
       owner,
     };
-    try{
+
+    console.log(workoutId)
+    console.log(owner)
+    try {
       const response = await fetch ('http://127.0.0.1:5000/like-or-unlike-workout', {
         method: 'POST',
         headers: {
@@ -163,14 +199,13 @@ const Workouts = () => {
       if (response.ok){
         const jsonData = await response.json();
         console.log(jsonData)
+        handleDisplay(workoutId)
 
         let likeArray = Array.from(jsonData)
         console.log("hereh!")
         console.log(Array.from(jsonData))
-        console.log(likeArray)
         console.log("lets go")
         console.log(likeArray[0].num_likes)
-        setLikeCount(likeArray[0].num_likes);
         if(likedThisSession === false){
           myWorkout[0].likes++;
           setLiked(!likedThisSession);
@@ -189,48 +224,6 @@ const Workouts = () => {
     
   }
 
-
-  const handleDisplay = (workoutId) => {
-    console.log("here is handle display")
-    const handleMyDisplay= async (e) => {
-      console.log(workoutId)
-      console.log("here is handle my display!!!")
-      // e.preventDefault();
-      //handle backend logic here
-      const data = {
-        workoutId,
-      };
-      try{
-        const response = await fetch ('http://127.0.0.1:5000/get-num-likes', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
-        console.log(JSON.stringify(data))
-
-        if (response.ok){
-          const jsonData = await response.json();
-          console.log(jsonData)
-
-          let likeArray = Array.from(jsonData)
-          console.log("hereh!")
-          console.log(Array.from(jsonData))
-          console.log(likeArray)
-          console.log("lets go")
-          console.log(likeArray[0].num_likes)
-          setLikeCount(likeArray[0].num_likes);
-          
-        } else {
-          console.error('Error');
-        }
-      } catch (error){
-        console.error('Error:', error);
-      };
-    }
-    handleMyDisplay();
-  }
 
   const myWorkoutResults = myWorkout.map(workoutName =>
     <li key={workoutName.id} className="list">
@@ -265,7 +258,7 @@ const Workouts = () => {
             <div className="popupString">
               {workoutName.workoutString}
             </div>
-            <p className="likeCounter">{likeCount} Likes</p>
+            <p className="likeCounter">{workoutName.likes} Likes</p>
             <Button className="likeButton" variant="dark" onClick={() => handleLike(workoutName.id)}>Like</Button>
           </div>
         )}

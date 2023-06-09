@@ -49,38 +49,39 @@ const Workouts = () => {
   const [myWorkout, setMyWorkout] = useState(myWorkouts)
 
   //FAULT LOGIC GOTTA FIX
-  const handleMyDelete = workoutId => {
-  //   console.log("here is handle my delete")
-  //   const handleDelete = async (e) => {
-  //     console.log(workoutId)
-  //     console.log("here is handle delete!!!")
-  //   // e.preventDefault();
-  //   //handle backend logic here
-  //   const data = {
-  //     workoutId,
-  //   };
-  //   try{
-  //     const response = await fetch ('http://127.0.0.1:5000/delete-workout', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(data),
-  //     })
-  //     console.log(JSON.stringify(data))
+  const handleMyDelete = (workoutId) => {
+    console.log("here is handle my delete")
+    const handleDelete = async (e) => {
+      console.log(workoutId)
+      console.log("here is handle delete!!!")
+    // e.preventDefault();
+    //handle backend logic here
+    const data = {
+      workoutId,
+    };
+    try{
+      const response = await fetch ('http://127.0.0.1:5000/delete-workout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      console.log(JSON.stringify(data))
 
-  //     if (response.ok){
-  //       const jsonData = await response.json();
-  //       console.log(jsonData)
-  //       // window.location.href = "/"
-  //     } else {
-  //       console.error('Error');
-  //     }
-  //   } catch (error){
-  //     console.error('Error:', error);
-  //   };
-  // }
-  //   handleDelete();
+      if (response.ok){
+        const jsonData = await response.json();
+        console.log(jsonData)
+        // indow.location.href = "/workouts"
+        handleMine();
+      } else {
+        console.error('Error');
+      }
+    } catch (error){
+      console.error('Error:', error);
+    };
+  }
+    handleDelete();
   }
   
   const handleSaveRemove = () => {
@@ -113,7 +114,7 @@ const Workouts = () => {
           </div>
         )}
       </Popup>
-      <Button className="deleteButton" variant="danger" onClick={handleMyDelete(workoutName.id)}>
+      <Button className="deleteButton" variant="danger" onClick={ () => handleMyDelete(workoutName.id)}>
         Delete
       </Button>
     </li>

@@ -28,7 +28,8 @@ const Profile = () => {
       <div /*onClick={prompt for file}*/ className="rounded-circle">
         <img src="default.png"></img>
       </div>
-      <div className="profileGraphic">{username.substring(0,1)}</div>
+      {(localStorage.getItem("username") !== null) && (
+        <div className="profileGraphic">{username.substring(0,1)}</div>)}
       <div className="profileText">
         <p>{username}</p>
         <div className="lesserText">

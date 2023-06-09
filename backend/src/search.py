@@ -28,12 +28,19 @@ def search_for_workout():
 
     all_workouts = session.query(models.WorkoutLists).all()
     for w in all_workouts:
+        #Find owner of workout
+        #Query the session for owner's privacy settings
+        #Save privacy setting into a boolean
+        user = session.query(models.User).filter_by(username=w.owner).first()
+        privacy = user.privacy
         all_tags = w.tags.split('\n')
         for t in all_tags:
             for tag in input_tags:
-                if t == tag:
+                if t == tag and privacy == False:
+                    #Add workout only if user is public
                     workout_json.append({'id': w.id, 'name':w.name, 'workoutString':w.info, 'likes':w.likes})
     return_workout = []
+    
     #workout_json = list(set(workout_json))
     for workout in workout_json:
         if workout not in return_workout:

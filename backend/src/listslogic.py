@@ -35,24 +35,34 @@ def create_new_workout():
     return jsonify({"status":"workout created"}), 200
 
 
-@listlogic.route('/get-num-workouts', methods=['GET'])
-@cross_origin
+
+# DONE
+@listlogic.route('/get-num-workouts', methods=['POST'])
+@cross_origin()
 def get_num_workouts():
 
     # get current username
-    # data = request.json
-    # username = data.get('owner')
-    # username = username[1:len(username)-1]
+    data = request.json
+    username = data.get('owner')
+    username = username[1:len(username)-1]
 
-    username = "teddyduncan"
-    
+    print("username")
+    print(username)
+    print()
     # workouts owned by user
     workouts = session.query(models.WorkoutLists).filter_by(owner=username).all()
-    for w, i in workouts:
-        i += 1
-        print(i) # TESTING
+    i = 0
+    for w in workouts:
+        i = i + 1
+        print(w)
+    print("num workouts:")
+    print(i)
+    print()
 
-    return jsonify({"num_workouts":i}), 200
+    jsonObj = [{"num_workouts":i}]
+
+    return jsonify(jsonObj), 200
+
 
 # DONE
 @listlogic.route('/get-my-workouts', methods=['POST'])
@@ -79,6 +89,7 @@ def get_my_workouts():
     return jsonify(workout_json), 200
 
 
+# DONE
 @listlogic.route('/save-workout', methods=['POST'])
 @cross_origin()
 def save_workout():
@@ -123,7 +134,9 @@ def save_workout():
     return jsonify({"status":"workout saved!"}), 200
 
 
+# DONE
 @listlogic.route('/unsave-workout', methods=['POST'])
+@cross_origin()
 def unsave_workout():
     """
     get the current user
@@ -134,8 +147,11 @@ def unsave_workout():
     data = request.json
 
     # get current workout
-    workout_id = data.get("id")
-    workout = session.query(models.User).filter_by(id=workout_id).first()
+    workout_id = data.get("workoutId")
+    print("workout id")
+    print(workout_id)
+    print()
+    workout = session.query(models.WorkoutLists).filter_by(id=workout_id).first()
 
     # get current user
     username = data.get('owner') # "name"
@@ -149,6 +165,7 @@ def unsave_workout():
     return jsonify({"status":"workout unsaved!"}), 200
 
 
+# DONE
 @listlogic.route('/get-saved-workouts', methods=['POST'])
 @cross_origin()
 def get_saved_workoutS():
@@ -198,10 +215,10 @@ def get_public_workouts():
                 all_public_workout_json.append({'id': w.id, 'name':w.name, 'workoutString':w.info, 'likes':w.likes})
 
     # TESTING
-    for work in all_public_workout_json:
-        print("workout:")
-        print(work)
-        print()
+    # for work in all_public_workout_json:
+    #     print("workout:")
+    #     print(work)
+    #     print()
 
     # return json object of workouts
     return jsonify(all_public_workout_json), 200

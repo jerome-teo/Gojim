@@ -88,6 +88,7 @@ const Home = () => {
           console.log(jsonData)
           console.log("here!")
           setWorkouts(Array.from(jsonData))
+          console.log(Array.from(jsonData))
           console.log(jsonData)
         } else {
           console.log('Error: ');

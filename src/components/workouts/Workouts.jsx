@@ -51,6 +51,7 @@ const savedWorkouts = [
 const Workouts = () => {
   const [myWorkout, setMyWorkout] = useState(myWorkouts)
   const [mySavedWorkouts, setSavedWorkouts] = useState(savedWorkouts)
+  const owner = localStorage.getItem("username")
 
   const handleMyDelete = (workoutId) => {
     console.log("here is handle my delete")
@@ -87,31 +88,20 @@ const Workouts = () => {
     handleDelete();
   }
   
-  const handleSaveRemove = () => {
+  const handleSaveRemove = (workoutId) => {
     //handle deleting saved workout here
-  }
-
-  const [likeCount, setLikeCount] = useState(0);
-  const handleLike = (/*can pass in something referring to the workout if necessary*/) => {
-    //add a like
-
-  }
-
-  const owner = localStorage.getItem("username")
-  const handleSave = (workoutId) => (/*can pass in something referring to the workout if necessary*/) =>{
-    //save to workouts
-    console.log("here is handle save")
-    const handleMySave = async (e) => {
+    console.log("here is handle save remove")
+    const handleRemoveSave = async (e) => {
       console.log(workoutId)
-      console.log("here is handle my save!!!")
+      console.log("here is handle remove!!")
     // e.preventDefault();
     //handle backend logic here
     const data = {
       workoutId,
-      owner,
+      owner
     };
     try{
-      const response = await fetch ('http://127.0.0.1:5000/save-workout', {
+      const response = await fetch ('http://127.0.0.1:5000/unsave-workout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -123,7 +113,8 @@ const Workouts = () => {
       if (response.ok){
         const jsonData = await response.json();
         console.log(jsonData)
-        window.location.href = "/workouts"
+        // window.location.href = "/workouts"
+        handleSaved();
       } else {
         console.error('Error');
       }
@@ -131,9 +122,15 @@ const Workouts = () => {
       console.error('Error:', error);
     };
   }
-    handleMySave();
-
+    handleRemoveSave();
   }
+
+  
+  const [likeCount, setLikeCount] = useState(0);
+  const handleLike = (/*can pass in something referring to the workout if necessary*/) => {
+    //add a like
+  }
+
 
   const myWorkoutResults = myWorkout.map(workoutName =>
     <li key={workoutName.name} className="list">
@@ -148,7 +145,6 @@ const Workouts = () => {
             </div>
             <p className="likeCounter">{likeCount} Likes</p>
             <Button className="likeButton" variant="dark" onClick={handleLike}>Like</Button>
-            <Button className="saveButton" variant="dark" onClick={ () => handleSave(workoutName.id)}>Save</Button>
           </div>
         )}
       </Popup>
@@ -171,11 +167,10 @@ const Workouts = () => {
             </div>
             <p className="likeCounter">{likeCount} Likes</p>
             <Button className="likeButton" variant="dark" onClick={handleLike}>Like</Button>
-            <Button className="saveButton" variant="dark" onClick={handleSave}>Save</Button>
           </div>
         )}
       </Popup>
-      <Button className="deleteButton" variant="danger" onClick={handleSaveRemove}>
+      <Button className="deleteButton" variant="danger" onClick={ () => handleSaveRemove(workoutName.id)}>
         Remove
       </Button>
     </li>

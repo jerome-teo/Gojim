@@ -196,8 +196,10 @@ const Home = () => {
     const data = {
       tagString,
     };
+    // console.log(tagString)
 
     try{
+      console.log(tagString)
       const response = await fetch ('http://127.0.0.1:5000/search', {
         method: 'POST',
         headers:{
@@ -206,11 +208,16 @@ const Home = () => {
         body: JSON.stringify(data),
       })
       console.log(JSON.stringify(data))
+      console.log("i am here")
 
       if (response.ok){
         const jsonData = await response.json();
         //Set workouts to the array returned
+        console.log("lets see whats in jsondata")
+        console.log(jsonData)
         setWorkouts(Array.from(jsonData))
+        console.log("what abt after its turned array")
+        console.log(Array.from(jsonData))
       } else {
         //Set workouts to empty array
         setWorkouts([])

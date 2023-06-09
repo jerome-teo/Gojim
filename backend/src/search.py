@@ -24,7 +24,24 @@ def search_for_workout():
 
     data = request.json
     input_tag = data.get("tagString")
+    print("this is input tag")
+    print(input_tag)
+    print()
+
     input_tags = input_tag.split('\n')
+
+    print("here is input tags:")
+    print(input_tags)
+    print()
+
+    inputs = []
+    for tag in input_tags:
+        if tag != "":
+            inputs.append(tag)
+
+    print("new tags:")
+    print(inputs)
+    print()
 
     all_workouts = session.query(models.WorkoutLists).all()
     for w in all_workouts:
@@ -35,8 +52,11 @@ def search_for_workout():
         privacy = user.privacy
         all_tags = w.tags.split('\n')
         for t in all_tags:
-            for tag in input_tags:
+            for tag in inputs:
                 if t == tag and privacy == False:
+                    print("the tag is:")
+                    print(tag)
+
                     # Add workout only if user is public
                     workout_json.append({'id': w.id, 'name':w.name, 'workoutString':w.info, 'likes':w.likes})
     return_workout = []
@@ -44,7 +64,10 @@ def search_for_workout():
     # workout_json = list(set(workout_json))
     for workout in workout_json:
         if workout not in return_workout:
+            print("here are workouts:")
+            print(workout)
             return_workout.append(workout)
+
     # if workout_json is not empty, successful, else send EMPTY LIST tag not found
     if return_workout:
         return jsonify(return_workout), 200

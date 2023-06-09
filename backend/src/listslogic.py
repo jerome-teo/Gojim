@@ -1,16 +1,15 @@
 from flask import Blueprint, request, jsonify
 import models
 from auth import session
-from flask_jwt_extended import jwt_required
 from flask_cors import cross_origin
 
 
 listlogic = Blueprint('listlogic', __name__)
 
 
+# DONE
 @listlogic.route('/create-new-workout', methods=['POST'])
 @cross_origin()
-# @jwt_required()
 def create_new_workout():
     """
     Get the current user
@@ -37,12 +36,15 @@ def create_new_workout():
 
 
 @listlogic.route('/get-num-workouts', methods=['GET'])
+@cross_origin
 def get_num_workouts():
 
     # get current username
-    data = request.json
-    username = data.get('owner')
-    username = username[1:len(username)-1]
+    # data = request.json
+    # username = data.get('owner')
+    # username = username[1:len(username)-1]
+
+    username = "teddyduncan"
     
     # workouts owned by user
     workouts = session.query(models.WorkoutLists).filter_by(owner=username).all()
@@ -52,9 +54,9 @@ def get_num_workouts():
 
     return jsonify({"num_workouts":i}), 200
 
-
-@listlogic.route('/get-my-workouts', methods=['GET'])
-@jwt_required()
+# DONE
+@listlogic.route('/get-my-workouts', methods=['POST'])
+@cross_origin()
 def get_my_workouts():
     """
     Get the current username
@@ -67,16 +69,21 @@ def get_my_workouts():
     username = data.get('owner')
     username = username[1:len(username)-1]
 
+    print(username)
+    print()
+
     workout_json = []
     # workouts owned by user
     workouts = session.query(models.WorkoutLists).filter_by(owner=username).all()
     for w in workouts:
+        workout_json.append({'id': w.id, 'name':w.name, 'workoutString':w.info, 'likes':w.likes})
+
+    for workout in workout_json:
         print("workouts: ")
-        print(w)
-        workout_json.append({'id': w.id, 'name':w.name, 'info':w.info, 'likes':w.likes})
+        print(workout)
 
     # return json object of workouts
-    return workout_json, jsonify({"status":"got my workouts in json object"}), 200
+    return jsonify(workout_json), 200
 
 
 @listlogic.route('/save-workout', methods=['POST'])
@@ -152,7 +159,7 @@ def get_saved_workout_names():
         saved_workouts_json.append({'id': w.id, 'name':w.name, 'info':w.info, 'likes':w.likes})
 
     # return json object of workouts
-    return saved_workouts_json, jsonify({"status":"got saved workouts in json object"}), 200
+    return jsonify(saved_workouts_json), 200
 
 
 # Home is where this is called
@@ -185,7 +192,7 @@ def get_public_workouts():
         print()
 
     # return json object of workouts
-    return all_public_workout_json, jsonify({"status":"got public workouts in json object"}), 200
+    return jsonify(all_public_workout_json), 200
 
 
 @listlogic.route('/like-workout', methods=['POST'])
@@ -223,11 +230,16 @@ def like_or_unlike_workout():
 
 
 @listlogic.route('/delete-workout', methods=['POST'])
+@cross_origin()
 def delete_workout():
     
     # get current workout
     data = request.json
-    currWorkoutId = data.get("id")
+    currWorkoutId = data.get("workoutId")
+
+    print("current workout id:")
+    print(currWorkoutId)
+    print()
     
     # delete workout
     workout = session.query(models.WorkoutLists).filter_by(id=currWorkoutId).first()

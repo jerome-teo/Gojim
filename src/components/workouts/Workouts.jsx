@@ -3,6 +3,7 @@ import "./workouts.css"
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
 import Popup from 'reactjs-popup';
+import { json } from 'react-router-dom';
 
 const myWorkouts = [
   {
@@ -48,34 +49,38 @@ const Workouts = () => {
   const [myWorkout, setMyWorkout] = useState(myWorkouts)
 
   //FAULT LOGIC GOTTA FIX
-  const handleMyDelete = async (e) => {
-    //handle backend logic here
-    const workoutId = 1; // FIX
-    setdeleteworkout(true);
-    const data = {
-      deleteworkout,
-      workoutId,
-    };
-    try{
-      const response = await fetch ('http://127.0.0.1:5000/delete-workout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-      console.log(JSON.stringify(data))
+  const handleMyDelete = workoutId => {
+  //   console.log("here is handle my delete")
+  //   const handleDelete = async (e) => {
+  //     console.log(workoutId)
+  //     console.log("here is handle delete!!!")
+  //   // e.preventDefault();
+  //   //handle backend logic here
+  //   const data = {
+  //     workoutId,
+  //   };
+  //   try{
+  //     const response = await fetch ('http://127.0.0.1:5000/delete-workout', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(data),
+  //     })
+  //     console.log(JSON.stringify(data))
 
-      if (response.ok){
-        const jsonData = await response.json();
-        console.log(jsonData)
-        // window.location.href = "/"
-      } else {
-        console.error('Error');
-      }
-    } catch (error){
-      console.error('Error:', error);
-    }
+  //     if (response.ok){
+  //       const jsonData = await response.json();
+  //       console.log(jsonData)
+  //       // window.location.href = "/"
+  //     } else {
+  //       console.error('Error');
+  //     }
+  //   } catch (error){
+  //     console.error('Error:', error);
+  //   };
+  // }
+  //   handleDelete();
   }
   
   const handleSaveRemove = () => {
@@ -91,11 +96,7 @@ const Workouts = () => {
     //save to workouts
   }
 
-  const [workoutName, setWorkoutName] = useState({
-    listOfNames: [],
-  });
-
-  const myWorkoutResults = myWorkouts.map(workoutName =>
+  const myWorkoutResults = myWorkout.map(workoutName =>
     <li key={workoutName.name} className="list">
       <Popup className="workoutPopup" trigger={<Button className="ownWorkout" variant="link">{workoutName.name}</Button>} modal nested>
         {closed => (
@@ -112,7 +113,7 @@ const Workouts = () => {
           </div>
         )}
       </Popup>
-      <Button className="deleteButton" variant="danger" onClick={handleMyDelete}>
+      <Button className="deleteButton" variant="danger" onClick={handleMyDelete(workoutName.id)}>
         Delete
       </Button>
     </li>
@@ -150,42 +151,37 @@ const Workouts = () => {
     setShowMine(true);
     setShowSaved(false);
     const finalize = async (e) => {
-      e.preventDefault();
+      // e.preventDefault();
       const data = {
         owner,
       }
 
-      // try {
-      //   console.log("here is workouts.jsx")
-      //   console.log(localStorage.getItem("username"))
-      //   const response = await fetch('http://127.0.0.1:5000/get-my-workouts-names', {
-      //     method: 'GET',
-      //     header: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(data),
-      //   })
-      //   if (response) {
-      //     const jsonData = await response.json();
-      //     console.log(jsonData)
-      //   } else {
-      //     console.error('Error: ');
-      //   }
-      // }
-      // catch (error) {
-      //   console.error('Error:', error);
-      // }
       try {
         console.log("here is workouts.jsx")
-        console.log(localStorage.getItem("username"))
-        fetch("http://127.0.0.1:5000/get-my-workouts-names").then(
-          response => response.json()
-        ).then(
-
-        )
+        console.log(localStorage.getItem("username"),)
+        const response = await fetch('http://127.0.0.1:5000/get-my-workouts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        console.log(response)
+        if (response.ok) {
+          const jsonData = await response.json();
+          console.log(jsonData)
+          console.log("here!")
+          setMyWorkout(Array.from(jsonData))
+          console.log(jsonData)
+        } else {
+          console.log('Error: ');
+        }
       }
-      catch{}
+      catch (error) {
+        console.log("error:", error);
+      }
     }
+    finalize()
   }
   const handleSaved = () => {
     setShowMine(false);
@@ -196,7 +192,7 @@ const Workouts = () => {
     <div>
       <div>
         <p className="ownWorkoutTitle">Workouts</p>
-        <p className="shownWorkouts">
+        <div className="shownWorkouts">
           {showMine && (
             <ul>
               <p>Created Workouts</p>
@@ -209,7 +205,7 @@ const Workouts = () => {
               {savedWorkoutResults}
             </ul>
           )}
-        </p>
+        </div>
         <Button className="mineButton" variant="secondary" onClick={handleMine}>Show My Workouts</Button>
         <Button className="savedButton" variant="secondary" onClick={handleSaved}>Show Saved Workouts</Button>
       </div>

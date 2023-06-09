@@ -73,7 +73,7 @@ const Home = () => {
   
   const navigate = useNavigate();
 
-  const [displayedWorkouts, setWorkouts] = useState(workouts)
+  const [displayedWorkouts, setWorkouts] = useState(Workouts)
   useEffect( () => {
     const finalize = async (e) => {
       // e.preventDefault();
@@ -203,10 +203,10 @@ const Home = () => {
       if (response.ok){
         const jsonData = await response.json();
         //Set workouts to the array returned
-        setMyWorkout(Array.from(jsonData))
+        setWorkouts(Array.from(jsonData))
       } else {
         //Set workouts to empty array
-        setMyWorkout([])
+        setWorkouts([])
       }
     } catch (error){
       console.error('Error', error);

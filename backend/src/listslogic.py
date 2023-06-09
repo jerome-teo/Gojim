@@ -149,8 +149,9 @@ def unsave_workout():
     return jsonify({"status":"workout unsaved!"}), 200
 
 
-@listlogic.route('/get-saved-workout-names', methods=['GET'])
-def get_saved_workout_names():
+@listlogic.route('/get-saved-workouts', methods=['POST'])
+@cross_origin()
+def get_saved_workoutS():
     """
     get the current user
     loop through saved workouts

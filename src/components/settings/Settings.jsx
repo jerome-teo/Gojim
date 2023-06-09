@@ -12,26 +12,51 @@ const Settings = () => {
   //Used for toggling public/private workout
   const ref = useRef();
   const [on, toggleOn] = useState(false);
+  // const [on, toggleOn] = useState(false);
   // let data
-  // const fetchUserSettings = (data) => {
-  //   const username=localStorage.getItem("username")
-  //   const info = {
-  //     username,
-  //   };
-  //   try {
-  //     const response =  fetch('http://127.0.0.1:5000/getprivacy', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(info)
-  //     });
-  //     data =  response.json();
-  //   } catch (error) {
-  //     console.error('Error fetching user settings:', error);
-  //   }
-  // };
-  // fetchUserSettings(data);
+  useEffect( () => {
+  const fetchUserSettings = async (e) => {
+    const username=localStorage.getItem("username")
+    const info = {
+      username,
+    };
+    try {
+      const response = await fetch('http://127.0.0.1:5000/getprivacy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(info)
+      });
+      if (response.ok){
+        const jsonData = await response.json();
+        // toggleOn(data);
+        console.log(jsonData)
+        let settingsArray = Array.from(jsonData)
+        toggleOn(settingsArray[0].privacy);
+      } else {
+        console.error('Error');
+      }
+    } catch (error) {
+      console.error('Error fetching user settings:', error);
+    }
+  };
+  fetchUserSettings();
+})
+
+  const trueFalse = [
+    {
+    'privacy': false
+    },
+  ]
+
+  // let userPref = Array.from(data)
+  
+  // useEffect( () => {
+  //   userPref = Array.from(data)
+    
+  // }, [data])
+  
   // useEffect(() => {
   //   toggleOn(true);
   //   // fetchUserSettings(data);
@@ -39,7 +64,7 @@ const Settings = () => {
 
   // fetchUserSettings(data);
   // console.log(data.privacy)
-  // const [on, toggleOn] = useState(data.privacy);
+  // toggleOn(data);
   // if (on === null) {
   //   return <div>Loading...</div>;
   // }
@@ -50,7 +75,6 @@ const Settings = () => {
     const username=localStorage.getItem("username")
     const data = {
       username,
-      on,
     };
 
     try{
@@ -69,7 +93,8 @@ const Settings = () => {
         console.log(jsonData)
       }
       else{
-        toggleOn(!on);
+        console.error('Error');
+        // toggleOn(!on);
       }
     } catch(error){
       console.error('Error', error);

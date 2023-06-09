@@ -3,16 +3,18 @@ GoJim is an interactive webapp that allows users to share their preferred workou
 
 **Key Features**
 - Users can create accounts on the signup page and authenticate using the login page to access their account information.
-- Users can search for workouts of specific tags or for users
+- Users can search for workouts of specific tags.
 - Users can create lists of their favorite sequence of exercises under a single workout and upload it to their profile
-- Users can interact with others' posts in the form of likes, comments for advice exchange.
+- Users can interact with others' posts in the form of likes.
 - Users can customize their privacy settings, change their username and password on the settings page.
-- Users can view a home page where relevant articles shared by others are visible on a feed.
+- Users and non-users can view a home page where relevant articles shared by others are visible on a feed.
 
 **Running the Web App:**
 
     git clone https://github.com/Jeromeoui/gojim
     cd gojim
+    cd backend
+    cd src
 
 **Set up the backend server:**
 

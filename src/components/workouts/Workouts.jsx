@@ -242,7 +242,7 @@ const Workouts = () => {
     </li>
   );
 
-  const savedWorkoutResults = savedWorkouts.map(workoutName =>
+  const savedWorkoutResults = mySavedWorkouts.map(workoutName =>
     <li key={workoutName.id} className="list">
       <Popup className="workoutPopup" trigger={<Button className="ownWorkout" variant="link">{workoutName.name}</Button>} modal nested>
         {closed => (

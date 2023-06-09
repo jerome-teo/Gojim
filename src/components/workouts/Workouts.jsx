@@ -25,8 +25,6 @@ const myWorkouts = [
   }
 ];
 
-const [myWorkout, setMyWorkout] = useState(myWorkouts)
-
 const savedWorkouts = [
   {
     name: "Saved Workout 1",
@@ -46,6 +44,8 @@ const savedWorkouts = [
 const Workouts = () => {
 
   const [deleteworkout, setdeleteworkout] = useState(false);
+
+  const [myWorkout, setMyWorkout] = useState(myWorkouts)
 
   //FAULT LOGIC GOTTA FIX
   const handleMyDelete = async (e) => {

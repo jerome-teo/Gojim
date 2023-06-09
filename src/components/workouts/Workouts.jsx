@@ -3,19 +3,26 @@ import "./workouts.css"
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
 import Popup from 'reactjs-popup';
+import { json } from 'react-router-dom';
 
 const myWorkouts = [
   {
+    id: 0,
     name: "Test Workout 1",
-    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5"
+    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5",
+    likes: 0
   },
   {
+    id: 1,
     name: "Test Workout 2",
-    workoutString: "Curls:  Reps: 5 Sets: 5"
+    workoutString: "Curls:  Reps: 5 Sets: 5",
+    likes: 0
   },
   {
+    id: 2,
     name: "Test Workout 3",
-    workoutString: "Crunches:  Reps: 5 Sets: 5"
+    workoutString: "Crunches:  Reps: 5 Sets: 5",
+    likes: 0
   }
 ];
 
@@ -37,8 +44,43 @@ const savedWorkouts = [
 
 const Workouts = () => {
 
-  const handleMyDelete = () => {
-    //handle deleting my workout here
+  const [deleteworkout, setdeleteworkout] = useState(false);
+
+  const [myWorkout, setMyWorkout] = useState(myWorkouts)
+
+  //FAULT LOGIC GOTTA FIX
+  const handleMyDelete = workoutId => {
+  //   console.log("here is handle my delete")
+  //   const handleDelete = async (e) => {
+  //     console.log(workoutId)
+  //     console.log("here is handle delete!!!")
+  //   // e.preventDefault();
+  //   //handle backend logic here
+  //   const data = {
+  //     workoutId,
+  //   };
+  //   try{
+  //     const response = await fetch ('http://127.0.0.1:5000/delete-workout', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(data),
+  //     })
+  //     console.log(JSON.stringify(data))
+
+  //     if (response.ok){
+  //       const jsonData = await response.json();
+  //       console.log(jsonData)
+  //       // window.location.href = "/"
+  //     } else {
+  //       console.error('Error');
+  //     }
+  //   } catch (error){
+  //     console.error('Error:', error);
+  //   };
+  // }
+  //   handleDelete();
   }
   
   const handleSaveRemove = () => {
@@ -54,7 +96,7 @@ const Workouts = () => {
     //save to workouts
   }
 
-  const myWorkoutResults = myWorkouts.map(workoutName =>
+  const myWorkoutResults = myWorkout.map(workoutName =>
     <li key={workoutName.name} className="list">
       <Popup className="workoutPopup" trigger={<Button className="ownWorkout" variant="link">{workoutName.name}</Button>} modal nested>
         {closed => (
@@ -71,7 +113,7 @@ const Workouts = () => {
           </div>
         )}
       </Popup>
-      <Button className="deleteButton" variant="danger" onClick={handleMyDelete}>
+      <Button className="deleteButton" variant="danger" onClick={handleMyDelete(workoutName.id)}>
         Delete
       </Button>
     </li>
@@ -102,9 +144,44 @@ const Workouts = () => {
 
   const [showMine, setShowMine] = useState(false);
   const [showSaved, setShowSaved] = useState(false);
+
+  const owner = localStorage.getItem("username")
+
   const handleMine = () => {
     setShowMine(true);
     setShowSaved(false);
+    const finalize = async (e) => {
+      // e.preventDefault();
+      const data = {
+        owner,
+      }
+
+      try {
+        console.log("here is workouts.jsx")
+        console.log(localStorage.getItem("username"),)
+        const response = await fetch('http://127.0.0.1:5000/get-my-workouts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        console.log(response)
+        if (response.ok) {
+          const jsonData = await response.json();
+          console.log(jsonData)
+          console.log("here!")
+          setMyWorkout(Array.from(jsonData))
+          console.log(jsonData)
+        } else {
+          console.log('Error: ');
+        }
+      }
+      catch (error) {
+        console.log("error:", error);
+      }
+    }
+    finalize()
   }
   const handleSaved = () => {
     setShowMine(false);
@@ -115,7 +192,7 @@ const Workouts = () => {
     <div>
       <div>
         <p className="ownWorkoutTitle">Workouts</p>
-        <p className="shownWorkouts">
+        <div className="shownWorkouts">
           {showMine && (
             <ul>
               <p>Created Workouts</p>
@@ -128,7 +205,7 @@ const Workouts = () => {
               {savedWorkoutResults}
             </ul>
           )}
-        </p>
+        </div>
         <Button className="mineButton" variant="secondary" onClick={handleMine}>Show My Workouts</Button>
         <Button className="savedButton" variant="secondary" onClick={handleSaved}>Show Saved Workouts</Button>
       </div>

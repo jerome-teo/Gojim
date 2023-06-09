@@ -97,7 +97,7 @@ def sign_up():
         return jsonify({"error": "password too short"}), 406
     else:
         # add user to database, new user is created as private account
-        newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='sha224'), privacy=True)
+        newUser = models.User(email=email, username=username, password=generate_password_hash(password1, method='sha224'), privacy=False)
         session.add(newUser) # add user to database
         session.commit()
 

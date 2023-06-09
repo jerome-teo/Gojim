@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./home.css"
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useState } from 'react';
@@ -73,7 +73,34 @@ const Home = () => {
   
   const navigate = useNavigate();
 
-  const workoutResults = workouts.map(workoutName =>
+  const [displayedWorkouts, setWorkouts] = useState(workouts)
+  useEffect( () => {
+    const finalize = async (e) => {
+      // e.preventDefault();
+
+      try {
+        console.log("here is home.jsx")
+        console.log(localStorage.getItem("username"),)
+        const response = await fetch('http://127.0.0.1:5000/get-public-workouts')
+        console.log(response)
+        if (response.ok) {
+          const jsonData = await response.json();
+          console.log(jsonData)
+          console.log("here!")
+          setWorkouts(Array.from(jsonData))
+          console.log(jsonData)
+        } else {
+          console.log('Error: ');
+        }
+      }
+      catch (error) {
+        console.log("error:", error);
+      }
+    }
+    finalize()
+  }, []);
+
+  const workoutResults = displayedWorkouts.map(workoutName =>
     <li key={workoutName.name} className="searchList">
       <Popup className="workoutPopup" trigger={<Button variant="link">{workoutName.name}</Button>} modal nested>
         {closed => (
@@ -86,7 +113,7 @@ const Home = () => {
             </div>
             <p className="likeCounter">{likeCount} Likes</p>
             <Button className="likeButton" variant="dark" onClick={handleLike}>Like</Button>
-            <Button className="saveButton" variant="dark" onClick={handleSave}>Save</Button>
+            <Button className="saveButton" variant="dark" onClick={() => handleSave(workoutName.id)}>Save</Button>
           </div>
         )}
       </Popup>
@@ -102,11 +129,45 @@ const Home = () => {
     //add a like
   }
 
-  const handleSave = (/*can pass in something referring to the workout if necessary*/) =>{
+  const owner = localStorage.getItem("username")
+  const handleSave = (workoutId) => {
     if(localStorage.getItem("username") === null){
       navigate("/login")
     }
     //save to workouts
+    console.log("here is handle save")
+    const handleMySave = async (e) => {
+      console.log(workoutId)
+      console.log("here is handle my save!!!")
+    // e.preventDefault();
+    //handle backend logic here
+    const data = {
+      workoutId,
+      owner,
+    };
+    try{
+      const response = await fetch ('http://127.0.0.1:5000/save-workout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      console.log(JSON.stringify(data))
+
+      if (response.ok){
+        const jsonData = await response.json();
+        console.log(jsonData)
+        window.location.href = "/workouts"
+      } else {
+        console.error('Error');
+      }
+    } catch (error){
+      console.error('Error:', error);
+    };
+  }
+    handleMySave();
+
   }
 
   const handleSelect = (tags) => {
@@ -116,7 +177,7 @@ const Home = () => {
     //Depending on back-end implementation of search, can add tags.name to a data structure here
   }
 
-  const [showResults, setShowResults] = useState(false);
+  const [showResults, setShowResults] = useState(true);
   const handleSearch = () => {
     setTagString("");
     setShowResults(true);

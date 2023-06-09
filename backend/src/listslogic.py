@@ -69,24 +69,18 @@ def get_my_workouts():
     username = data.get('owner')
     username = username[1:len(username)-1]
 
-    print(username)
-    print()
-
     workout_json = []
     # workouts owned by user
     workouts = session.query(models.WorkoutLists).filter_by(owner=username).all()
     for w in workouts:
         workout_json.append({'id': w.id, 'name':w.name, 'workoutString':w.info, 'likes':w.likes})
 
-    for workout in workout_json:
-        print("workouts: ")
-        print(workout)
-
     # return json object of workouts
     return jsonify(workout_json), 200
 
 
 @listlogic.route('/save-workout', methods=['POST'])
+@cross_origin()
 def save_workout():
     """
     get the current workout
@@ -97,17 +91,34 @@ def save_workout():
     data = request.json
 
     # get current workout
-    workout_id = data.get("id")
-    workout = session.query(models.User).filter_by(id=workout_id).first()
+    workout_id = data.get("workoutId")
+    print("workoutid:")
+    print(workout_id)
+    print()
+    workout = session.query(models.WorkoutLists).filter_by(id=workout_id).first()
+
+    print("workout")
+    print(workout)
+    print()
 
     # get current user
     username = data.get('owner') # "name"
+    print("username")
+    print(username)
+    print()
     username = username[1:len(username)-1] # name
     user = session.query(models.User).filter_by(username=username).first()
+
+    print(user)
 
     # add saved workout to user
     user.saved_workouts.append(workout)
     session.commit()
+
+    for w in user.saved_workouts:
+        print("saved workouts: ")
+        print(w)
+        print()
 
     return jsonify({"status":"workout saved!"}), 200
 
@@ -156,14 +167,15 @@ def get_saved_workout_names():
     # loop through saved workouts
     saved_workouts_json = []
     for w in user.saved_workouts:
-        saved_workouts_json.append({'id': w.id, 'name':w.name, 'info':w.info, 'likes':w.likes})
+        saved_workouts_json.append({'id': w.id, 'name':w.name, 'workoutString':w.info, 'likes':w.likes})
 
     # return json object of workouts
     return jsonify(saved_workouts_json), 200
 
 
-# Home is where this is called
+# DONE
 @listlogic.route('/get-public-workouts', methods=['GET'])
+@cross_origin()
 def get_public_workouts():
     """
     loop through users
@@ -182,13 +194,12 @@ def get_public_workouts():
             user_workouts = session.query(models.WorkoutLists).filter_by(owner=u.username).all()
             # add names of all workouts into list
             for w in user_workouts:
-                all_public_workout_json.append({'id': w.id, 'name':w.name, 'info':w.info, 'likes':w.likes})
+                all_public_workout_json.append({'id': w.id, 'name':w.name, 'workoutString':w.info, 'likes':w.likes})
 
     # TESTING
-    for work, i in all_public_workout_json:
-        print("workout " + i + " :")
+    for work in all_public_workout_json:
+        print("workout:")
         print(work)
-        i += 1
         print()
 
     # return json object of workouts
@@ -206,6 +217,7 @@ def like_or_unlike_workout():
         decrement like variable
     return that count, and populate it on the frontend so that the like number matches
     """
+
 
     # get current workout & if it's plus or minus
     data = request.json
@@ -229,6 +241,7 @@ def like_or_unlike_workout():
     return jsonify({"status":"failed to perform action"}), 406
 
 
+# DONE
 @listlogic.route('/delete-workout', methods=['POST'])
 @cross_origin()
 def delete_workout():

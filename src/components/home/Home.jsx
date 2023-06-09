@@ -9,16 +9,22 @@ import { useNavigate } from "react-router-dom";
 
 let Workouts = [
   {
+    id: 0,
     name: "Test Workout 1",
-    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5"
+    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5",
+    likes: 0
   },
   {
+    id: 1,
     name: "Test Workout 2",
-    workoutString: "Curls:  Reps: 5 Sets: 5"
+    workoutString: "Curls:  Reps: 5 Sets: 5",
+    likes: 0
   },
   {
+    id: 2,
     name: "Test Workout 3",
-    workoutString: "Crunches:  Reps: 5 Sets: 5"
+    workoutString: "Crunches:  Reps: 5 Sets: 5",
+    likes: 0
   }
 ];
 const tags = [
@@ -88,6 +94,7 @@ const Home = () => {
           console.log(jsonData)
           console.log("here!")
           setWorkouts(Array.from(jsonData))
+          console.log("helloworld")
           console.log(Array.from(jsonData))
           console.log(jsonData)
         } else {
@@ -102,7 +109,7 @@ const Home = () => {
   }, []);
 
   const workoutResults = displayedWorkouts.map(workoutName =>
-    <li key={workoutName.name} className="searchList">
+    <li key={workoutName.id} className="searchList">
       <Popup className="workoutPopup" trigger={<Button variant="link">{workoutName.name}</Button>} modal nested>
         {closed => (
           <div>
@@ -181,7 +188,7 @@ const Home = () => {
 
   
 
-  const [showResults, setShowResults] = useState(false);
+  const [showResults, setShowResults] = useState(true);
   const handleSearch = async (e) => {
     setTagString("");
     setShowResults(true);
@@ -189,8 +196,10 @@ const Home = () => {
     const data = {
       tagString,
     };
+    // console.log(tagString)
 
     try{
+      console.log(tagString)
       const response = await fetch ('http://127.0.0.1:5000/search', {
         method: 'POST',
         headers:{
@@ -199,11 +208,16 @@ const Home = () => {
         body: JSON.stringify(data),
       })
       console.log(JSON.stringify(data))
+      console.log("i am here")
 
       if (response.ok){
         const jsonData = await response.json();
         //Set workouts to the array returned
+        console.log("lets see whats in jsondata")
+        console.log(jsonData)
         setWorkouts(Array.from(jsonData))
+        console.log("what abt after its turned array")
+        console.log(Array.from(jsonData))
       } else {
         //Set workouts to empty array
         setWorkouts([])

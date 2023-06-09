@@ -19,6 +19,11 @@ user_saved_workouts = Table("user_saved_workouts", base.metadata,
                       Column("workout_id", Integer, ForeignKey("workout_lists.workout_list_id"))
                       )
 
+user_liked_workouts = Table("user_liked_workouts", base.metadata,
+                      Column("user_id", Integer, ForeignKey("users.user_id")),
+                      Column("workout_id", Integer, ForeignKey("workout_lists.workout_list_id"))
+                      )
+
 class WorkoutLists(base):
     __tablename__ = "workout_lists"
 
@@ -54,6 +59,7 @@ class User(base):
     password = Column("password", String(100))
     privacy = Column("privacy", Boolean) # True for private, false for public
     saved_workouts = relationship("WorkoutLists", secondary="user_saved_workouts")
+    liked_workouts = relationship("WorkoutLists", secondary="user_liked_workouts")
 
     def __init__(self, email, username, password, privacy):
         self.email = email

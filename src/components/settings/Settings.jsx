@@ -258,7 +258,7 @@ const Settings = () => {
       {/*Toggle private/public workouts*/}
       <div className="options">
         <p>
-          Workouts Public?
+          Workouts Private?
           <Switch onChange={handleToggle} checked={on} className="toggle"/>
         </p>
 

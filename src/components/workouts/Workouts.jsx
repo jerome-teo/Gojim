@@ -221,7 +221,7 @@ const Workouts = () => {
   }
 
   const myWorkoutResults = myWorkout.map(workoutName =>
-    <li key={workoutName.name} className="list">
+    <li key={workoutName.id} className="list">
       <Popup className="workoutPopup" trigger={<Button onClick={() => handleDisplay(workoutName.id)} className="ownWorkout" variant="link">{workoutName.name}</Button>} modal nested>
         {closed => (
           <div>

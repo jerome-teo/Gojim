@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import "./workouts.css"
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
@@ -113,6 +113,7 @@ const Workouts = () => {
       if (response.ok){
         const jsonData = await response.json();
         console.log(jsonData)
+        this.forceUpdate()
         // window.location.href = "/workouts"
         handleSaved();
       } else {
@@ -125,16 +126,96 @@ const Workouts = () => {
     handleRemoveSave();
   }
 
-  
   const [likeCount, setLikeCount] = useState(0);
-  const handleLike = (/*can pass in something referring to the workout if necessary*/) => {
-    //add a like
+  const handleLike = (workoutId) => {
+    // add a like
+    //save to workouts
+    console.log("here is handle like")
+    const handleMyLike= async (e) => {
+      console.log(workoutId)
+      console.log("here is handle my like!!!")
+    // e.preventDefault();
+    //handle backend logic here
+    const data = {
+      workoutId,
+      owner,
+    };
+    try{
+      const response = await fetch ('http://127.0.0.1:5000/like-or-unlike-workout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      console.log(JSON.stringify(data))
+
+      if (response.ok){
+        const jsonData = await response.json();
+        console.log(jsonData)
+
+        let likeArray = Array.from(jsonData)
+        console.log("hereh!")
+        console.log(Array.from(jsonData))
+        console.log(likeArray)
+        console.log("lets go")
+        console.log(likeArray[0].num_likes)
+        setLikeCount(likeArray[0].num_likes);
+        
+      } else {
+        console.error('Error');
+      }
+    } catch (error){
+      console.error('Error:', error);
+    };
+  }
+    handleMyLike();
   }
 
+  const handleDisplay = (workoutId) => {
+    console.log("here is handle display")
+    const handleMyDisplay= async (e) => {
+      console.log(workoutId)
+      console.log("here is handle my display!!!")
+      // e.preventDefault();
+      //handle backend logic here
+      const data = {
+        workoutId,
+      };
+      try{
+        const response = await fetch ('http://127.0.0.1:5000/get-num-likes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        console.log(JSON.stringify(data))
+
+        if (response.ok){
+          const jsonData = await response.json();
+          console.log(jsonData)
+
+          let likeArray = Array.from(jsonData)
+          console.log("hereh!")
+          console.log(Array.from(jsonData))
+          console.log(likeArray)
+          console.log("lets go")
+          console.log(likeArray[0].num_likes)
+          setLikeCount(likeArray[0].num_likes);
+          
+        } else {
+          console.error('Error');
+        }
+      } catch (error){
+        console.error('Error:', error);
+      };
+    }
+  }
 
   const myWorkoutResults = myWorkout.map(workoutName =>
     <li key={workoutName.name} className="list">
-      <Popup className="workoutPopup" trigger={<Button className="ownWorkout" variant="link">{workoutName.name}</Button>} modal nested>
+      <Popup className="workoutPopup" trigger={<Button onClick={() => handleDisplay(workoutName.id)} className="ownWorkout" variant="link">{workoutName.name}</Button>} modal nested>
         {closed => (
           <div>
             <div className="popupTitle">
@@ -144,7 +225,7 @@ const Workouts = () => {
               {workoutName.workoutString}
             </div>
             <p className="likeCounter">{likeCount} Likes</p>
-            <Button className="likeButton" variant="dark" onClick={handleLike}>Like</Button>
+            <Button className="likeButton" variant="dark" onClick={() => handleLike(workoutName.id)}>Like</Button>
           </div>
         )}
       </Popup>
@@ -155,6 +236,7 @@ const Workouts = () => {
   );
 
   const savedWorkoutResults = mySavedWorkouts.map(workoutName =>
+
     <li key={workoutName.name} className="list">
       <Popup className="workoutPopup" trigger={<Button className="ownWorkout" variant="link">{workoutName.name}</Button>} modal nested>
         {closed => (
@@ -166,7 +248,7 @@ const Workouts = () => {
               {workoutName.workoutString}
             </div>
             <p className="likeCounter">{likeCount} Likes</p>
-            <Button className="likeButton" variant="dark" onClick={handleLike}>Like</Button>
+            <Button className="likeButton" variant="dark" onClick={() => handleLike(workoutName.id)}>Like</Button>
           </div>
         )}
       </Popup>

@@ -134,6 +134,7 @@ const Home = () => {
   const handleSave = (workoutId) => {
     if(localStorage.getItem("username") === null){
       navigate("/login")
+      return;
     }
     //save to workouts
     console.log("here is handle save")

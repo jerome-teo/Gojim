@@ -224,39 +224,63 @@ def get_public_workouts():
     return jsonify(all_public_workout_json), 200
 
 
-@listlogic.route('/like-workout', methods=['POST'])
+@listlogic.route('/like-or-unlike-workout', methods=['POST'])
+@cross_origin()
 def like_or_unlike_workout():
     """
     get the current workout
-    get plus or minus
-    if plus
-        increment like variable
-    if minus
-        decrement like variable
-    return that count, and populate it on the frontend so that the like number matches
+    get the current user
+    add or remove the workout to the liked list
     """
 
-
-    # get current workout & if it's plus or minus
+    # get the current workout
     data = request.json
-    currWokroutId = data.get("id")
-    plus_or_minus = data.get("plus_or_minus")
+    currWorkoutId = data.get("workoutId")
+    workout = session.query(models.WorkoutLists).filter_by(id=currWorkoutId).first()
 
-    workout = session.query(models.WorkoutLists).filter_by(id=currWokroutId).first()
-    # get current like count
-    workout_like = workout.like
+    print("workout")
+    print(workout)
+    print()
 
-    # increment or decrement it
-    if (plus_or_minus == "plus"):
-        workout.like = workout_like + 1
-        session.commit()
-        return jsonify({"status":"workout liked"}), 200
-    elif (plus_or_minus == "minus"):
-        workout.like = workout_like - 1
-        session.commit()
-        return jsonify({"status":"workout unliked"}), 200
+    # get the current number of likes
+    workout_like = workout.likes
+    print("workout likes: ")
+    print(workout_like)
+    print()
 
-    return jsonify({"status":"failed to perform action"}), 406
+    # get the username
+    username = data.get('owner') # "name"
+    username = username[1:len(username)-1] # name
+    user = session.query(models.User).filter_by(username=username).first()
+
+    # add it if it's in there
+    if workout not in user.liked_workouts:
+        user.liked_workouts.append(workout)
+        workout.likes = workout_like + 1
+    else:
+        user.liked_workouts.remove(workout)
+        workout.likes = workout_like - 1
+
+    session.commit()
+
+    jsonObj = [{"num_likes":workout.likes}]
+
+    return jsonify(jsonObj), 200
+
+
+
+@listlogic.route('/get-num-likes', methods=['POST'])
+@cross_origin()
+def get_num_likes():
+
+    # get current workout
+    data = request.json
+    currWorkoutId = data.get("workoutId")
+    workout = session.query(models.WorkoutLists).filter_by(id=currWorkoutId).first()
+
+    jsonObj = [{"num_likes":workout.likes}]
+
+    return jsonify(jsonObj), 200
 
 
 # DONE

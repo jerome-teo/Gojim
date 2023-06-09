@@ -7,7 +7,7 @@ import Popup from 'reactjs-popup';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
 
-const workouts = [
+let Workouts = [
   {
     name: "Test Workout 1",
     workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5"
@@ -73,8 +73,9 @@ const Home = () => {
   
   const navigate = useNavigate();
 
+  const [workouts, setMyWorkout] = useState(Workouts)
   const workoutResults = workouts.map(workoutName =>
-    <li key={workoutName.name} className="searchList">
+    <li key={workoutName.id} className="searchList">
       <Popup className="workoutPopup" trigger={<Button variant="link">{workoutName.name}</Button>} modal nested>
         {closed => (
           <div>
@@ -116,11 +117,39 @@ const Home = () => {
     //Depending on back-end implementation of search, can add tags.name to a data structure here
   }
 
+  
+
   const [showResults, setShowResults] = useState(false);
-  const handleSearch = () => {
+  const handleSearch = async (e) => {
     setTagString("");
     setShowResults(true);
     //Handle logic for finding appropriate workouts
+    const data = {
+      tagString,
+    };
+
+    try{
+      const response = await fetch ('http://127.0.0.1:5000/search', {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      console.log(JSON.stringify(data))
+
+      if (response.ok){
+        const jsonData = await response.json();
+        //Set workouts to the array returned
+        setMyWorkout(Array.from(jsonData))
+      } else {
+        //Set workouts to empty array
+        setMyWorkout([])
+      }
+    } catch (error){
+      console.error('Error', error);
+    }
+
   }
 
   const [tagString, setTagString] = useState("");

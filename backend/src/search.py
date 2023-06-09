@@ -23,17 +23,23 @@ def search_for_workout():
     workout_json = []
 
     data = request.json
-    input_tag = data.get("tag")
+    input_tag = data.get("tagString")
+    input_tags = input_tag.split('\n')
 
     all_workouts = session.query(models.WorkoutLists).all()
     for w in all_workouts:
         all_tags = w.tags.split('\n')
         for t in all_tags:
-            if t == input_tag:
-                workout_json.append({'id': w.id, 'name':w.name, 'info':w.info, 'likes':w.likes})
-
+            for tag in input_tags:
+                if t == tag:
+                    workout_json.append({'id': w.id, 'name':w.name, 'workoutString':w.info, 'likes':w.likes})
+    return_workout = []
+    #workout_json = list(set(workout_json))
+    for workout in workout_json:
+        if workout not in return_workout:
+            return_workout.append(workout)
     # if workout_json is not empty, successful, else send EMPTY LIST tag not found
-    if workout_json:
-        return jsonify(workout_json), 200
+    if return_workout:
+        return jsonify(return_workout), 200
     else:
-        return jsonify(workout_json), 406
+        return jsonify(return_workout), 406

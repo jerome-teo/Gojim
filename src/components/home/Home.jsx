@@ -9,16 +9,22 @@ import { useNavigate } from "react-router-dom";
 
 let Workouts = [
   {
+    id: 0,
     name: "Test Workout 1",
-    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5"
+    workoutString: "Pushups:  Reps: 5 Sets: 5\nPullups:  Reps: 4 Sets: 5",
+    likes: 0
   },
   {
+    id: 1,
     name: "Test Workout 2",
-    workoutString: "Curls:  Reps: 5 Sets: 5"
+    workoutString: "Curls:  Reps: 5 Sets: 5",
+    likes: 0
   },
   {
+    id: 2,
     name: "Test Workout 3",
-    workoutString: "Crunches:  Reps: 5 Sets: 5"
+    workoutString: "Crunches:  Reps: 5 Sets: 5",
+    likes: 0
   }
 ];
 const tags = [
@@ -88,6 +94,7 @@ const Home = () => {
           console.log(jsonData)
           console.log("here!")
           setWorkouts(Array.from(jsonData))
+          console.log("helloworld")
           console.log(Array.from(jsonData))
           console.log(jsonData)
         } else {
@@ -181,7 +188,7 @@ const Home = () => {
 
   
 
-  const [showResults, setShowResults] = useState(false);
+  const [showResults, setShowResults] = useState(true);
   const handleSearch = async (e) => {
     setTagString("");
     setShowResults(true);

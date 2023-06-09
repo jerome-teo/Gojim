@@ -215,10 +215,10 @@ def get_public_workouts():
                 all_public_workout_json.append({'id': w.id, 'name':w.name, 'workoutString':w.info, 'likes':w.likes})
 
     # TESTING
-    # for work in all_public_workout_json:
-    #     print("workout:")
-    #     print(work)
-    #     print()
+    for work in all_public_workout_json:
+        print("workout:")
+        print(work)
+        print()
 
     # return json object of workouts
     return jsonify(all_public_workout_json), 200

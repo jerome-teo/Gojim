@@ -127,8 +127,17 @@ const Workouts = () => {
     handleRemoveSave();
   }
 
+
+  function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => value + 1); // update the state to force render
+  }
+
+
   const [likeCount, setLikeCount] = useState(0);
+  const [likedThisSession, setLiked] = useState(false);
   const handleLike = (workoutId) => {
+    setLiked(false);
     // add a like
     //save to workouts
     console.log("here is handle like")
@@ -162,7 +171,13 @@ const Workouts = () => {
         console.log("lets go")
         console.log(likeArray[0].num_likes)
         setLikeCount(likeArray[0].num_likes);
-        
+        if(likedThisSession === false){
+          myWorkout[0].likes++;
+          setLiked(!likedThisSession);
+        } else {
+          myWorkout[0].likes--;
+          setLiked(!likedThisSession);
+        }    
       } else {
         console.error('Error');
       }
@@ -171,12 +186,9 @@ const Workouts = () => {
     };
   }
     handleMyLike();
-
+    
   }
 
-  useEffect(() => {
-    setLikeCount(likeCount);
-  }, [likeCount]);
 
   const handleDisplay = (workoutId) => {
     console.log("here is handle display")
